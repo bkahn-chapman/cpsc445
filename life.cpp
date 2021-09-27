@@ -9,11 +9,11 @@
 #include <typeinfo>
 using namespace std;
 
-class Life
+class life
 {
   public:
-    Life(); //default constructor
-    ~Life(); //destructor
+    life(); //default constructor
+    ~life(); //destructor
 
     //check each possible cell position
     int CheckCornerTL(int row, int column, int currentGen);
@@ -33,7 +33,7 @@ class Life
     int numThreads;
 
     void CreateMap(int rows, int columns, string fileName);
-    void NewGen(int currentGen); //generates the next map and sends the old one to the previous map
+    void NewGen(int currentGen); //generates the next map alternating
     void PrintResult(string outputFile);
     
     int** map1; //first map
@@ -41,18 +41,18 @@ class Life
 };
 
 //class constructor
-Life::Life()
+life::life()
 {
-    cout << "New Game of Life instance created." << endl;
+    cout << "New Game of life instance created." << endl;
 }
 
 //class destructor
-Life::~Life()
+life::~life()
 {
-    cout << "Game of Life instance ended successfully." << endl;
+    cout << "Game of life instance ended successfully." << endl;
 }
 
-void Life::CreateMap(int rows, int columns, string fileName)
+void life::CreateMap(int rows, int columns, string fileName)
 {
   //creates the map for the first map
   map1 = new int*[rows];
@@ -102,7 +102,7 @@ void Life::CreateMap(int rows, int columns, string fileName)
 }
 
 //counts and returns all of the possible neighbors for the cell in the top left corner (takes in the position of the cell)
-int Life::CheckCornerTL(int row, int column, int currentGen)
+int life::CheckCornerTL(int row, int column, int currentGen)
 {
     int numAround = 0;
     if(currentGen == 0)
@@ -143,7 +143,7 @@ int Life::CheckCornerTL(int row, int column, int currentGen)
 }
 
 //counts and returns all of the possible neighbors for the cell in the top right corner (takes in the position of the cell)
-int Life::CheckCornerTR(int row, int column, int currentGen)
+int life::CheckCornerTR(int row, int column, int currentGen)
 {
     int numAround = 0;
     if(currentGen == 0)
@@ -184,7 +184,7 @@ int Life::CheckCornerTR(int row, int column, int currentGen)
 }
 
 //counts and returns all of the possible neighbors for the cell in the bottom left corner (takes in the position of the cell)
-int Life::CheckCornerBL(int row, int column, int currentGen)
+int life::CheckCornerBL(int row, int column, int currentGen)
 {
     int numAround = 0;
     if(currentGen == 0)
@@ -225,7 +225,7 @@ int Life::CheckCornerBL(int row, int column, int currentGen)
 }
 
 //counts and returns all of the possible neighbors for the cell in the bottom right corner (takes in the position of the cell)
-int Life::CheckCornerBR(int row, int column, int currentGen)
+int life::CheckCornerBR(int row, int column, int currentGen)
 {
     int numAround = 0;
     if(currentGen == 0)
@@ -266,7 +266,7 @@ int Life::CheckCornerBR(int row, int column, int currentGen)
 }
 
 //counts and returns all of the possible neighbors for the cells on the top side (takes in the position of the cell)
-int Life::CheckSideT(int row, int column, int currentGen)
+int life::CheckSideT(int row, int column, int currentGen)
 {
     int numAround = 0;
     if(currentGen == 0)
@@ -323,7 +323,7 @@ int Life::CheckSideT(int row, int column, int currentGen)
 }
 
 //counts and returns all of the possible neighbors for the cells on the right side (takes in the position of the cell)
-int Life::CheckSideR(int row, int column, int currentGen)
+int life::CheckSideR(int row, int column, int currentGen)
 {
     int numAround = 0;
     if(currentGen == 0)
@@ -380,7 +380,7 @@ int Life::CheckSideR(int row, int column, int currentGen)
 }
 
 //counts and returns all of the possible neighbors for the cells on the bottom side (takes in the position of the cell)
-int Life::CheckSideB(int row, int column, int currentGen)
+int life::CheckSideB(int row, int column, int currentGen)
 {
     int numAround = 0;
     if(currentGen == 0)
@@ -437,7 +437,7 @@ int Life::CheckSideB(int row, int column, int currentGen)
 }
 
 //counts and returns all of the possible neighbors for the cells on the left side (takes in the position of the cell)
-int Life::CheckSideL(int row, int column, int currentGen)
+int life::CheckSideL(int row, int column, int currentGen)
 {
     int numAround = 0;
     if(currentGen == 0)
@@ -494,7 +494,7 @@ int Life::CheckSideL(int row, int column, int currentGen)
 }
 
 //counts and returns all of the possible neighbors for the cells in the middle (takes in the position of the cell)
-int Life::CheckMiddle(int row, int column, int currentGen)
+int life::CheckMiddle(int row, int column, int currentGen)
 {
     int numAround = 0;
     if(currentGen == 0)
@@ -575,7 +575,7 @@ int Life::CheckMiddle(int row, int column, int currentGen)
 }
 
 //creates the next step
-void Life::NewGen(int currentGen)
+void life::NewGen(int currentGen)
 {
     if(currentGen % 2 == 0)
     {
@@ -759,7 +759,7 @@ void Life::NewGen(int currentGen)
     } 
 }
 
-void Life::PrintResult(string outputFile)
+void life::PrintResult(string outputFile)
 {
     //opens the file output to the file name of the user's choice
     ofstream outFS;
@@ -823,7 +823,7 @@ int main(int argc, char** argv)
         cout << "invalid arguments (number of threads cannot be less than 1)" << endl;
         exit(1);
     }
-    cout << "Welcome to Conway's Game of Life!" << endl;
+    cout << "Welcome to Conway's Game of life!" << endl;
     string l;
     char c;
     int numRows = 0;
@@ -856,7 +856,7 @@ int main(int argc, char** argv)
     }
     inFD.close();
 
-    Life *newLife = new Life();
+    life *newLife = new life();
     newLife -> CreateMap(numRows, numColumns, inputFile);
     for(int i = 0; i <= numSteps; ++i)
     {
