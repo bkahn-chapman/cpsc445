@@ -4,6 +4,8 @@
 #include <cmath>
 #include <string>
 #include <cstdlib>
+#include <thread>
+#include <mutex>
 using namespace std;
 
 class life
@@ -37,13 +39,13 @@ class life
 //class constructor
 life::life()
 {
-
+    cout << "New Game of Life instance created." << endl;
 }
 
 //class destructor
 life::~life()
 {
-
+    cout << "Game of Life instance ended successfully." << endl;
 }
 
 //counts and returns all of the possible neighbors for the cell in the top left corner (takes in the position of the cell)
@@ -413,10 +415,50 @@ void life::PrintMap(string outputFile)
 
 int main(int argc, char** argv)
 {
+    if((argc-1) != 4)
+    {
+        cout << "invalid arguemnts (expected 4 arguments, instead received " << argc-1 << ")" << endl;
+        exit(1);
+    }
     string inputFile = argv[1];
+    ifstream inFS;
+    inFS.open(inputFile);
+    if(!inFS)
+    {
+        cout << "invalid arguments (the input file was not found)" << endl;
+        exit(1);
+    }
     string outputFile = argv[2];
+    string textFile = ".txt";
+    if(outputFile.size() <= textFile.size() || outputFile.compare(outputFile.size() - textFile.size(), textFile.size(), textFile) != 0)
+    {
+        cout << "invalid arguments (the output file given is not in .txt format)" << endl;
+        exit(1);
+    }
+    string testThree = argv[3];
+    string testFour = argv[4];
+    for(char const &c : testThree)
+    {
+        if(isdigit(c) == 0)
+        {
+            cout << "invalid arguments (number of steps must be a whole number)" << endl;
+            exit(1);
+        }
+    }
+    for(char const &c : testFour)
+    {
+        if(isdigit(c) == 0)
+        {
+            cout << "invalid arguments (number of threads must be a whole number)" << endl;
+            exit(1);
+        }
+    }
     int numSteps = atoi(argv[3]);
     int numThreads = atoi(argv[4]);
-
+    if(numThreads < 1)
+    {
+        cout << "invalid arguments (number of threads cannot be lesser than 1)" << endl;
+        exit(1);
+    }
     cout << "Welcome to Conway's Game of Life!" << endl;
 }
