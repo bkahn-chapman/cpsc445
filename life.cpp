@@ -6,410 +6,773 @@
 #include <cstdlib>
 #include <thread>
 #include <mutex>
+#include <typeinfo>
 using namespace std;
 
-class life
+class Life
 {
   public:
-    life(); //default constructor
-    ~life(); //destructor
+    Life(); //default constructor
+    ~Life(); //destructor
 
     //check each possible cell position
-    int CheckCornerTL(int row, int column);
-    int CheckCornerTR(int row, int column);
-    int CheckCornerBL(int row, int column);
-    int CheckCornerBR(int row, int column);
-    int CheckSideT(int row, int column);
-    int CheckSideR(int row, int column);
-    int CheckSideB(int row, int column);
-    int CheckSideL(int row, int column);
-    int CheckMiddle(int row, int column);
+    int CheckCornerTL(int row, int column, int currentGen);
+    int CheckCornerTR(int row, int column, int currentGen);
+    int CheckCornerBL(int row, int column, int currentGen);
+    int CheckCornerBR(int row, int column, int currentGen);
+    int CheckSideT(int row, int column, int currentGen);
+    int CheckSideR(int row, int column, int currentGen);
+    int CheckSideB(int row, int column, int currentGen);
+    int CheckSideL(int row, int column, int currentGen);
+    int CheckMiddle(int row, int column, int currentGen);
 
     int numRows; //number of rows in the map
     int numColumns; //number of columns in the map
-    int genNum; //tracks the current generation number
+    int genNum; //tracks the current step number
+    int numSteps;
+    int numThreads;
 
-    void NewGen(); //generates the next map and sends the old one to the previous map
-    void PrintMap(string outputFile); //prints the current map
-   
-    char** previousMap; //old map
-    char** currentMap; //new map
+    void CreateMap(int rows, int columns, string fileName);
+    void NewGen(int currentGen); //generates the next map and sends the old one to the previous map
+    void PrintResult(string outputFile);
+    
+    int** map1; //first map
+    int** map2; //second map
 };
 
 //class constructor
-life::life()
+Life::Life()
 {
     cout << "New Game of Life instance created." << endl;
 }
 
 //class destructor
-life::~life()
+Life::~Life()
 {
     cout << "Game of Life instance ended successfully." << endl;
 }
 
-//counts and returns all of the possible neighbors for the cell in the top left corner (takes in the position of the cell)
-int life::CheckCornerTL(int row, int column)
+void Life::CreateMap(int rows, int columns, string fileName)
 {
-  int numAround = 0;
-  if(previousMap[row][column+1] == '1')
+  //creates the map for the first map
+  map1 = new int*[rows];
+  for(int i = 0; i < rows; ++i)
   {
-    numAround++;
+    map1[i] = new int[columns];
+    for(int j = 0; j < columns; ++j)
+    {
+      map1[i][j] = 0;
+    }
   }
-  if(previousMap[row+1][column+1] == '1')
+
+  //creates the map for the second map
+  map2 = new int*[rows];
+  for(int i = 0; i < rows; ++i)
   {
-    numAround++;
+    map2[i] = new int[columns];
+    for(int j = 0; j < columns; ++j)
+    {
+      map2[i][j] = 0;
+    }
   }
-  if(previousMap[row+1][column] == '1')
+
+  //opens the file to be read
+  ifstream inFS;
+  inFS.open(fileName);
+  char c; //the current character being read
+  int rowCount = 0; //the number of rows in the input
+  int columnCount = 0; //the number of columns in the input
+  //while the document is not empty
+  while(!inFS.eof())
   {
-    numAround++;
+    inFS >> c;
+    for(int i = 0; i < rows; ++i)
+    {
+        columnCount = 0;
+        for(int j = 0; j < columns; ++j)
+        {
+            map2[rowCount][columnCount] = c;
+            columnCount++;
+        }
+        rowCount++;
+    }
+    rowCount = 0;
   }
-  return numAround;
+  inFS.close(); //closes the file
+}
+
+//counts and returns all of the possible neighbors for the cell in the top left corner (takes in the position of the cell)
+int Life::CheckCornerTL(int row, int column, int currentGen)
+{
+    int numAround = 0;
+    if(currentGen == 0)
+    {
+
+    }
+    else if(currentGen % 2 == 0)
+    {
+        if(map1[row][column+1] == '1')
+        {
+            numAround++;
+        }
+        if(map1[row+1][column+1] == '1')
+        {
+            numAround++;
+        }
+        if(map1[row+1][column] == '1')
+        {
+            numAround++;
+        }
+    }
+    else
+    {
+        if(map2[row][column+1] == '1')
+        {
+            numAround++;
+        }
+        if(map2[row+1][column+1] == '1')
+        {
+            numAround++;
+        }
+        if(map2[row+1][column] == '1')
+        {
+            numAround++;
+        }
+    }
+    return numAround;
 }
 
 //counts and returns all of the possible neighbors for the cell in the top right corner (takes in the position of the cell)
-int life::CheckCornerTR(int row, int column)
+int Life::CheckCornerTR(int row, int column, int currentGen)
 {
-  int numAround = 0;
-  if(previousMap[row+1][column] == '1')
-  {
-    numAround++;
-  }
-  if(previousMap[row+1][column-1] == '1')
-  {
-    numAround++;
-  }
-  if(previousMap[row][column-1] == '1')
-  {
-    numAround++;
-  }
-  return numAround;
+    int numAround = 0;
+    if(currentGen == 0)
+    {
+
+    }
+    else if(currentGen % 2 == 0)
+    {
+        if(map1[row+1][column] == '1')
+        {
+            numAround++;
+        }
+        if(map1[row+1][column-1] == '1')
+        {
+            numAround++;
+        }
+        if(map1[row][column-1] == '1')
+        {
+            numAround++;
+        }
+    }
+    else
+    {
+        if(map2[row+1][column] == '1')
+        {
+            numAround++;
+        }
+        if(map2[row+1][column-1] == '1')
+        {
+            numAround++;
+        }
+        if(map2[row][column-1] == '1')
+        {
+            numAround++;
+        }
+    }
+    return numAround;
 }
 
 //counts and returns all of the possible neighbors for the cell in the bottom left corner (takes in the position of the cell)
-int life::CheckCornerBL(int row, int column)
+int Life::CheckCornerBL(int row, int column, int currentGen)
 {
-  int numAround = 0;
-  if(previousMap[row][column+1] == '1')
-  {
-    numAround++;
-  }
-  if(previousMap[row-1][column+1] == '1')
-  {
-    numAround++;
-  }
-  if(previousMap[row-1][column] == '1')
-  {
-    numAround++;
-  }
-  return numAround;
+    int numAround = 0;
+    if(currentGen == 0)
+    {
+
+    }
+    else if(currentGen % 2 == 0)
+    {
+        if(map1[row][column+1] == '1')
+        {
+            numAround++;
+        }
+        if(map1[row-1][column+1] == '1')
+        {
+            numAround++;
+        }
+        if(map1[row-1][column] == '1')
+        {
+            numAround++;
+        }
+    }
+    else
+    {
+        if(map2[row][column+1] == '1')
+        {
+            numAround++;
+        }
+        if(map2[row-1][column+1] == '1')
+        {
+            numAround++;
+        }
+        if(map2[row-1][column] == '1')
+        {
+            numAround++;
+        }
+    }
+    return numAround;
 }
 
 //counts and returns all of the possible neighbors for the cell in the bottom right corner (takes in the position of the cell)
-int life::CheckCornerBR(int row, int column)
+int Life::CheckCornerBR(int row, int column, int currentGen)
 {
-  int numAround = 0;
-  if(previousMap[row-1][column] == '1')
-  {
-    numAround++;
-  }
-  if(previousMap[row-1][column-1] == '1')
-  {
-    numAround++;
-  }
-  if(previousMap[row][column-1] == '1')
-  {
-    numAround++;
-  }
-  return numAround;
+    int numAround = 0;
+    if(currentGen == 0)
+    {
+
+    }
+    else if(currentGen % 2 == 0)
+    {
+        if(map1[row-1][column] == '1')
+        {
+            numAround++;
+        }
+        if(map1[row-1][column-1] == '1')
+        {
+            numAround++;
+        }
+        if(map1[row][column-1] == '1')
+        {
+            numAround++;
+        }
+    }
+    else
+    {
+        if(map2[row-1][column] == '1')
+        {
+            numAround++;
+        }
+        if(map2[row-1][column-1] == '1')
+        {
+            numAround++;
+        }
+        if(map2[row][column-1] == '1')
+        {
+            numAround++;
+        }
+    }
+    return numAround;
 }
 
 //counts and returns all of the possible neighbors for the cells on the top side (takes in the position of the cell)
-int life::CheckSideT(int row, int column)
+int Life::CheckSideT(int row, int column, int currentGen)
 {
-  int numAround = 0;
-  if(previousMap[row][column-1] == '1')
-  {
-    numAround++;
-  }
-  if(previousMap[row][column+1] == '1')
-  {
-    numAround++;
-  }
-  if(previousMap[row+1][column-1] == '1')
-  {
-    numAround++;
-  }
-  if(previousMap[row+1][column] == '1')
-  {
-    numAround++;
-  }
-  if(previousMap[row+1][column+1] == '1')
-  {
-    numAround++;
-  }
-  return numAround;
+    int numAround = 0;
+    if(currentGen == 0)
+    {
+
+    }
+    else if(currentGen % 2 == 0)
+    {
+        if(map1[row][column-1] == '1')
+        {
+            numAround++;
+        }
+        if(map1[row][column+1] == '1')
+        {
+            numAround++;
+        }
+        if(map1[row+1][column-1] == '1')
+        {
+            numAround++;
+        }
+        if(map1[row+1][column] == '1')
+        {
+            numAround++;
+        }
+        if(map1[row+1][column+1] == '1')
+        {
+            numAround++;
+        }
+    }
+    else
+    {
+        if(map2[row][column-1] == '1')
+        {
+            numAround++;
+        }
+        if(map2[row][column+1] == '1')
+        {
+            numAround++;
+        }
+        if(map2[row+1][column-1] == '1')
+        {
+            numAround++;
+        }
+        if(map2[row+1][column] == '1')
+        {
+            numAround++;
+        }
+        if(map2[row+1][column+1] == '1')
+        {
+            numAround++;
+        }
+    }
+    return numAround;
 }
 
 //counts and returns all of the possible neighbors for the cells on the right side (takes in the position of the cell)
-int life::CheckSideR(int row, int column)
+int Life::CheckSideR(int row, int column, int currentGen)
 {
-  int numAround = 0;
-  if(previousMap[row-1][column-1] == '1')
-  {
-    numAround++;
-  }
-  if(previousMap[row-1][column] == '1')
-  {
-    numAround++;
-  }
-  if(previousMap[row][column-1] == '1')
-  {
-    numAround++;
-  }
-  if(previousMap[row+1][column-1] == '1')
-  {
-    numAround++;
-  }
-  if(previousMap[row+1][column] == '1')
-  {
-    numAround++;
-  }
-  return numAround;
+    int numAround = 0;
+    if(currentGen == 0)
+    {
+
+    }
+    else if(currentGen % 2 == 0)
+    {
+        if(map1[row-1][column-1] == '1')
+        {
+            numAround++;
+        }
+        if(map1[row-1][column] == '1')
+        {
+            numAround++;
+        }
+        if(map1[row][column-1] == '1')
+        {
+            numAround++;
+        }
+        if(map1[row+1][column-1] == '1')
+        {
+            numAround++;
+        }
+        if(map1[row+1][column] == '1')
+        {
+            numAround++;
+        }
+    }
+    else
+    {
+        if(map2[row-1][column-1] == '1')
+        {
+            numAround++;
+        }
+        if(map2[row-1][column] == '1')
+        {
+            numAround++;
+        }
+        if(map2[row][column-1] == '1')
+        {
+            numAround++;
+        }
+        if(map2[row+1][column-1] == '1')
+        {
+            numAround++;
+        }
+        if(map2[row+1][column] == '1')
+        {
+            numAround++;
+        }
+    }
+    return numAround;
 }
 
 //counts and returns all of the possible neighbors for the cells on the bottom side (takes in the position of the cell)
-int life::CheckSideB(int row, int column)
+int Life::CheckSideB(int row, int column, int currentGen)
 {
-  int numAround = 0;
-  if(previousMap[row][column-1] == '1')
-  {
-    numAround++;
-  }
-  if(previousMap[row][column+1] == '1')
-  {
-    numAround++;
-  }
-  if(previousMap[row-1][column-1] == '1')
-  {
-    numAround++;
-  }
-  if(previousMap[row-1][column] == '1')
-  {
-    numAround++;
-  }
-  if(previousMap[row-1][column+1] == '1')
-  {
-    numAround++;
-  }
-  return numAround;
+    int numAround = 0;
+    if(currentGen == 0)
+    {
+
+    }
+    else if(currentGen % 2 == 0)
+    {
+        if(map1[row][column-1] == '1')
+        {
+            numAround++;
+        }
+        if(map1[row][column+1] == '1')
+        {
+            numAround++;
+        }
+        if(map1[row-1][column-1] == '1')
+        {
+            numAround++;
+        }
+        if(map1[row-1][column] == '1')
+        {
+            numAround++;
+        }
+        if(map1[row-1][column+1] == '1')
+        {
+            numAround++;
+        }
+    }
+    else
+    {
+        if(map2[row][column-1] == '1')
+        {
+            numAround++;
+        }
+        if(map2[row][column+1] == '1')
+        {
+            numAround++;
+        }
+        if(map2[row-1][column-1] == '1')
+        {
+            numAround++;
+        }
+        if(map2[row-1][column] == '1')
+        {
+            numAround++;
+        }
+        if(map2[row-1][column+1] == '1')
+        {
+            numAround++;
+        }
+    }
+    return numAround;
 }
 
 //counts and returns all of the possible neighbors for the cells on the left side (takes in the position of the cell)
-int life::CheckSideL(int row, int column)
+int Life::CheckSideL(int row, int column, int currentGen)
 {
-  int numAround = 0;
-  if(previousMap[row-1][column] == '1')
-  {
-    numAround++;
-  }
-  if(previousMap[row-1][column+1] == '1')
-  {
-    numAround++;
-  }
-  if(previousMap[row][column+1] == '1')
-  {
-    numAround++;
-  }
-  if(previousMap[row+1][column+1] == '1')
-  {
-    numAround++;
-  }
-  if(previousMap[row+1][column] == '1')
-  {
-    numAround++;
-  }
-  return numAround;
+    int numAround = 0;
+    if(currentGen == 0)
+    {
+
+    }
+    else if(currentGen % 2 == 0)
+    {
+        if(map1[row-1][column] == '1')
+        {
+            numAround++;
+        }
+        if(map1[row-1][column+1] == '1')
+        {
+            numAround++;
+        }
+        if(map1[row][column+1] == '1')
+        {
+            numAround++;
+        }
+        if(map1[row+1][column+1] == '1')
+        {
+            numAround++;
+        }
+        if(map1[row+1][column] == '1')
+        {
+            numAround++;
+        }
+    }
+    else
+    {
+        if(map2[row-1][column] == '1')
+        {
+            numAround++;
+        }
+        if(map2[row-1][column+1] == '1')
+        {
+            numAround++;
+        }
+        if(map2[row][column+1] == '1')
+        {
+            numAround++;
+        }
+        if(map2[row+1][column+1] == '1')
+        {
+            numAround++;
+        }
+        if(map2[row+1][column] == '1')
+        {
+            numAround++;
+        }
+    }
+    return numAround;
 }
 
 //counts and returns all of the possible neighbors for the cells in the middle (takes in the position of the cell)
-int life::CheckMiddle(int row, int column)
+int Life::CheckMiddle(int row, int column, int currentGen)
 {
-  int numAround = 0;
-  if(previousMap[row][column-1] == '1')
-  {
-    numAround++;
-  }
-  if(previousMap[row][column+1] == '1')
-  {
-    numAround++;
-  }
-  if(previousMap[row-1][column-1] == '1')
-  {
-    numAround++;
-  }
-  if(previousMap[row-1][column] == '1')
-  {
-    numAround++;
-  }
-  if(previousMap[row-1][column+1] == '1')
-  {
-    numAround++;
-  }
-  if(previousMap[row+1][column-1] == '1')
-  {
-    numAround++;
-  }
-  if(previousMap[row+1][column] == '1')
-  {
-    numAround++;
-  }
-  if(previousMap[row+1][column+1] == '1')
-  {
-    numAround++;
-  }
-  return numAround;
-}
-
-//creates the next generation
-void life::NewGen()
-{
-  for(int i = 0; i < numRows; ++i)
-  {
-    for(int j = 0; j < numColumns; ++j)
+    int numAround = 0;
+    if(currentGen == 0)
     {
-      previousMap[i][j] = currentMap[i][j]; //sets the current map to the previous map
+
     }
-  }
-
-  int numAround; //tracks the number of neighbors for the cell
-
-  for(int i = 0; i < numRows; ++i)
-  {
-    for(int j = 0; j < numColumns; ++j){
-      numAround = 0; //resets the number of neighbors
-      //if in row 1
-      if(i == 0){
-        //if in row 1, column 1
-        if(j == 0){
-          numAround = CheckCornerTL(i, j);
-        }
-        //if in row 1, last column
-        else if(j == (numColumns - 1)){
-          numAround = CheckCornerTR(i, j);
-        }
-        //anywhere else in row 1
-        else
+    else if(currentGen % 2 == 0)
+    {
+        if(map1[row][column-1] == '1')
         {
-          numAround = CheckSideT(i, j);
+            numAround++;
         }
-      }
-      //if in last row
-      else if(i == (numRows - 1))
-      {
-        //if in last row, column 1
-        if(j == 0)
+        if(map1[row][column+1] == '1')
         {
-          numAround = CheckCornerBL(i, j);
+            numAround++;
         }
-        //if in last row, last column
-        else if(j == (numColumns - 1))
+        if(map1[row-1][column-1] == '1')
         {
-          numAround = CheckCornerBR(i, j);
+            numAround++;
         }
-        //anywhere else in the last row
-        else
+        if(map1[row-1][column] == '1')
         {
-          numAround = CheckSideB(i, j);
+            numAround++;
         }
-      }
-      //if column 0
-      else if(j == 0)
-      {
-        //if any other row, column 0
-        if(i != 0 && i != (numRows -1))
+        if(map1[row-1][column+1] == '1')
         {
-          numAround = CheckSideL(i, j);
+            numAround++;
         }
-      }
-      //if last column
-      else if(j == (numColumns - 1))
-      {
-        //if any other row, last column
-        if(i != 0 && i != (numRows -1))
+        if(map1[row+1][column-1] == '1')
         {
-          numAround = CheckSideR(i, j);
+            numAround++;
         }
-      }
-      //if it is not on the border anywhere
-      else
-      {
-        numAround = CheckMiddle(i, j);
-      }
-
-      //if the cell has one or zero neighbors it dies
-      if(numAround <= 1)
-      {
-        currentMap[i][j] = '-';
-      }
-      //if the cell has two neighbors it remains the same
-      else if(numAround < 3)
-      {
-
-      }
-      //if the cell has three neighbors it gets filled
-      else if(numAround < 4)
-      {
-        currentMap[i][j] = 'X';
-      }
-      //if the cell has four, five, six, seven, or eight neighbors it dies
-      else
-      {
-        currentMap[i][j] = '-';
-      }
+        if(map1[row+1][column] == '1')
+        {
+            numAround++;
+        }
+        if(map1[row+1][column+1] == '1')
+        {
+            numAround++;
+        }
     }
-  }
+    else
+    {
+        if(map2[row][column-1] == '1')
+        {
+            numAround++;
+        }
+        if(map2[row][column+1] == '1')
+        {
+            numAround++;
+        }
+        if(map2[row-1][column-1] == '1')
+        {
+            numAround++;
+        }
+        if(map2[row-1][column] == '1')
+        {
+            numAround++;
+        }
+        if(map2[row-1][column+1] == '1')
+        {
+            numAround++;
+        }
+        if(map2[row+1][column-1] == '1')
+        {
+            numAround++;
+        }
+        if(map2[row+1][column] == '1')
+        {
+            numAround++;
+        }
+        if(map2[row+1][column+1] == '1')
+        {
+            numAround++;
+        }
+    }
+    return numAround;
 }
 
-//outputs the current map (takes in the file the user wishes to output the results to)
-void life::PrintMap(string outputFile)
+//creates the next step
+void Life::NewGen(int currentGen)
+{
+    if(currentGen % 2 == 0)
+    {
+        int numAround; //tracks the number of neighbors for the cell
+
+        for(int i = 0; i < numRows; ++i)
+        {
+            for(int j = 0; j < numColumns; ++j){
+                numAround = 0; //resets the number of neighbors
+                //if in row 1
+                if(i == 0){
+                    //if in row 1, column 1
+                    if(j == 0){
+                        numAround = CheckCornerTL(i, j, currentGen);
+                    }
+                    //if in row 1, last column
+                    else if(j == (numColumns - 1)){
+                        numAround = CheckCornerTR(i, j, currentGen);
+                    }
+                    //anywhere else in row 1
+                    else
+                    {       
+                        numAround = CheckSideT(i, j, currentGen);
+                    }
+                }
+                //if in last row
+                else if(i == (numRows - 1))
+                {
+                    //if in last row, column 1
+                    if(j == 0)
+                    {
+                        numAround = CheckCornerBL(i, j, currentGen);
+                    }
+                    //if in last row, last column
+                    else if(j == (numColumns - 1))
+                    {
+                        numAround = CheckCornerBR(i, j, currentGen);
+                    }
+                    //anywhere else in the last row
+                    else
+                    {
+                        numAround = CheckSideB(i, j, currentGen);
+                    }
+                }
+                //if column 0
+                else if(j == 0)
+                {
+                    //if any other row, column 0
+                    if(i != 0 && i != (numRows -1))
+                    {
+                        numAround = CheckSideL(i, j, currentGen);
+                    }
+                }
+                //if last column
+                else if(j == (numColumns - 1))
+                {
+                    //if any other row, last column
+                    if(i != 0 && i != (numRows -1))
+                    {
+                        numAround = CheckSideR(i, j, currentGen);
+                    }
+                }
+                //if it is not on the border anywhere
+                else
+                {
+                    numAround = CheckMiddle(i, j, currentGen);
+                }
+
+                //if the cell has one or zero neighbors it dies
+                if(numAround <= 1)
+                {
+                    map2[i][j] = '0';
+                }
+                //if the cell has two neighbors it remains the same
+                else if(numAround < 3)
+                {         
+
+                }
+                //if the cell has three neighbors it gets filled
+                else if(numAround < 4)
+                {
+                    map2[i][j] = '1';
+                }
+                //if the cell has four, five, six, seven, or eight neighbors it dies
+                else
+                {
+                    map2[i][j] = '0';
+                } 
+            }       
+        }
+    }
+    else
+    {
+        int numAround; //tracks the number of neighbors for the cell
+
+        for(int i = 0; i < numRows; ++i)
+        {
+            for(int j = 0; j < numColumns; ++j){
+                numAround = 0; //resets the number of neighbors
+                //if in row 1
+                if(i == 0){
+                    //if in row 1, column 1
+                    if(j == 0){
+                        numAround = CheckCornerTL(i, j, currentGen);
+                    }
+                    //if in row 1, last column
+                    else if(j == (numColumns - 1)){
+                        numAround = CheckCornerTR(i, j, currentGen);
+                    }
+                    //anywhere else in row 1
+                    else
+                    {       
+                        numAround = CheckSideT(i, j, currentGen);
+                    }
+                }
+                //if in last row
+                else if(i == (numRows - 1))
+                {
+                    //if in last row, column 1
+                    if(j == 0)
+                    {
+                        numAround = CheckCornerBL(i, j, currentGen);
+                    }
+                    //if in last row, last column
+                    else if(j == (numColumns - 1))
+                    {
+                        numAround = CheckCornerBR(i, j, currentGen);
+                    }
+                    //anywhere else in the last row
+                    else
+                    {
+                        numAround = CheckSideB(i, j, currentGen);
+                    }
+                }
+                //if column 0
+                else if(j == 0)
+                {
+                    //if any other row, column 0
+                    if(i != 0 && i != (numRows -1))
+                    {
+                        numAround = CheckSideL(i, j, currentGen);
+                    }
+                }
+                //if last column
+                else if(j == (numColumns - 1))
+                {
+                    //if any other row, last column
+                    if(i != 0 && i != (numRows -1))
+                    {
+                        numAround = CheckSideR(i, j, currentGen);
+                    }
+                }
+                //if it is not on the border anywhere
+                else
+                {
+                    numAround = CheckMiddle(i, j, currentGen);
+                }
+
+                //if the cell has one or zero neighbors it dies
+                if(numAround <= 1)
+                {
+                    map1[i][j] = '0';
+                }
+                //if the cell has two neighbors it remains the same
+                else if(numAround < 3)
+                {         
+
+                }
+                //if the cell has three neighbors it gets filled
+                else if(numAround < 4)
+                {
+                    map1[i][j] = '1';
+                }
+                //if the cell has four, five, six, seven, or eight neighbors it dies
+                else
+                {
+                    map1[i][j] = '0';
+                } 
+            }       
+        }
+    } 
+}
+
+void Life::PrintResult(string outputFile)
 {
     //opens the file output to the file name of the user's choice
     ofstream outFS;
     outFS.open(outputFile, ios::app);
-
-    //if at the default map
-    if(genNum == 0)
-    {
-      outFS << "0" << endl;
-      //prints the map
-      genNum++;
-      for(int i = 0; i < numRows; ++i)
-      {
-        for(int j = 0; j < numColumns; ++j)
-        {
-          outFS << currentMap[i][j];
-        }
-        outFS << endl;
-      }
-      outFS << "Generation Number: 1" << endl;
-    }
-    //if at a generated map
-    else
-    {
-      outFS << "Generation Number: " << genNum << endl;
-    }
-
     //prints the map
     for(int i = 0; i < numRows; ++i)
     {
-      for(int j = 0; j < numColumns; ++j)
-      {
-        outFS << currentMap[i][j];
-      }
-      outFS << endl;
+        for(int j = 0; j < numColumns; ++j)
+        {
+            outFS << map2[i][j];
+        }
+        outFS << endl;
     }
-    genNum++; //increments the generation counter
     outFS.close(); //closes the file output
 }
 
@@ -457,8 +820,49 @@ int main(int argc, char** argv)
     int numThreads = atoi(argv[4]);
     if(numThreads < 1)
     {
-        cout << "invalid arguments (number of threads cannot be lesser than 1)" << endl;
+        cout << "invalid arguments (number of threads cannot be less than 1)" << endl;
         exit(1);
     }
     cout << "Welcome to Conway's Game of Life!" << endl;
+    string l;
+    char c;
+    int numRows = 0;
+    int numColumns = 0;
+    while(getline(inFS, l))
+    {
+        if(numColumns == 0)
+        {
+            numColumns = l.length()-1;
+        }
+        if(l.length()-1 != numColumns)
+        {
+            cout << "invalid input (the given board is not rectangular)" << endl;
+            exit(1);
+        }
+        numRows++;
+    }
+    numColumns++;
+    inFS.close();
+    ifstream inFD;
+    inFD.open(inputFile);
+    while(!inFD.eof())
+    {
+        inFD >> noskipws >> c;
+        if(c != '0' && c != '1' && c != '\n')
+        {
+            cout << "invalid input (spaces and characters other than 0 and 1 are not allowed)" << endl;
+            exit(1);
+        }
+    }
+    inFD.close();
+
+    Life *newLife = new Life();
+    newLife -> CreateMap(numRows, numColumns, inputFile);
+    for(int i = 0; i <= numSteps; ++i)
+    {
+        newLife -> NewGen(i);
+    }
+    newLife -> PrintResult(outputFile);
+    delete newLife;
+    cout << "Thank you for using my program! Your results can be found at: " << outputFile << "." << endl;
 }
