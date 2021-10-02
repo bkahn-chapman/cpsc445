@@ -10,19 +10,39 @@
 #include <vector>
 using namespace std;
 
-// int get(const std::vector<std::vector<int>> & board, i, j) {
-//     if (i<0 || i>=board.size()) {
-//         return 0;
-//     }
-//     if (j<0 || j>=board[i].size()) {
-//         return 0;
-//     }
-//     return board[i][j];
-// }
+int get(const std::vector<std::vector<int>> & board, int i, int j) {
+    if (i<0 || i>=board.size()) {
+        return 0;
+    }
+    if (j<0 || j>=board[i].size()) {
+        return 0;
+    }
+    return board[i][j];
+}
 
-// int new_value(const vector<vector<int>> & board, i, j) {
-//     get(board, i-1, j=1) //stopped typing here
-// }
+int new_value(const vector<vector<int>> & board, int i, int j) {
+    int neighborCount = 0;
+    neighborCount = neighborCount + get(board, i-1, j);
+    neighborCount = neighborCount + get(board, i-1, j-1);
+    neighborCount = neighborCount + get(board, i-1, j+1);
+    neighborCount = neighborCount + get(board, i, j-1);
+    neighborCount = neighborCount + get(board, i, j+1);
+    neighborCount = neighborCount + get(board, i+1, j-1);
+    neighborCount = neighborCount + get(board, i+1, j);
+    neighborCount = neighborCount + get(board, i+1, j+1);
+    if(neighborCount < 2)
+    {
+        return 0;
+    }
+    else if(neighborCount < 4)
+    {
+        return 1;
+    }
+    else
+    {
+        return 0;
+    }
+}
 
 int main(int argc, char** argv)
 {
@@ -105,6 +125,7 @@ int main(int argc, char** argv)
     inFS.clear();
     inFS.seekg(0, std::ios::beg);
     vector<vector<int>> board;
+    vector<vector<int>> newboard;
     while(getline(inFS, l))
     {
         vector<int> row;
@@ -127,15 +148,27 @@ int main(int argc, char** argv)
     inFS.close();  
     ofstream outFS;
     outFS.open(outputFile);
-    for(int i = 0; i < board.size(); ++i)
+    for(int s = 0; s < numSteps; ++s)
     {
-        for(int j = 0; j < board[i].size(); ++j)
+        for(int i = 0; i < board.size(); ++i)
         {
-            outFS << board[i][j];
-            cout << board[i][j];
+            for(int j = 0; j < board[i].size(); ++j)
+            {
+                outFS << new_value(board, i, j);
+            }
+            outFS << '\n';
         }
-        outFS << "\n";
-        cout << endl;
+    }
+    if(numSteps == 0)
+    {
+        for(int i = 0; i < board.size(); ++i)
+        {
+            for(int j = 0; j < board[i].size(); ++j)
+            {
+                outFS << board[i][j];
+            }
+            outFS << "\n";
+        }
     }
     cout << "Thank you for using my program! Your results can be found at: " << outputFile << "." << endl;
 }
