@@ -49,7 +49,7 @@ int new_value(const vector<vector<int>> & board, int i, int j) {
 
 void simGame(vector<vector<int>> & board, vector<vector<int>> & otherboard, int numSteps)
 {
-    for(int s = 0; s < numSteps; ++s)
+    for(int s = 0; s <= numSteps; ++s)
     {
         for(int i = 0; i < board.size(); ++i)
         {
