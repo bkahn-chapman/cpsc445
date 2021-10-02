@@ -47,6 +47,21 @@ int new_value(const vector<vector<int>> & board, int i, int j) {
     }
 }
 
+void simGame(vector<vector<int>> & board, vector<vector<int>> & otherboard, int numSteps)
+{
+    for(int s = 0; s < numSteps; ++s)
+    {
+        for(int i = 0; i < board.size(); ++i)
+        {
+            for(int j = 0; j < board[i].size(); ++j)
+            {
+                board[i][j] = new_value(otherboard, i, j);
+            }
+        }
+        swap(board, otherboard);
+    }
+}
+
 int main(int argc, char** argv)
 {
     //checks to see if the proper number of arguments are provided
@@ -163,17 +178,11 @@ int main(int argc, char** argv)
     ofstream outFS; //creates the output filestream
     outFS.open(outputFile); //opens/creates the given output file
     thread* myThreads = new thread[numThreads];
-    //FIX: runs through each step given
-    for(int s = 0; s < numSteps; ++s)
+    //runs through each step given
+    for(int t = 0; t < numThreads; ++t)
     {
-        for(int i = 0; i < board.size(); ++i)
-        {
-            for(int j = 0; j < board[i].size(); ++j)
-            {
-                board[i][j] = new_value(otherboard, i, j);
-            }
-        }
-        swap(board, otherboard);
+        myThreads[t] = thread(simGame, std::ref(board), std::ref(otherboard), numSteps);
+        myThreads[t].join();
     }
     delete[] myThreads;
     //outputs the results of the simulation into the given output file
