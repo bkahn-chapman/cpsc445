@@ -179,6 +179,10 @@ int main(int argc, char** argv)
     outFS.open(outputFile); //opens/creates the given output file
     thread* myThreads = new thread[numThreads];
     //runs through each step given
+    if(numThreads > numSteps)
+    {
+        numThreads = numSteps;
+    }
     for(int t = 0; t < numThreads; ++t)
     {
         myThreads[t] = thread(simGame, std::ref(board), std::ref(otherboard), numSteps);
