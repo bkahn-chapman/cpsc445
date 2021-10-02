@@ -30,17 +30,17 @@ int new_value(const vector<vector<int>> & board, int i, int j) {
     neighborCount = neighborCount + get(board, i+1, j-1);
     neighborCount = neighborCount + get(board, i+1, j);
     neighborCount = neighborCount + get(board, i+1, j+1);
-    if(neighborCount < 2)
+    if(board[i][j] == 1 && (neighborCount < 2 || neighborCount > 3))
     {
         return 0;
     }
-    else if(neighborCount < 4)
+    else if(board[i][j] == 0 && neighborCount == 3)
     {
         return 1;
     }
     else
     {
-        return 0;
+        return board[i][j];
     }
 }
 
@@ -156,7 +156,7 @@ int main(int argc, char** argv)
             {
                 outFS << new_value(board, i, j);
             }
-            outFS << '\n';
+            outFS << endl;
         }
     }
     if(numSteps == 0)
