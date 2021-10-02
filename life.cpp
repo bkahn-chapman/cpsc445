@@ -193,14 +193,13 @@ int main(int argc, char** argv)
         numThreads = numSteps;
     }
     thread* myThreads = new thread[numThreads]; //creates the new threads
-    mutex myMutex;
+    mutex myMutex; //creates a new mutex
     //runs all threads to simulate Game of Life
     for(int t = 0; t < numThreads; ++t)
-    {
-        myMutex.lock();
+    {   
+        myMutex.lock(); //atempts to prevent threads from changing the same step
         myThreads[t] = thread(simGame, std::ref(board), std::ref(otherboard), numSteps);
         myThreads[t].join();
-        myMutex.unlock();
     }
     delete[] myThreads; //deletes the threads
     //outputs the results of the simulation into the given output file
