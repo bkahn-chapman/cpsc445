@@ -1,12 +1,18 @@
-#include <unistd.h>
-#include <iostream>
-#include <fstream>
+/*
+* Name: Benjamin Kahn
+* ID: 2316793
+* Class: CPSC-445-01
+* Assignment: Assignment 1
+* About: Simulates the Game of Life using a given board, a given number of steps, and a given number of threads. Outputs to a given output file.
+*/
+
 #include <cmath>
-#include <string>
 #include <cstdlib>
+#include <fstream>
+#include <iostream>
+#include <string>
 #include <thread>
-#include <mutex>
-#include <typeinfo>
+#include <unistd.h>
 #include <vector>
 using namespace std;
 
