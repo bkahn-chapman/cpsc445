@@ -137,6 +137,7 @@ int main(int argc, char** argv)
     inFS.clear(); //clears the input filestream
     inFS.seekg(0, std::ios::beg); //resets the input filestream to the beginning of the file
     vector<vector<int>> board; //initializes the game board
+    vector<vector<int>> otherboard;
     //fills in the game board from the now confirmed-to-be-clean input file
     while(getline(inFS, l))
     {
@@ -156,6 +157,7 @@ int main(int argc, char** argv)
             }
         }
         board.push_back(row);
+        otherboard.push_back(row);
     }
     inFS.close(); //closes the input filestream
     ofstream outFS; //creates the output filestream
@@ -168,13 +170,10 @@ int main(int argc, char** argv)
         {
             for(int j = 0; j < board[i].size(); ++j)
             {
-                for(int t = 0; t < numThreads; ++t)
-                {
-                    myThreads[t] = thread(new_value, board, i, j);
-                    myThreads[t].join();
-                }
+                board[i][j] = new_value(otherboard, i, j);
             }
         }
+        swap(board, otherboard);
     }
     delete[] myThreads;
     //outputs the results of the simulation into the given output file
