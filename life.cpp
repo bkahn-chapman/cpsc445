@@ -10,7 +10,6 @@
 #include <cstdlib>
 #include <fstream>
 #include <iostream>
-#include <mutex>
 #include <string>
 #include <thread>
 #include <unistd.h>
@@ -193,11 +192,9 @@ int main(int argc, char** argv)
         numThreads = numSteps;
     }
     thread* myThreads = new thread[numThreads]; //creates the new threads
-    mutex myMutex; //creates a new mutex
     //runs all threads to simulate Game of Life
     for(int t = 0; t < numThreads; ++t)
     {   
-        myMutex.lock(); //atempts to prevent threads from changing the same step
         myThreads[t] = thread(simGame, std::ref(board), std::ref(otherboard), numSteps);
         myThreads[t].join();
     }
