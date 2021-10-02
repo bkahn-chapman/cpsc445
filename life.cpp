@@ -160,6 +160,7 @@ int main(int argc, char** argv)
     inFS.close(); //closes the input filestream
     ofstream outFS; //creates the output filestream
     outFS.open(outputFile); //opens/creates the given output file
+    thread* myThreads = new thread[numThreads];
     //FIX: runs through each step given
     for(int s = 0; s < numSteps; ++s)
     {
@@ -167,11 +168,15 @@ int main(int argc, char** argv)
         {
             for(int j = 0; j < board[i].size(); ++j)
             {
-                outFS << new_value(board, i, j);
+                for(int t = 0; t < numThreads; ++t)
+                {
+                    myThreads[t] = thread(new_value, board, i, j);
+                    myThreads[t].join();
+                }
             }
-            outFS << endl;
         }
     }
+    delete[] myThreads;
     //outputs the results of the simulation into the given output file
     for(int i = 0; i < board.size(); ++i)
     {
