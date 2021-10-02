@@ -47,16 +47,21 @@ int new_value(const vector<vector<int>> & board, int i, int j) {
     }
 }
 
-void simGame(vector<vector<int>> & board, vector<vector<int>> & otherboard)
+//makes it so that each thread can simulate
+void simGame(vector<vector<int>> & board, vector<vector<int>> & otherboard, int numSteps)
 {
-    for(int i = 0; i < board.size(); ++i)
+    //simulates game of life
+    for(int s = 0; s <= numSteps; ++s)
     {
-        for(int j = 0; j < board[i].size(); ++j)
+        for(int i = 0; i < board.size(); ++i)
         {
-            board[i][j] = new_value(otherboard, i, j);
+            for(int j = 0; j < board[i].size(); ++j)
+            {
+                board[i][j] = new_value(otherboard, i, j);
+            }
         }
+        swap(board, otherboard);
     }
-    swap(board, otherboard);
 }
 
 int main(int argc, char** argv)
@@ -174,21 +179,19 @@ int main(int argc, char** argv)
     inFS.close(); //closes the input filestream
     ofstream outFS; //creates the output filestream
     outFS.open(outputFile); //opens/creates the given output file
-    thread* myThreads = new thread[numThreads];
-    //ensures there aren't more threads than there are steps ()
+    //ensures there aren't more threads than there are steps
     if(numThreads > numSteps)
     {
         numThreads = numSteps;
     }
-    for(int s = 0; s < numSteps; ++s)
+    thread* myThreads = new thread[numThreads]; //creates the new threads
+    //runs all threads to simulate Game of Life
+    for(int t = 0; t < numThreads; ++t)
     {
-        for(int t = 0; t < numThreads; ++t)
-        {
-            myThreads[t] = thread(simGame, std::ref(board), std::ref(otherboard));
-            myThreads[t].join();
-        }   
+        myThreads[t] = thread(simGame, std::ref(board), std::ref(otherboard), numSteps);
+        myThreads[t].join();
     }
-    delete[] myThreads;
+    delete[] myThreads; //deletes the threads
     //outputs the results of the simulation into the given output file
     for(int i = 0; i < board.size(); ++i)
     {
