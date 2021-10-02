@@ -179,7 +179,7 @@ int main(int argc, char** argv)
     outFS.open(outputFile); //opens/creates the given output file
     thread* myThreads = new thread[numThreads];
     //runs through each step given
-    if(numThreads > numSteps)
+    if(numThreads > numSteps && numSteps > 1)
     {
         numThreads = numSteps;
     }
