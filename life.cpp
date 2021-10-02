@@ -10,6 +10,7 @@
 #include <cstdlib>
 #include <fstream>
 #include <iostream>
+#include <mutex>
 #include <string>
 #include <thread>
 #include <unistd.h>
@@ -56,6 +57,7 @@ int new_value(const vector<vector<int>> & board, int i, int j) {
 //makes it so that each thread can simulate
 void simGame(vector<vector<int>> & board, vector<vector<int>> & otherboard, int numSteps)
 {
+    cout << numSteps << endl;
     //simulates game of life
     for(int s = 0; s <= numSteps; ++s)
     {
@@ -191,11 +193,14 @@ int main(int argc, char** argv)
         numThreads = numSteps;
     }
     thread* myThreads = new thread[numThreads]; //creates the new threads
+    mutex myMutex;
     //runs all threads to simulate Game of Life
     for(int t = 0; t < numThreads; ++t)
     {
+        myMutex.lock();
         myThreads[t] = thread(simGame, std::ref(board), std::ref(otherboard), numSteps);
         myThreads[t].join();
+        myMutex.unlock();
     }
     delete[] myThreads; //deletes the threads
     //outputs the results of the simulation into the given output file
