@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <fstream>
 #include <iostream>
 #include <sstream>
@@ -142,6 +143,7 @@ void Program::runProgram(vector<string> words, vector<string> sentences, int num
         myThreads[t].join();
     }
     delete[] myThreads;
+    sort(words.begin(), words.end());
     ofstream outFS;
     outFS.open(outputFile, ios::app);
     for(int i = 0; i < totals.size(); ++i)
