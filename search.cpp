@@ -1,27 +1,51 @@
 #include <fstream>
 #include <iostream>
+#include <sstream>
 #include <string>
 #include <thread>
 #include <vector>
 using namespace std;
 
-vector<int> wordCounter(int numThreads, int threadNum, vector<string> words, vector<string> sentences)
+class Program
 {
-    vector<int> counts;
-    for(int s = 0; s < sentences.size(); ++s)
+    public:
+        vector<int> totals;
+        void wordCounter(vector<string> words, vector<string> sentence, int numThreads, int threadNum);
+        void checkArgs(int numArgs);
+        void checkInput(string fileName);
+        vector<string> readFiles(string fileName);
+        void validOutput(string fileName);
+        void checkThreads(string numThreads);
+        void inputValidity(string keywords, string texttoread, string outputFile, string numThreads);
+        int maxThreads(string threads, vector<string> sentences);
+        void runProgram(vector<string> words, vector<string> sentences, int numThreads, string outputFile);
+};
+
+void Program::wordCounter(vector<string> words, vector<string> sentence, int numThreads, int threadNum)
+{
+    for(int s = 0; s < sentence.size(); ++s)
     {
         if(s % numThreads == threadNum)
         {
-            for(int w = 0; w < words.size(); ++w)
+            stringstream ss(sentence[s]);
+            while(ss)
             {
-                counts.push_back(w);
+                string word;
+                ss >> word;
+                for(int w = 0; w < words.size(); ++w)
+                {
+                    if(word == words[w])
+                    {
+                        totals[w]++;
+                    }
+                }
             }
         }
     }
-    return counts;
 }
 
-void checkArgs(int numArgs)
+
+void Program::checkArgs(int numArgs)
 {
     if((numArgs-1) != 4)
     {
@@ -30,7 +54,7 @@ void checkArgs(int numArgs)
     }
 }
 
-void checkInput(string fileName)
+void Program::checkInput(string fileName)
 {
     ifstream inFS;
     inFS.open(fileName);
@@ -42,7 +66,7 @@ void checkInput(string fileName)
     inFS.close();
 }
 
-vector<string> readFiles(string fileName)
+vector<string> Program::readFiles(string fileName)
 {
     vector<string> tobeFilled;
     string l;
@@ -56,7 +80,7 @@ vector<string> readFiles(string fileName)
     return tobeFilled;
 }
 
-void validOutput(string fileName)
+void Program::validOutput(string fileName)
 {
     string textFile = ".txt"; //to check if the output file is valid
     //if the output file is not in a valid format (***.txt), reports it and closes the program
@@ -67,7 +91,7 @@ void validOutput(string fileName)
     }
 }
 
-void checkThreads(string numThreads)
+void Program::checkThreads(string numThreads)
 {
     for(char const &c : numThreads)
     {
@@ -87,7 +111,7 @@ void checkThreads(string numThreads)
     }
 }
 
-void inputValidity(string keywords, string texttoread, string outputFile, string numThreads)
+void Program::inputValidity(string keywords, string texttoread, string outputFile, string numThreads)
 {
     checkInput(keywords);
     checkInput(texttoread);
@@ -95,7 +119,7 @@ void inputValidity(string keywords, string texttoread, string outputFile, string
     checkThreads(numThreads);
 }
 
-int maxThreads(string threads, vector<string> sentences)
+int Program::maxThreads(string threads, vector<string> sentences)
 {
     int intThreads = stoi(threads);
     if(intThreads > sentences.size())
@@ -105,27 +129,39 @@ int maxThreads(string threads, vector<string> sentences)
     return intThreads;
 }
 
-void runProgram(vector<string> words, vector<string> sentences, int numThreads)
+void Program::runProgram(vector<string> words, vector<string> sentences, int numThreads, string outputFile)
 {
+    for(int w = 0; w < words.size(); ++w)
+    {
+        totals.push_back(0);
+    }
     thread* myThreads = new thread[numThreads]; //creates the new threads
     for(int t = 0; t < numThreads; ++t)
     {
-        myThreads[t] = thread(wordCounter, numThreads, t, words, sentences);
+        myThreads[t]=thread(&Program::wordCounter, this, words, sentences, numThreads, t);
         myThreads[t].join();
     }
     delete[] myThreads;
+    ofstream outFS;
+    outFS.open(outputFile, ios::app);
+    for(int i = 0; i < totals.size(); ++i)
+    {
+        outFS << words[i] << " " << totals[i] << endl;
+    }
+    outFS.close();
 }
 
 int main(int argc, char** argv)
-{
-    checkArgs(argc);
+{  
+    Program prog;
+    prog.checkArgs(argc);
     string keywords = argv[1]; //takes in the file to be read
     string texttoread = argv[2];
     string outputFile = argv[3]; //takes in the file to be written to
     string threadInput = argv[4];
-    inputValidity(keywords, texttoread, outputFile, threadInput);
-    vector<string> words = readFiles(keywords);
-    vector<string> sentences = readFiles(texttoread);
-    int numThreads = maxThreads(threadInput, sentences);
-    runProgram(words, sentences, numThreads);    
+    prog.inputValidity(keywords, texttoread, outputFile, threadInput);
+    vector<string> words = prog.readFiles(keywords);
+    vector<string> sentences = prog.readFiles(texttoread);
+    int numThreads = prog.maxThreads(threadInput, sentences);
+    prog.runProgram(words, sentences, numThreads, outputFile);    
 }
