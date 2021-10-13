@@ -75,6 +75,7 @@ vector<string> Program::readFiles(string fileName)
     inFS.open(fileName);
     while(getline(inFS, l))
     {
+        l.erase(remove_if(l.begin(), l.end(), ::ispunct), l.end());
         tobeFilled.push_back(l);
     }
     inFS.close();
