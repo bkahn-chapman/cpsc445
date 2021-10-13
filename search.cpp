@@ -136,6 +136,7 @@ void Program::runProgram(vector<string> words, vector<string> sentences, int num
     {
         totals.push_back(0);
     }
+    sort(words.begin(), words.end());
     thread* myThreads = new thread[numThreads]; //creates the new threads
     for(int t = 0; t < numThreads; ++t)
     {
@@ -143,7 +144,6 @@ void Program::runProgram(vector<string> words, vector<string> sentences, int num
         myThreads[t].join();
     }
     delete[] myThreads;
-    sort(words.begin(), words.end());
     ofstream outFS;
     outFS.open(outputFile, ios::app);
     for(int i = 0; i < totals.size(); ++i)
