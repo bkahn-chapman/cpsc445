@@ -20,40 +20,42 @@ class NewGame
 {
     public:
         vector<vector<int>> board; //initializes the game board
-        vector<vector<int>> otherboard;
-        int get(int i, int j);
-        int new_value(int i, int j);
-        void simRow(int currRow);
+        vector<vector<int>> otherboard; //initializes the second game board
+        int get(int i, int j); //checks if the cell being checked exists
+        int new_value(int i, int j); //determines what the new value as a specific cell should be
+        void simRow(int currRow); //makes it so that each thread can simulate a specific row
         string l; //line in file
         char c; //character in line
         int numRows = 0; //initializes the number of rows for the 2d vector
         int numColumns = 0; //initializes the number of columns for the 2d vector
-        string inputFile;
-        string outputFile;
-        string inputSteps;
-        string inputThreads;
-        int numSteps = 0;
-        int numThreads = 0;
-        void checkArgs(int numArgs);
-        void checkInput();
-        void validOutput();
-        void checkThreads();
-        void checkSteps();
-        void calcSize();
-        void fileValid();
-        void fillBoard();
-        void maxThreads();
-        void printResults();
-        void inputValidity();
-        void setup();
-        void simAll();
+        string inputFile; //input file to be read
+        string outputFile; //output file to be read
+        string inputSteps; //string input of number of steps for checking
+        string inputThreads; //string input of number of threads for checking
+        int numSteps = 0; //final number of steps
+        int numThreads = 0; //final number of threads
+        void checkArgs(int numArgs); //checks to see if the proper number of arguments is given
+        void checkInput(); //checks if the input file given exists
+        void validOutput(); //checks if the given output file is valid
+        void checkThreads(); //checks if the number of threads given is valid
+        void checkSteps(); //checks if the number of steps given is valid
+        void calcSize(); //calculates the dimensions of the given input board
+        void fileValid(); //checks if the given input file has exclusively valid characters
+        void fillBoard(); //given a valid board, fills the vector of ints that makes up the game board to be updated
+        void maxThreads(); //ensures there aren't more threads than lines in the input file
+        void printResults(); //prints the final board once all steps have completed
+        void inputValidity(); //combines all validity checks into one statement
+        void setup(); //combines all setup code into one statement
+        void simAll(); //runs the Game of Life given a specific number of steps and outputs results
 };
 
 //checks if the cell being checked exists
 int NewGame::get(int i, int j) {
+    //if the row to be checked doesn't exist
     if (i<0 || i>=otherboard.size()) {
         return 0;
     }
+    //if the column to be checked doesn't exist
     if (j<0 || j>=otherboard[i].size()) {
         return 0;
     }
@@ -86,7 +88,7 @@ int NewGame::new_value(int i, int j) {
     }
 }
 
-//makes it so that each thread can simulate
+//makes it so that each thread can simulate a specific row
 void NewGame::simRow(int currRow)
 {
     //simulates game of life
@@ -153,6 +155,7 @@ void NewGame::checkThreads()
     }
 }
 
+//checks if the number of steps given is valid
 void NewGame::checkSteps()
 {
     for(char const &c : inputSteps)
@@ -166,6 +169,7 @@ void NewGame::checkSteps()
     numSteps = stoi(inputSteps);
 }
 
+//calculates the dimensions of the given input board
 void NewGame::calcSize()
 {
     ifstream inFS;
@@ -188,6 +192,7 @@ void NewGame::calcSize()
     inFS.close();
 }
 
+//checks if the given input file has exclusively valid characters
 void NewGame::fileValid()
 {
     ifstream inFS;
@@ -205,6 +210,7 @@ void NewGame::fileValid()
     inFS.close();
 }
 
+//given a valid board, fills the vector of ints that makes up the game board to be updated
 void NewGame::fillBoard()
 {
     ifstream inFS;
@@ -242,6 +248,7 @@ void NewGame::maxThreads()
     }
 }
 
+//prints the final board once all steps have completed
 void NewGame::printResults()
 {
     ofstream outFS;
@@ -258,6 +265,7 @@ void NewGame::printResults()
     outFS.close();
 }
 
+//combines all validity checks into one statement
 void NewGame::inputValidity()
 {
     checkInput();
@@ -266,6 +274,7 @@ void NewGame::inputValidity()
     checkThreads();
 }
 
+//combines all setup code into one statement
 void NewGame::setup()
 {
     calcSize();
@@ -274,15 +283,18 @@ void NewGame::setup()
     maxThreads();
 }
 
+//runs the Game of Life given a specific number of steps and outputs results
 void NewGame::simAll()
 {
     for(int i = 0; i < numSteps; ++i)
     {
+        //creates a new set of threads for each step
         thread* myThreads = new thread[numThreads];
         for(int r = 0; r < numRows; ++r)
         {
             for(int t = 0; t < numThreads; ++t)
             {
+                //ensures that each thread gets its own row
                 if(r % numThreads == t)
                 {
                     myThreads[t] = thread(&NewGame::simRow, this, r);
@@ -291,7 +303,7 @@ void NewGame::simAll()
             }
         }
         delete[] myThreads;
-        swap(board, otherboard);
+        swap(board, otherboard); //so that checks can be performed on the new board
     }
     printResults();
 }
@@ -301,11 +313,11 @@ int main(int argc, char** argv)
     NewGame life;
     life.inputFile = argv[1]; //takes in the file to be read
     life.outputFile = argv[2]; //takes in the file to be written to
-    life.inputSteps = argv[3];
-    life.inputThreads = argv[4];
+    life.inputSteps = argv[3]; //takes in the desired number of steps
+    life.inputThreads = argv[4]; //takes in the desired number of threads
     cout << "Welcome to Conway's Game of life!" << endl;
-    life.inputValidity();
-    life.setup();
-    life.simAll();
+    life.inputValidity(); //checks if all input is valid
+    life.setup(); //sets up the game board
+    life.simAll(); //simulates all steps
     cout << "Thank you for using my program! Your results can be found at: " << life.outputFile << "." << endl;
 }
