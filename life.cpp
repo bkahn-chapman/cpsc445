@@ -90,7 +90,7 @@ int NewGame::new_value(int i, int j) {
 void NewGame::simRow(int currRow)
 {
     //simulates game of life
-    for(int j = 0; j < board[j].size(); ++j)
+    for(int j = 0; j < board[currRow].size(); ++j)
     {
         board[currRow][j] = new_value(currRow, j);
     }
