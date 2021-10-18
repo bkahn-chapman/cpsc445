@@ -89,7 +89,6 @@ int NewGame::new_value(int i, int j) {
 //makes it so that each thread can simulate
 void NewGame::simRow(int currRow)
 {
-    cout << "row" << endl;
     //simulates game of life
     for(int j = 0; j < board[j].size(); ++j)
     {
@@ -279,7 +278,6 @@ void NewGame::simAll()
 {
     for(int i = 0; i < numSteps; ++i)
     {
-        cout << "Step" << endl;
         thread* myThreads = new thread[numThreads];
         for(int r = 0; r < numRows; ++r)
         {
@@ -287,7 +285,6 @@ void NewGame::simAll()
             {
                 if(r % numThreads == t)
                 {
-                    cout << "Thread run" << endl;
                     myThreads[t] = thread(&NewGame::simRow, this, r);
                     myThreads[t].join();
                 }
