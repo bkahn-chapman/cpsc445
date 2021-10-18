@@ -16,79 +16,113 @@
 #include <vector>
 using namespace std;
 
+class NewGame
+{
+    public:
+        vector<vector<int>> board; //initializes the game board
+        vector<vector<int>> otherboard;
+        int get(int i, int j);
+        int new_value(int i, int j);
+        void simRow(int currRow);
+        string l; //line in file
+        char c; //character in line
+        int numRows = 0; //initializes the number of rows for the 2d vector
+        int numColumns = 0; //initializes the number of columns for the 2d vector
+        string inputFile;
+        string outputFile;
+        string inputSteps;
+        string inputThreads;
+        int numSteps = 0;
+        int numThreads = 0;
+        void checkArgs(int numArgs);
+        void checkInput();
+        void validOutput();
+        void checkThreads();
+        void checkSteps();
+        void calcSize();
+        void fileValid();
+        void fillBoard();
+        void maxThreads();
+        void printResults();
+        void inputValidity();
+        void setup();
+        void simAll();
+};
+
 //checks if the cell being checked exists
-int get(const std::vector<std::vector<int>> & board, int i, int j) {
-    if (i<0 || i>=board.size()) {
+int NewGame::get(int i, int j) {
+    if (i<0 || i>=otherboard.size()) {
         return 0;
     }
-    if (j<0 || j>=board[i].size()) {
+    if (j<0 || j>=otherboard[i].size()) {
         return 0;
     }
-    return board[i][j];
+    return otherboard[i][j];
 }
 
 //determines what the new value as a specific cell should be
-int new_value(const vector<vector<int>> & board, int i, int j) {
+int NewGame::new_value(int i, int j) {
     int neighborCount = 0; //tracks how many neighbors the cell has
-    neighborCount = neighborCount + get(board, i-1, j);
-    neighborCount = neighborCount + get(board, i-1, j-1);
-    neighborCount = neighborCount + get(board, i-1, j+1);
-    neighborCount = neighborCount + get(board, i, j-1);
-    neighborCount = neighborCount + get(board, i, j+1);
-    neighborCount = neighborCount + get(board, i+1, j-1);
-    neighborCount = neighborCount + get(board, i+1, j);
-    neighborCount = neighborCount + get(board, i+1, j+1);
+    neighborCount = neighborCount + get(i-1, j);
+    neighborCount = neighborCount + get(i-1, j-1);
+    neighborCount = neighborCount + get(i-1, j+1);
+    neighborCount = neighborCount + get(i, j-1);
+    neighborCount = neighborCount + get(i, j+1);
+    neighborCount = neighborCount + get(i+1, j-1);
+    neighborCount = neighborCount + get(i+1, j);
+    neighborCount = neighborCount + get(i+1, j+1);
     //Game of Life logic
-    if(board[i][j] == 1 && (neighborCount < 2 || neighborCount > 3))
+    if(otherboard[i][j] == 1 && (neighborCount < 2 || neighborCount > 3))
     {
         return 0;
     }
-    else if(board[i][j] == 0 && neighborCount == 3)
+    else if(otherboard[i][j] == 0 && neighborCount == 3)
     {
         return 1;
     }
     else
     {
-        return board[i][j];
+        return otherboard[i][j];
     }
 }
 
 //makes it so that each thread can simulate
-void simGame(vector<vector<int>> & board, vector<vector<int>> & otherboard, int numSteps)
+void NewGame::simRow(int currRow)
 {
-    cout << numSteps << endl;
+    cout << "row" << endl;
     //simulates game of life
-    for(int s = 0; s <= numSteps; ++s)
+    for(int j = 0; j < board[j].size(); ++j)
     {
-        for(int i = 0; i < board.size(); ++i)
-        {
-            for(int j = 0; j < board[i].size(); ++j)
-            {
-                board[i][j] = new_value(otherboard, i, j);
-            }
-        }
-        swap(board, otherboard);
+        board[currRow][j] = new_value(currRow, j);
     }
 }
 
-int main(int argc, char** argv)
+//checks to see if the proper number of arguments is given
+void NewGame::checkArgs(int numArgs)
 {
-    //checks to see if the proper number of arguments are provided
-    if((argc-1) != 4)
+    if((numArgs-1) != 4) //makes sure there are exactly four arguments given
     {
-        cout << "invalid arguemnts (expected 4 arguments, instead received " << argc-1 << ")" << endl;
+        cout << "invalid arguemnts (expected 4 arguments, instead received " << numArgs-1 << ")" << endl;
         exit(1);
     }
-    string inputFile = argv[1]; //takes in the file to be read
-    ifstream inFS; //opens the input filestream
-    inFS.open(inputFile); //opens the given input file
-    //if the file does not exist, reports it and closes the program
-    if(!inFS)
+}
+
+//checks if the input file given exists
+void NewGame::checkInput()
+{
+    ifstream inFS;
+    inFS.open(inputFile);
+    if(!inFS) //checks if the given file exists
     {
-        cout << "invalid arguments (the input file was not found)" << endl;
+        cout << "One or more of the input files does not exist." << endl;
         exit(1);
     }
-    string outputFile = argv[2]; //takes in the file to be written to
+    inFS.close();
+}
+
+//checks if the given output file is valid
+void NewGame::validOutput()
+{
     string textFile = ".txt"; //to check if the output file is valid
     //if the output file is not in a valid format (***.txt), reports it and closes the program
     if(outputFile.size() <= textFile.size() || outputFile.compare(outputFile.size() - textFile.size(), textFile.size(), textFile) != 0)
@@ -96,20 +130,13 @@ int main(int argc, char** argv)
         cout << "invalid arguments (the output file given is not in .txt format)" << endl;
         exit(1);
     }
-    //takes in the number of steps and number of threads as strings to test if they are valid whole numbers
-    string testThree = argv[3];
-    string testFour = argv[4];
-    //tests to see if the number of steps is a whole number, if not, reports and closes the program
-    for(char const &c : testThree)
-    {
-        if(isdigit(c) == 0)
-        {
-            cout << "invalid arguments (number of steps must be a whole number)" << endl;
-            exit(1);
-        }
-    }
-    //tests to see if the number of threads is a whole number, if not, reports and closes the program
-    for(char const &c : testFour)
+}
+
+//checks if the number of threads given is valid
+void NewGame::checkThreads()
+{
+    //makes sure every thread is a whole number
+    for(char const &c : inputThreads)
     {
         if(isdigit(c) == 0)
         {
@@ -118,19 +145,32 @@ int main(int argc, char** argv)
         }
     }
     //if they are valid, converts the number of steps and number of threads to integers
-    int numSteps = atoi(argv[3]);
-    int numThreads = atoi(argv[4]);
+    numThreads = stoi(inputThreads);
     //checks to ensure that at least 1 thread is specified, if not, reports and closes the program
     if(numThreads < 1)
     {
         cout << "invalid arguments (number of threads cannot be less than 1)" << endl;
         exit(1);
     }
-    cout << "Welcome to Conway's Game of life!" << endl;
-    string l; //line in file
-    char c; //character in line
-    int numRows = 0; //initializes the number of rows for the 2d vector
-    int numColumns = 0; //initializes the number of columns for the 2d vector
+}
+
+void NewGame::checkSteps()
+{
+    for(char const &c : inputSteps)
+    {
+        if(isdigit(c) == 0)
+        {
+            cout << "invalid arguments (number of steps must be a whole number)" << endl;
+            exit(1);
+        }
+    }
+    numSteps = stoi(inputSteps);
+}
+
+void NewGame::calcSize()
+{
+    ifstream inFS;
+    inFS.open(inputFile);
     //gets the number of columns and rows for 2d vector initializing and also checks to ensure the given board is rectangular, if not, reports and exits the program
     while(getline(inFS, l))
     {
@@ -146,8 +186,13 @@ int main(int argc, char** argv)
         numRows++;
     }
     numColumns++;
-    inFS.clear(); //clears the input filestream
-    inFS.seekg(0, std::ios::beg); //resets the input filestream to the beginning of the file
+    inFS.close();
+}
+
+void NewGame::fileValid()
+{
+    ifstream inFS;
+    inFS.open(inputFile);
     //ensures that every character in the input file is valid, if not, reports and exits the program
     while(!inFS.eof())
     {
@@ -158,10 +203,13 @@ int main(int argc, char** argv)
             exit(1);
         }
     }
-    inFS.clear(); //clears the input filestream
-    inFS.seekg(0, std::ios::beg); //resets the input filestream to the beginning of the file
-    vector<vector<int>> board; //initializes the game board
-    vector<vector<int>> otherboard;
+    inFS.close();
+}
+
+void NewGame::fillBoard()
+{
+    ifstream inFS;
+    inFS.open(inputFile);
     //fills in the game board from the now confirmed-to-be-clean input file
     while(getline(inFS, l))
     {
@@ -183,30 +231,84 @@ int main(int argc, char** argv)
         board.push_back(row);
         otherboard.push_back(row);
     }
-    inFS.close(); //closes the input filestream
-    ofstream outFS; //creates the output filestream
-    outFS.open(outputFile); //opens/creates the given output file
-    //ensures there aren't more threads than there are steps
-    if(numThreads > numSteps)
+}
+
+//ensures there aren't more threads than lines in the input file
+void NewGame::maxThreads()
+{
+    //prevents there from being more threads than lines in the file as it would leave unused threads
+    if(numThreads > numRows)
     {
-        numThreads = numSteps;
+        numThreads = numRows;
     }
-    thread* myThreads = new thread[numThreads]; //creates the new threads
-    //runs all threads to simulate Game of Life
-    for(int t = 0; t < numThreads; ++t)
-    {   
-        myThreads[t] = thread(simGame, std::ref(board), std::ref(otherboard), numSteps);
-        myThreads[t].join();
-    }
-    delete[] myThreads; //deletes the threads
+}
+
+void NewGame::printResults()
+{
+    ofstream outFS;
+    outFS.open(outputFile, ios::app);
     //outputs the results of the simulation into the given output file
-    for(int i = 0; i < board.size(); ++i)
+    for(int i = 0; i < otherboard.size(); ++i)
     {
-        for(int j = 0; j < board[i].size(); ++j)
+        for(int j = 0; j < otherboard[i].size(); ++j)
         {
-            outFS << board[i][j];
+            outFS << otherboard[i][j];
         }
         outFS << "\n";
     }
-    cout << "Thank you for using my program! Your results can be found at: " << outputFile << "." << endl;
+    outFS.close();
+}
+
+void NewGame::inputValidity()
+{
+    checkInput();
+    validOutput();
+    checkSteps();
+    checkThreads();
+}
+
+void NewGame::setup()
+{
+    calcSize();
+    fileValid();
+    fillBoard();
+    maxThreads();
+}
+
+void NewGame::simAll()
+{
+    for(int i = 0; i < numSteps; ++i)
+    {
+        cout << "Step" << endl;
+        thread* myThreads = new thread[numThreads];
+        for(int r = 0; r < numRows; ++r)
+        {
+            for(int t = 0; t < numThreads; ++t)
+            {
+                if(r % numThreads == t)
+                {
+                    cout << "Thread run" << endl;
+                    myThreads[t] = thread(&NewGame::simRow, this, r);
+                    myThreads[t].join();
+                }
+            }
+        }
+        delete[] myThreads;
+        swap(board, otherboard);
+    }
+    printResults();
+}
+
+int main(int argc, char** argv)
+{
+    NewGame life;
+    life.inputFile = argv[1]; //takes in the file to be read
+    life.outputFile = argv[2]; //takes in the file to be written to
+    life.inputSteps = argv[3];
+    life.inputThreads = argv[4];
+    cout << "Welcome to Conway's Game of life!" << endl;
+    life.inputValidity();
+    life.setup();
+    life.simAll();
+    cout << "Thank you for using my program! Your results can be found at: " << life.outputFile << "." << endl;
 }
