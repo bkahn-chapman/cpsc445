@@ -1,7 +1,77 @@
 #include <mpi.h>
 #include <iostream>
+#include <fstream>
+#include <string>
 
 using namespace std;
+
+class Test
+{
+  public:
+    int countA;
+    int countT;
+    int countG;
+    int countC;
+    string dna;
+    void getString(int rank);
+    void calcCounts(int rank, int numThreads);
+    void printResults(int rank);
+};
+
+void Test::getString(int rank) {
+  if(rank == 0)
+  {
+    ifstream inFS;
+    inFS.open("dna.txt");
+    getline(inFS, dna);
+    inFS.close();
+  }
+}
+
+void Test::calcCounts(int rank, int numThreads) {
+  for(int i = 0; i < dna.length(); ++i)
+  {
+    if(dna.length() % numThreads == rank)
+    {
+      if(dna[i] != 'A' && dna[i] != 'T' && dna[i] != 'G' && dna[i] != 'C')
+      {
+          cout << "invalid input (characters other than A, T, G, and C are not allowed)" << endl;
+          exit(1);
+      }
+      if(dna[i] == 'A')
+      {
+        cout << "A";
+        countA++;
+      }
+      else if(dna[i] == 'T')
+      {
+        cout << "T";
+        countT++;
+      }
+      else if(dna[i] == 'G')
+      {
+        cout << "G";
+        countG++;
+      }
+      else
+      {
+        cout << "C";
+        countC++;
+      }
+    }
+  }
+}
+
+void Test::printResults(int rank)
+{
+  if(rank == 0)
+  {
+    ofstream outFS;
+    outFS.open("output.txt");
+    outFS << "A " << countA << "\nT " << countT << "\nG " << countG << "\nC " << countC;
+    outFS.close();
+  }
+}
 
 void check_error(int status, const string message="MPI error") {
   if ( status != 0 ) {    
@@ -18,19 +88,24 @@ int main (int argc, char *argv[]) {
   check_error(MPI_Init(&argc, &argv), "unable to initialize MPI");
   check_error(MPI_Comm_size(MPI_COMM_WORLD, &p), "unable to obtain p");
   check_error(MPI_Comm_rank(MPI_COMM_WORLD, &rank), "unable to obtain rank");
-  cout << "Starting process " << rank << "/" << "p\n";
+  // cout << "Starting process " << rank << "/" << "p\n";
 
   // example code
-  int n = (rank==0?5:0), sum = 0;
-  check_error(MPI_Bcast(&n, 1, MPI_INT, 0, MPI_COMM_WORLD));  
-  check_error(MPI_Reduce(&n, &sum, 1, MPI_INT, MPI_SUM, 0, MPI_COMM_WORLD));
+  // int n = (rank==0?5:0), sum = 0;
+  // check_error(MPI_Bcast(&n, 1, MPI_INT, 0, MPI_COMM_WORLD));  
+  // check_error(MPI_Reduce(&n, &sum, 1, MPI_INT, MPI_SUM, 0, MPI_COMM_WORLD));
+  /*
   if (rank==0) {
     if (sum != n*p) { cerr << "error!\n"; exit(1); }
   }
+  */
 
   check_error(MPI_Finalize());
-
-  cout << "Ending process " << rank << "/" << "p\n";
+  Test t;
+  t.getString(rank);
+  t.calcCounts(rank, p);
+  t.printResults(rank);
+  // cout << "Ending process " << rank << "/" << "p\n";
 
   return 0;
 }
