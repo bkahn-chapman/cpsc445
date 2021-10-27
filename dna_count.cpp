@@ -2,6 +2,8 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <cstring>
+#include <vector>
 
 using namespace std;
 
@@ -13,19 +15,39 @@ class Test
     int countG;
     int countC;
     string dna;
-    void getString(int rank);
+    vector<char> atgc;
+    void getString(int rank, int numThreads);
     void calcCounts(int rank, int numThreads);
     void printResults(int rank);
 };
 
-void Test::getString(int rank) {
+void Test::getString(int rank, int numThreads) {
   if(rank == 0)
   {
     ifstream inFS;
     inFS.open("dna.txt");
     getline(inFS, dna);
     inFS.close();
+    int length = dna.length();
+    for(int i = 0; i < length; ++i)
+    {
+      atgc.push_back(dna[i]);
+    }
+    for(int i = 1; i < numThreads; ++i)
+    {
+      MPI_Send(&atgc, atgc.size(), MPI_CHAR, i, 0, MPI_COMM_WORLD);
+      cout << "Sent to rank: " << i << endl;
+    }
   }
+  else
+  {
+    MPI_Recv(&atgc, atgc.size(), MPI_CHAR, 0, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+    for(int i = 0; i < atgc.size(); ++ i)
+    {
+      cout << "Rank: " << rank << " received: " << atgc[i];
+    }
+  }
+  MPI_Finalize();
 }
 
 void Test::calcCounts(int rank, int numThreads) {
@@ -64,7 +86,11 @@ void Test::calcCounts(int rank, int numThreads) {
 
 void Test::printResults(int rank)
 {
-  if(rank == 0)
+  if(rank != 0)
+  {
+    
+  }
+  else
   {
     ofstream outFS;
     outFS.open("output.txt");
@@ -102,7 +128,7 @@ int main (int argc, char *argv[]) {
 
   check_error(MPI_Finalize());
   Test t;
-  t.getString(rank);
+  t.getString(rank, p);
   t.calcCounts(rank, p);
   t.printResults(rank);
   // cout << "Ending process " << rank << "/" << "p\n";
