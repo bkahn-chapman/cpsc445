@@ -14,63 +14,52 @@ class Test
     int countT;
     int countG;
     int countC;
-    string dna;
-    vector<char> atgc;
-    void getString(int rank, int numThreads);
+    int startingPt;
+    string dna; // initial string
+    vector<char> atgc; // vector of all characters in initial string
+    vector<int> counts;
+    void readString(int numThreads);
     void calcCounts(int rank, int numThreads);
+    void sendCounts();
     void printResults(int rank);
+    void check_error(int status, const string message);
 };
 
-void Test::getString(int rank, int numThreads) {
-  if(rank == 0)
+void Test::readString(int numThreads) {
+  ifstream inFS;
+  inFS.open("dna.txt");
+  getline(inFS, dna);
+  inFS.close();
+  int length = dna.length();
+  for(int i = 0; i < length; ++i)
   {
-    ifstream inFS;
-    inFS.open("dna.txt");
-    getline(inFS, dna);
-    inFS.close();
-    int length = dna.length();
-    for(int i = 0; i < length; ++i)
-    {
-      atgc.push_back(dna[i]);
-    }
-    for(int i = 1; i < numThreads; ++i)
-    {
-      MPI_Send(&atgc, atgc.size(), MPI_CHAR, i, 0, MPI_COMM_WORLD);
-      cout << "Sent to rank: " << i << endl;
-    }
+    atgc.push_back(dna[i]);
   }
-  else
-  {
-    MPI_Recv(&atgc, atgc.size(), MPI_CHAR, 0, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-    for(int i = 0; i < atgc.size(); ++ i)
-    {
-      cout << "Rank: " << rank << " received: " << atgc[i];
-    }
-  }
-  MPI_Finalize();
+  MPI_Scatter(&atgc[0], atgc.size(), MPI_CHAR, &atgc[1], atgc.size(), MPI_CHAR, 0, MPI_COMM_WORLD);
 }
 
 void Test::calcCounts(int rank, int numThreads) {
-  for(int i = 0; i < dna.length(); ++i)
+  int startingPt = rank * 4;
+  for(int i = 0; i < atgc.size(); ++i)
   {
-    if(dna.length() % numThreads == rank)
+    if(atgc.size() % numThreads == rank)
     {
-      if(dna[i] != 'A' && dna[i] != 'T' && dna[i] != 'G' && dna[i] != 'C')
+      if(atgc[i] != 'A' && atgc[i] != 'T' && atgc[i] != 'G' && atgc[i] != 'C')
       {
           cout << "invalid input (characters other than A, T, G, and C are not allowed)" << endl;
           exit(1);
       }
-      if(dna[i] == 'A')
+      if(atgc[i] == 'A')
       {
         cout << "A";
         countA++;
       }
-      else if(dna[i] == 'T')
+      else if(atgc[i] == 'T')
       {
         cout << "T";
         countT++;
       }
-      else if(dna[i] == 'G')
+      else if(atgc[i] == 'G')
       {
         cout << "G";
         countG++;
@@ -82,21 +71,19 @@ void Test::calcCounts(int rank, int numThreads) {
       }
     }
   }
+  counts[startingPt] = countA;
+  counts[startingPt+1] = countT;  
+  counts[startingPt+2] = countG;
+  counts[startingPt+3] = countC;
 }
 
 void Test::printResults(int rank)
 {
-  if(rank != 0)
-  {
-    
-  }
-  else
-  {
-    ofstream outFS;
-    outFS.open("output.txt");
-    outFS << "A " << countA << "\nT " << countT << "\nG " << countG << "\nC " << countC;
-    outFS.close();
-  }
+  // MPI_Gather(&counts[0], counts.size(), MPI_INT, &counts[test], counts.size(), MPI_INT, 0, MPI_COMM_WORLD);
+  ofstream outFS;
+  outFS.open("output.txt");
+  outFS << "A " << countA << "\nT " << countT << "\nG " << countG << "\nC " << countC;
+  outFS.close();
 }
 
 void check_error(int status, const string message="MPI error") {
@@ -126,12 +113,15 @@ int main (int argc, char *argv[]) {
   }
   */
 
-  check_error(MPI_Finalize());
+  // check_error(MPI_Finalize());
   Test t;
-  t.getString(rank, p);
+  if(rank == 0)
+  {
+    t.readString(p);
+  }
   t.calcCounts(rank, p);
   t.printResults(rank);
   // cout << "Ending process " << rank << "/" << "p\n";
-
+  MPI_Finalize();
   return 0;
 }
