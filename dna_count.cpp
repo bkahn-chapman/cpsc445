@@ -79,7 +79,7 @@ void Test::calcCounts(int rank, int numThreads) {
 
 void Test::printResults(int rank)
 {
-  // MPI_Gather(&counts[0], counts.size(), MPI_INT, &counts[test], counts.size(), MPI_INT, 0, MPI_COMM_WORLD);
+  MPI_Gather(&counts[0], counts.size(), MPI_INT, &counts[1], counts.size(), MPI_INT, 0, MPI_COMM_WORLD);
   ofstream outFS;
   outFS.open("output.txt");
   outFS << "A " << countA << "\nT " << countT << "\nG " << countG << "\nC " << countC;
