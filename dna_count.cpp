@@ -16,6 +16,7 @@ class Count {
     int dnaSize;
     vector<char> initial;
     vector<char> received;
+    vector<int> finaltotals;
 };
 
 void Count::makeVector(int rank, int p) {
@@ -40,25 +41,35 @@ void Count::spreadValues(int rank, int p) {
 }
 
 void Count::calcTotals(int rank, int p) {
+  vector<int> totals = {0, 0, 0, 0};
   for(int i = 0; i < received.size(); ++i)
   {
     if(received[i] == 'A')
     {
-      cout << "rank: " << rank << " " << received[i] << endl;
+      totals[0]++;
     }
     if(received[i] == 'T')
     {
-      cout << "rank: " << rank << " " << received[i] << endl;
+      totals[1]++;
     }
     if(received[i] == 'G')
     {
-      cout << "rank: " << rank << " " << received[i] << endl;
+      totals[2]++;
     }
     if(received[i] == 'C')
     {
-      cout << "rank: " << rank << " " << received[i] << endl;
+      totals[3]++;
     }
   }
+  if(rank == 0)
+  {
+    finaltotals.resize(4);
+  }  
+  for(int i = 0; i < totals.size(); ++i)
+  {
+    cout << totals[i] << endl;
+  }
+  MPI_Gather(&totals[0], 4, MPI_INT, &finaltotals[0], 4, MPI_INT, 0, MPI_COMM_WORLD);
 }
 
 void Count::check_error(int status, const string message="MPI error") {
