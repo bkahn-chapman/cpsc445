@@ -6,6 +6,7 @@
 #include <cmath>
 #include <array>
 #include <string>
+#include <algorithm>
 using namespace std;
 
 class Count {
@@ -19,11 +20,15 @@ class Count {
     int dnaLength;
     vector<char> initial;
     vector<string> triplets;
-    vector<string> received;
+    vector<int> converted;
     vector<int> septriplets;
+    vector<int> sepcountstrip;
     vector<int> sepcounts;
-    vector<int> finaltriplets;
+    vector<int> combtriplets;
+    vector<int> combcounts;
+    vector<int> finaltrips;
     vector<int> finalcounts;
+    vector<string> tripletters;
 };
 
 void Count::makeVector(int rank, int p) {
@@ -37,84 +42,150 @@ void Count::makeVector(int rank, int p) {
       initial.push_back(c);
     }
     inFS.close();
-    string s = "";
-    for(int i = 0; i < initial.size(); ++i)
+    string triplet = "";
+    for(int i = 1; i < initial.size()+1; ++i)
     {
-      if(initial[i]=='A')
+      triplet.push_back(initial[i-1]);
+      if(i % 3 == 0)
       {
-        initial[i] = '1';
-      }
-      if(initial[i]=='T')
-      {
-        initial[i] = '2';
-      }
-      if(initial[i]=='G')
-      {
-        initial[i] = '3';
-      }
-      if(initial[i]=='C')
-      {
-        initial[i] = '4';
+        triplets.push_back(triplet);
+        triplet = "";
       }
     }
-    for(int i = 0; i < initial.size(); ++i)
+    string tripTest = "";
+    char letters[] = {'A', 'T', 'G', 'C'};
+    for(int t = 0; t < triplets.size(); ++t)
     {
-      s.push_back(initial[i]);
-      if(i % 3 == 2)
+      int count = 0;
+      for(int i = 0; i < 4; ++i)
       {
-        triplets.push_back(s);
-        s = "";
+        for(int j = 0; j < 4; ++j)
+        {
+          for(int k = 0; k < 4; ++k)
+          {
+            tripTest = "";
+            tripTest.push_back(letters[i]);
+            tripTest.push_back(letters[j]);
+            tripTest.push_back(letters[k]);
+            if(tripTest == triplets[t])
+            {
+              converted.push_back(count);
+            }
+            count++;
+          }
+        }
       }
     }
-    dnaSize = (triplets.size() / p) +1;
-    dnaLength = triplets.size();
+    if(converted.size() % p != 0)
+    {
+      int toAdd = p - (converted.size() % p);
+      if(toAdd != 0)
+      {
+        for(int i = 0; i < toAdd; ++i)
+        {
+          converted.push_back(-1);
+        }
+      }
+    }
+    dnaSize = converted.size() / p;
+    dnaLength = converted.size();
   }
 }
 
 void Count::spreadValues(int rank, int p) {
   MPI_Bcast(&dnaSize, 1, MPI_INT, 0, MPI_COMM_WORLD);
   MPI_Bcast(&dnaLength, 1, MPI_INT, 0, MPI_COMM_WORLD);
-  received.resize(dnaSize);
-  MPI_Scatter(&triplets[0], dnaSize, MPI_CHAR, &received[0], dnaSize, MPI_CHAR, 0, MPI_COMM_WORLD);
+  septriplets.resize(dnaSize);
+  MPI_Scatter(&converted[0], dnaSize, MPI_INT, &septriplets[0], dnaSize, MPI_INT, 0, MPI_COMM_WORLD);
 }
 
 void Count::calcTotals(int rank, int p) {
-  vector<vector<int>> totals;
-  for(int i = 0; i < received.size(); ++i)
+  for(int i = 0; i < septriplets.size(); ++i)
   {
-    if(i == 0)
+    if(sepcountstrip.size() == 0)
     {
-      totals[0][0] = stoi(received[i]);
-      totals[0][1] = 1;
+      sepcountstrip.push_back(septriplets[i]);
+      sepcounts.push_back(1);
     }
-    bool newCheck = false;
-    for(int j = 0; j < totals.size(); ++j)
+    else
     {
-      if(stoi(received[i])==totals[i][0])
+      for(int j = 0; j < sepcountstrip.size(); ++j)
       {
-        newCheck = true;
-        totals[i][1]++;
-        break;
+        if(septriplets[i] == sepcountstrip[j])
+        {
+          sepcounts[j]++;
+          break;
+        }
+        sepcountstrip.push_back(septriplets[i]);
+        sepcounts.push_back(1);
       }
     }
-    if(newCheck == false)
-    {
-      totals[totals.size()][0] = stoi(received[i]);
-      totals[totals.size()][1] = 1;
-    }
-  }
-  for(int i = 0; i < totals.size(); ++i)
-  {
-    septriplets.push_back(totals[i][0]);
-    sepcounts.push_back(totals[i][1]);
   }
   if(rank == 0)
   {
-    finaltriplets.resize(dnaSize);
-    finalcounts.resize(dnaSize);
+    combtriplets.resize(dnaLength);
+    combcounts.resize(dnaLength);
   }
-  MPI_Gather(&septriplets[0], dnaSize, MPI_INT, &finaltriplets[0], dnaSize, MPI_INT, 0, MPI_COMM_WORLD);
-  MPI_Gather(&sepcounts[0], dnaSize, MPI_INT, &finalcounts[0], dnaSize, MPI_INT, 0, MPI_COMM_WORLD);
+  MPI_Gather(&sepcountstrip[0], dnaSize, MPI_INT, &combtriplets[0], dnaSize, MPI_INT, 0, MPI_COMM_WORLD);
+  MPI_Gather(&sepcounts[0], dnaSize, MPI_INT, &combcounts[0], dnaSize, MPI_INT, 0, MPI_COMM_WORLD);
+  if(rank == 0)
+  {
+    for(int i = 0; i < combtriplets.size(); ++i)
+    {
+      if(combtriplets[i] != -1)
+      {
+        if(i == 0)
+        {
+          finaltrips.push_back(combtriplets[0]);
+          finalcounts.push_back(combcounts[0]);
+        }
+        else
+        {
+          vector<int>::iterator test;
+          test = find (finaltrips.begin(), finaltrips.end(), combtriplets[i]);
+          if (test != finaltrips.end())
+          {
+            for(int j = 0; j < finaltrips.size(); ++j)
+            {
+              if(finaltrips[j] == combtriplets[i])
+              {
+                finalcounts[j]++;
+              }
+            }
+          }
+          else
+          {
+            finaltrips.push_back(combtriplets[i]);
+            finalcounts.push_back(combcounts[i]);
+          }
+        }
+      }
+    }
+    char letts[] = {'A', 'T', 'G', 'C'};
+    for(int f = 0; f < finaltrips.size(); ++f)
+    {
+      int countf = 0;
+      string finaltest = "";
+      for(int i = 0; i < 4; ++i)
+      {
+        for(int j = 0; j < 4; ++j)
+        {
+          for(int k = 0; k < 4; ++k)
+          {
+            finaltest = "";
+            finaltest.push_back(letts[i]);
+            finaltest.push_back(letts[j]);
+            finaltest.push_back(letts[k]);
+            if(countf == finaltrips[f])
+            {
+              tripletters.push_back(finaltest);
+            }
+            countf++;
+          }
+        }
+      }
+    }
+  }
 }
 
 void Count::outputResults(int rank) {
@@ -122,9 +193,9 @@ void Count::outputResults(int rank) {
   {
     ofstream outFS;
     outFS.open("output.txt");
-    for(int i = 0; i < finaltriplets.size(); ++i)
+    for(int i = 0; i < tripletters.size(); ++i)
     {
-      outFS << finaltriplets[i] << " " << finalcounts[i] << endl;
+      outFS << tripletters[i] << " " << finalcounts[i] << endl;
     }
     outFS.close();
   }
