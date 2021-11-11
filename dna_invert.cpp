@@ -51,15 +51,15 @@ void Count::calcInverse(int rank, int p) {
     {
       received[i] = 'T';
     }
-    if(received[i] == 'T')
+    else if(received[i] == 'T')
     {
       received[i] = 'A';
     }
-    if(received[i] == 'G')
+    else if(received[i] == 'G')
     {
       received[i] = 'C';
     }
-    if(received[i] == 'C')
+    else if(received[i] == 'C')
     {
       received[i] = 'G';
     }

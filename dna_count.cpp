@@ -83,10 +83,10 @@ void Count::outputResults(int rank) {
   {
     ofstream outFS;
     outFS.open("output.txt");
-    outFS << "A: " << finaltotals[0] << endl;
-    outFS << "T: " << finaltotals[1] << endl;
-    outFS << "G: " << finaltotals[2] << endl;
-    outFS << "C: " << finaltotals[3] << endl;
+    outFS << "A " << finaltotals[0] << endl;
+    outFS << "T " << finaltotals[1] << endl;
+    outFS << "G " << finaltotals[2] << endl;
+    outFS << "C " << finaltotals[3] << endl;
     outFS.close();
   }
 }
