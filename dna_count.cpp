@@ -30,8 +30,17 @@ void Count::makeVector(int rank, int p) {
     {
       initial.push_back(c);
     }
+    //make initial to a size where it is cleanly divisible by p
     inFS.close();
-    dnaSize = (initial.size() / p) +1;
+    int toAdd = p - (initial.size() % p);
+    if(toAdd != 0)
+    {
+      for(int i = 0; i < toAdd; ++i)
+      {
+        initial.push_back(' ');
+      }
+    }
+    dnaSize = (initial.size() / p);
   }
 }
 
@@ -66,7 +75,7 @@ void Count::calcTotals(int rank, int p) {
   {
     finaltotals.resize(4);
   }
-  MPI_Gather(&totals[0], 4, MPI_INT, &finaltotals[0], 4, MPI_INT, 0, MPI_COMM_WORLD);
+  MPI_Reduce(&totals[0], &finaltotals[0], 4, MPI_INT, MPI_SUM, 0, MPI_COMM_WORLD); //make reduce
 }
 
 void Count::outputResults(int rank) {
