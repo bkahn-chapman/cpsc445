@@ -12,19 +12,19 @@ void test(char *a, char *b, int N) {
     if (i<N) {
         if(a[i] == 'A')
         {
-            b[i] == 'T';
+            b[i] = 'T';
         }
         if(a[i] == 'C')
         {
-            b[i] == 'G';
+            b[i] = 'G';
         }
         if(a[i] == 'G')
         {
-            b[i] == 'C';
+            b[i] = 'C';
         }
         if(a[i] == 'T')
         {
-            b[i] == 'A';
+            b[i] = 'A';
         }
     }
 }
