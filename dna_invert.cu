@@ -11,5 +11,6 @@ int main () {
     inFS.open("dna.txt");
     string dna;
     getline(inFS, dna);
-    cout << dna << endl;
+    int N = dna.length();
+    cout << N << endl;
 }
