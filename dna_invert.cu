@@ -46,7 +46,7 @@ int main () {
     test<<<N, 1>>>(da, db, N);
     cudaMemcpy(hb, db, N*sizeof(char), cudaMemcpyDeviceToHost);
     for (int i = 0; i<N; ++i) {
-        printf("%d\n", hb[i]);
+        cout << hb[i];
     }
     cudaFree(da);
     cudaFree(db);
