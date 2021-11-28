@@ -22,7 +22,8 @@ class Count {
     vector<string> triplets;
     vector<int> converted;
     vector<int> septriplets;
-
+    vector<int> totals;
+    vector<int> combtotals;
 };
 
 void Count::makeVector(int rank, int p) {
@@ -94,14 +95,72 @@ void Count::spreadValues(int rank, int p) {
 }
 
 void Count::calcTotals(int rank, int p) {
-  for(int i = 0; i < septriplets.size(); ++i)
+  for(int i = 0; i < 64; ++i)
   {
-    cout << rank << ", " << septriplets[i] << endl;
+    totals.push_back(0);
   }
+  char letts[] = {'A', 'T', 'G', 'C'};
+  string trips = "";
+  for(int t = 0; t < septriplets.size(); ++t)
+  {
+    int count = 0;
+    for(int i = 0; i < 4; ++i)
+    {
+      for(int j = 0; j < 4; ++j)
+      {
+        for(int k = 0; k < 4; ++k)
+        {
+          trips = "";
+          trips.push_back(letts[i]);
+          trips.push_back(letts[j]);
+          trips.push_back(letts[k]);
+          if(count == septriplets[t])
+          {
+            totals[count]++;
+          }
+          count++;
+        }
+      }
+    }
+  }
+  if(rank == 0)
+  {
+    for(int i = 0; i < 64; ++i)
+    {
+      combtotals.push_back(0);
+    }
+  }
+  MPI_Reduce(&totals[0], &combtotals[0], 64, MPI_INT, MPI_SUM, 0, MPI_COMM_WORLD);
 }
 
 void Count::outputResults(int rank) {
-  
+  if(rank == 0)
+  {
+    ofstream outFS;
+    outFS.open("output.txt");
+    char lett[] = {'A', 'T', 'G', 'C'};
+    string trip = "";
+    int count = 0;
+    for(int i = 0; i < 4; ++i)
+    {
+      for(int j = 0; j < 4; ++j)
+      {
+        for(int k = 0; k < 4; ++k)
+        {
+          trip = "";
+          trip.push_back(lett[i]);
+          trip.push_back(lett[j]);
+          trip.push_back(lett[k]);
+          if(combtotals[count] > 0)
+          {
+            outFS << trip << " " << combtotals[count] << endl;
+          }
+          count++;
+        }
+      }
+    }
+    outFS.close();
+  }
 }
 
 void Count::check_error(int status, const string message="MPI error") {
