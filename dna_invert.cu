@@ -6,6 +6,29 @@
 #include <array>
 using namespace std;
 
+__global__
+void test(char *a, char *b, int N) {
+    int i = blockIdx.x;
+    if (i<N) {
+        if(a[i] == 'A')
+        {
+            b[i] == 'T';
+        }
+        if(a[i] == 'C')
+        {
+            b[i] == 'G';
+        }
+        if(a[i] == 'G')
+        {
+            b[i] == 'C';
+        }
+        if(a[i] == 'T')
+        {
+            b[i] == 'A';
+        }
+    }
+}
+
 int main () {
     ifstream inFS;
     inFS.open("dna.txt");
@@ -19,9 +42,13 @@ int main () {
     for (int i = 0; i<N; ++i) {
         ha[i] = dna[i];
     }
-    for(int i = 0; i < ha.size(); ++i)
-    {
-        cout << ha[i];
+    cudaMemcpy(da, ha, N*sizeof(char), cudaMemcpyHostToDevice);
+    test<<<N, 1>>>(da, db, N);
+    cudaMemcpy(hb, db, N*sizeof(char), cudaMemcpyDeviceToHost);
+    for (int i = 0; i<N; ++i) {
+        printf("%d\n", hb[i]);
     }
-    cout << endl;
+    cudaFree(da);
+    cudaFree(db);
+    return 0;
 }
