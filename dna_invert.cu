@@ -26,6 +26,10 @@ void test(char *a, char *b, int N) {
         {
             b[i] = 'A';
         }
+        if(a[i] == 'X')
+        {
+            b[i] = 'X';
+        }
     }
 }
 
@@ -40,10 +44,10 @@ int main () {
     cudaMalloc((void **)&da, N*sizeof(char));
     cudaMalloc((void **)&db, N*sizeof(char));
     for (int i = 0; i<N; ++i) {
-        ha[i] = dna[i];
+        ha[i] = 'X';
     }
     cudaMemcpy(da, ha, N*sizeof(char), cudaMemcpyHostToDevice);
-    test<<<N, 1>>>(da, db, N*sizeof(char));
+    test<<<N, 1>>>(da, db, N);
     cudaMemcpy(hb, db, N*sizeof(char), cudaMemcpyDeviceToHost);
     ofstream outFS;
     outFS.open("output.txt");
