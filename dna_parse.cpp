@@ -22,13 +22,7 @@ class Count {
     vector<string> triplets;
     vector<int> converted;
     vector<int> septriplets;
-    vector<int> sepcountstrip;
-    vector<int> sepcounts;
-    vector<int> combtriplets;
-    vector<int> combcounts;
-    vector<int> finaltrips;
-    vector<int> finalcounts;
-    vector<string> tripletters;
+
 };
 
 void Count::makeVector(int rank, int p) {
@@ -102,103 +96,12 @@ void Count::spreadValues(int rank, int p) {
 void Count::calcTotals(int rank, int p) {
   for(int i = 0; i < septriplets.size(); ++i)
   {
-    if(sepcountstrip.size() == 0)
-    {
-      sepcountstrip.push_back(septriplets[i]);
-      sepcounts.push_back(1);
-    }
-    else
-    {
-      for(int j = 0; j < sepcountstrip.size(); ++j)
-      {
-        if(septriplets[i] == sepcountstrip[j])
-        {
-          sepcounts[j]++;
-          break;
-        }
-        sepcountstrip.push_back(septriplets[i]);
-        sepcounts.push_back(1);
-      }
-    }
-  }
-  if(rank == 0)
-  {
-    combtriplets.resize(dnaLength);
-    combcounts.resize(dnaLength);
-  }
-  MPI_Gather(&sepcountstrip[0], dnaSize, MPI_INT, &combtriplets[0], dnaSize, MPI_INT, 0, MPI_COMM_WORLD);
-  MPI_Gather(&sepcounts[0], dnaSize, MPI_INT, &combcounts[0], dnaSize, MPI_INT, 0, MPI_COMM_WORLD);
-  if(rank == 0)
-  {
-    for(int i = 0; i < combtriplets.size(); ++i)
-    {
-      if(combtriplets[i] != -1)
-      {
-        if(i == 0)
-        {
-          finaltrips.push_back(combtriplets[0]);
-          finalcounts.push_back(combcounts[0]);
-        }
-        else
-        {
-          vector<int>::iterator test;
-          test = find (finaltrips.begin(), finaltrips.end(), combtriplets[i]);
-          if (test != finaltrips.end())
-          {
-            for(int j = 0; j < finaltrips.size(); ++j)
-            {
-              if(finaltrips[j] == combtriplets[i])
-              {
-                finalcounts[j]++;
-              }
-            }
-          }
-          else
-          {
-            finaltrips.push_back(combtriplets[i]);
-            finalcounts.push_back(combcounts[i]);
-          }
-        }
-      }
-    }
-    char letts[] = {'A', 'T', 'G', 'C'};
-    for(int f = 0; f < finaltrips.size(); ++f)
-    {
-      int countf = 0;
-      string finaltest = "";
-      for(int i = 0; i < 4; ++i)
-      {
-        for(int j = 0; j < 4; ++j)
-        {
-          for(int k = 0; k < 4; ++k)
-          {
-            finaltest = "";
-            finaltest.push_back(letts[i]);
-            finaltest.push_back(letts[j]);
-            finaltest.push_back(letts[k]);
-            if(countf == finaltrips[f])
-            {
-              tripletters.push_back(finaltest);
-            }
-            countf++;
-          }
-        }
-      }
-    }
+    cout << rank << ", " << septriplets[i] << endl;
   }
 }
 
 void Count::outputResults(int rank) {
-  if(rank == 0)
-  {
-    ofstream outFS;
-    outFS.open("output.txt");
-    for(int i = 0; i < tripletters.size(); ++i)
-    {
-      outFS << tripletters[i] << " " << finalcounts[i] << endl;
-    }
-    outFS.close();
-  }
+  
 }
 
 void Count::check_error(int status, const string message="MPI error") {
