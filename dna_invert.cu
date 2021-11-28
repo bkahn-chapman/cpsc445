@@ -10,6 +10,7 @@ __global__
 void test(char *a, char *b, int N) {
     int i = blockIdx.x;
     if (i<N) {
+        cout << "test" << endl;
         if(a[i] == 'A')
         {
             b[i] = 'T';
@@ -47,7 +48,7 @@ int main () {
     cudaMemcpy(hb, db, N*sizeof(char), cudaMemcpyDeviceToHost);
     ofstream outFS;
     outFS.open("output.txt");
-    for(int i = 0; i < N; ++i)
+    for(int i = 0; i<N; ++i)
     {
       outFS << db[i];
     }
