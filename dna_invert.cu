@@ -43,7 +43,7 @@ int main () {
         ha[i] = dna[i];
     }
     cudaMemcpy(da, ha, N*sizeof(char), cudaMemcpyHostToDevice);
-    test<<<N, 1>>>(da, db, N);
+    test<<<N, 1>>>(da, db, N*sizeof(char));
     cudaMemcpy(hb, db, N*sizeof(char), cudaMemcpyDeviceToHost);
     ofstream outFS;
     outFS.open("output.txt");
