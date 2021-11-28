@@ -48,7 +48,7 @@ void Count::makeVector(int rank, int p) {
       }
     }
     string tripTest = "";
-    char letters[] = {'A', 'T', 'G', 'C'};
+    char letters[] = {'A', 'C', 'G', 'T'};
     for(int t = 0; t < triplets.size(); ++t)
     {
       int count = 0;
@@ -99,7 +99,7 @@ void Count::calcTotals(int rank, int p) {
   {
     totals.push_back(0);
   }
-  char letts[] = {'A', 'T', 'G', 'C'};
+  char letts[] = {'A', 'C', 'G', 'T'};
   string trips = "";
   for(int t = 0; t < septriplets.size(); ++t)
   {
@@ -138,7 +138,7 @@ void Count::outputResults(int rank) {
   {
     ofstream outFS;
     outFS.open("output.txt");
-    char lett[] = {'A', 'T', 'G', 'C'};
+    char lett[] = {'A', 'C', 'G', 'T'};
     string trip = "";
     int count = 0;
     for(int i = 0; i < 4; ++i)
