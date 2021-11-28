@@ -6,11 +6,9 @@
 #include <array>
 using namespace std;
 
-__global__
-
 int main () {
     ifstream inFS;
-    inFS.open("dna.txt")
+    inFS.open("dna.txt");
     string dna;
     getline(inFS, dna);
     cout << dna << endl;
