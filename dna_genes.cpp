@@ -117,22 +117,22 @@ void Count::calcTotals(int rank, int p) {
         trips.push_back(letts[i]);
         trips.push_back(letts[j]);
         trips.push_back(letts[k]);
-        if(trips == 'ATG')
+        if(trips == "ATG")
         {
           start = count;
           corrects++;
         }
-        else if (trips == 'TGA')
+        else if (trips == "TGA")
         {
           end1 = count;
           corrects++;
         }
-        else if (trips == 'TAG')
+        else if (trips == "TAG")
         {
           end2 = count;
           corrects++;
         }
-        else if (trips == 'TAA')
+        else if (trips == "TAA")
         {
           end3 = count;
           corrects++;
