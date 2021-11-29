@@ -172,15 +172,7 @@ void Count::outputResults(int rank) {
       {
         for(int k = 0; k < 4; ++k)
         {
-          trip = "";
-          trip.push_back(lett[i]);
-          trip.push_back(lett[j]);
-          trip.push_back(lett[k]);
-          if(combtotals[count] > 0)
-          {
-            outFS << trip << " " << combtotals[count] << endl;
-          }
-          count++;
+          
         }
       }
     }
