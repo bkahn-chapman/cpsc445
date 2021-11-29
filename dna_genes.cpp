@@ -152,6 +152,7 @@ void Count::calcTotals(int rank, int p) {
       sepends.push_back(first + i);
     }
     MPI_Reduce(&corrects, &totalCorrect, 1, MPI_INT, MPI_SUM, 0, MPI_COMM_WORLD); //make reduce
+    cout << totalCorrect << endl;
     MPI_Gatherv(&sepstarts[0], sepstarts.size(), MPI_INT, totalCorrect, 0, MPI_INT, 0, MPI_COMM_WORLD);
 }
 
