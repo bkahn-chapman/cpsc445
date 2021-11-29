@@ -36,7 +36,7 @@ int main () {
     getline(inFS, dna);
     inFS.close();
     int N = dna.length();
-    char ha[N]
+    char ha[N];
     int hb[4];
     char *da;
     int *db;
