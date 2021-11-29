@@ -55,7 +55,7 @@ int main () {
     char letters[] = {'A', 'C', 'G', 'T'};
     for(int i = 0; i<4; ++i)
     {
-      outFS << letters[i] <<  " " << hb[i];
+      outFS << letters[i] <<  " " << hb[i] << endl;
     }
     outFS.close();
     cudaFree(da);
