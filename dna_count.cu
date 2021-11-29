@@ -8,27 +8,23 @@ using namespace std;
 
 __global__
 void count(char *a, int *b, int N) {
-    int stride = blockDim.x * 2;
-    int tid = threadIdx.x;
-    for(int i=tid+W; i<N; i+=W)
-    {
-        if (i<N) {
-            if(a[i] == 'A')
-            {
-                b[tid]++;
-            }
-            if(a[i] == 'C')
-            {
-                b[tid]++;
-            }
-            if(a[i] == 'G')
-            {
-                b[tid]++;
-            }
-            if(a[i] == 'T')
-            {
-                b[tid]++;
-            }
+    int i = blockIdx.x;
+    if (i<N) {
+        if(a[i] == 'A')
+        {
+            b[0]++;
+        }
+        if(a[i] == 'C')
+        {
+            b[1]++;
+        }
+        if(a[i] == 'G')
+        {
+            b[2]++;
+        }
+        if(a[i] == 'T')
+        {
+            b[3]++;
         }
     }
 }
