@@ -26,10 +26,6 @@ void test(char *a, char *b, int N) {
         {
             b[i] = 'A';
         }
-        if(a[i] == 'X')
-        {
-            b[i] = 'X';
-        }
     }
 }
 
@@ -44,10 +40,7 @@ int main () {
     cudaMalloc((void **)&da, N*sizeof(char));
     cudaMalloc((void **)&db, N*sizeof(char));
     for (int i = 0; i<N; ++i) {
-        ha[i] = 'X';
-        hb[i] = 'X';
-        da[i] = 'X';
-        db[i] = 'X';
+        ha[i] = dna[i];
     }
     cudaMemcpy(da, ha, N*sizeof(char), cudaMemcpyHostToDevice);
     test<<<N, 1>>>(da, db, N);
@@ -56,7 +49,7 @@ int main () {
     outFS.open("output.txt");
     for(int i = 0; i<N; ++i)
     {
-      cout << db[i];
+      cout << hb[i];
     }
     outFS.close();
     cudaFree(da);
