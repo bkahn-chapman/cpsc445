@@ -34,6 +34,7 @@ int main () {
     inFS.open("dna.txt");
     string dna;
     getline(inFS, dna);
+    inFS.close();
     int N = dna.length();
     char ha[N];
     int hb[4];
@@ -48,8 +49,16 @@ int main () {
         hb[i] = 0;
     }
     cudaMemcpy(da, ha, N*sizeof(char), cudaMemcpyHostToDevice);
-    count<<<N, 1>>>(da, db, N);
-    cudaMemcpy(hb, db, 4*sizeof(int), cudaMemcpyDeviceToHost);
+    int W = 4;
+    count<<<1, W>>>(da, db, N);
+    cudaDeviceSynchronize();
+    int sums[4];
+    cudaMemcpy(sums, db, 4*sizeof(int), cudaMemcpyDeviceToHost);
+    int sum = 0;
+    for(int i = 0; i < W; ++i)
+    {
+        sums[i] += sums[i];
+    }
     ofstream outFS;
     outFS.open("output.txt");
     char letters[] = {'A', 'C', 'G', 'T'};

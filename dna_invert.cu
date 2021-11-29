@@ -34,6 +34,7 @@ int main () {
     inFS.open("dna.txt");
     string dna;
     getline(inFS, dna);
+    inFS.close();
     int N = dna.length();
     char ha[N], hb[N];
     char *da, *db;
