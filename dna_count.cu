@@ -38,7 +38,7 @@ int main () {
     int N = dna.length();
     char ha[N]
     int hb[4];
-    char *da
+    char *da;
     int *db;
     cudaMalloc((void **)&da, N*sizeof(char));
     cudaMalloc((void **)&db, N*sizeof(int));
