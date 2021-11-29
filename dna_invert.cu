@@ -49,7 +49,7 @@ int main () {
     outFS.open("output.txt");
     for(int i = 0; i<N; ++i)
     {
-      cout << hb[i];
+      outFS << hb[i];
     }
     outFS.close();
     cudaFree(da);
