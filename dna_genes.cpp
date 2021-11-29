@@ -152,10 +152,8 @@ void Count::calcTotals(int rank, int p) {
       sepends.push_back(first + i);
     }
   }
-  for(int i = 0; i < sepends.size(); ++i)
-  {
-    cout << rank << ": " << sepends[i] << endl;
-  }
+  //figure out how to gather sepstarts and sepends into starts and ends
+
 }
 
 void Count::outputResults(int rank) {
