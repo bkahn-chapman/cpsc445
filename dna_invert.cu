@@ -7,7 +7,7 @@
 using namespace std;
 
 __global__
-void test(char *a, char *b, int N) {
+void invert(char *a, char *b, int N) {
     int i = blockIdx.x;
     if (i<N) {
         if(a[i] == 'A')
@@ -43,7 +43,7 @@ int main () {
         ha[i] = dna[i];
     }
     cudaMemcpy(da, ha, N*sizeof(char), cudaMemcpyHostToDevice);
-    test<<<N, 1>>>(da, db, N);
+    invert<<<N, 1>>>(da, db, N);
     cudaMemcpy(hb, db, N*sizeof(char), cudaMemcpyDeviceToHost);
     ofstream outFS;
     outFS.open("output.txt");
