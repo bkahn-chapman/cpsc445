@@ -36,9 +36,9 @@ int main () {
     getline(inFS, dna);
     inFS.close();
     int N = dna.length();
-    char ha[N];
-    char *da;
-    int *hb = new int[4];
+    char ha[N]
+    int hb[4];
+    char *da
     int *db;
     cudaMalloc((void **)&da, N*sizeof(char));
     cudaMalloc((void **)&db, N*sizeof(int));
@@ -46,14 +46,16 @@ int main () {
         ha[i] = dna[i];
     }
     cudaMemcpy(da, ha, N*sizeof(char), cudaMemcpyHostToDevice);
-    cudaMemcpy(db, hb, N*sizeof(int), cudaMemcpyHostToDevice);
-    int W = 4;
-    count<<<1,W>>>(da, db, N);
-    cudaDeviceSynchronize();
-    int sums[4];
-    cudaMemcpy(sums, da, W*sizeof(int), cudaMemcpyDeviceToHost);
-    for(int i = 0; i < 4; ++i)
+    invert<<<N, 1>>>(da, db, N);
+    cudaMemcpy(hb, db, N*sizeof(int), cudaMemcpyDeviceToHost);
+    ofstream outFS;
+    outFS.open("output.txt");
+    for(int i = 0; i<N; ++i)
     {
-        cout << sums[i] << endl;
+      outFS << hb[i];
     }
+    outFS.close();
+    cudaFree(da);
+    cudaFree(db);
+    return 0;
 }
