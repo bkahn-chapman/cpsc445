@@ -152,9 +152,9 @@ void Count::calcTotals(int rank, int p) {
       sepends.push_back(first + i);
     }
   }
-  for(int i = 0; i < sepstarts.size(); ++i)
+  for(int i = 0; i < sepends.size(); ++i)
   {
-    cout << rank << ": " << sepstarts[i] << endl;
+    cout << rank << ": " << sepends[i] << endl;
   }
 }
 
