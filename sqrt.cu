@@ -13,6 +13,7 @@ int main () {
     getline(inFS, dna);
     inFS.close();
     ofstream outFS;
+    outFS.open("output.txt")
     outFS << dna;
     outFS.close();
 }
