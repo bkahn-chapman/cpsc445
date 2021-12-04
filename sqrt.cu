@@ -8,12 +8,12 @@ using namespace std;
 
 int main () {
     ifstream inFS;
-    inFS.open("input.txt");
+    inFS.open("input.csv");
     string dna;
     getline(inFS, dna);
     inFS.close();
     ofstream outFS;
-    outFS.open("output.txt");
+    outFS.open("output.csv");
     outFS << dna;
     outFS.close();
 }
