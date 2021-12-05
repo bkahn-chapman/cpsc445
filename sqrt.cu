@@ -36,7 +36,7 @@ int main () {
                 num.push_back(c);
             }
         }
-        cout << atof(num) << endl;
+        cout << atof(num.c_str()) << endl;
     }
     int N = nums.size();
     cout << N << endl;
