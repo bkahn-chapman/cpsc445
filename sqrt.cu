@@ -24,7 +24,7 @@ int main () {
     string line;
     while(getline(inFS, line))
     {
-        nums.push_back(line);
+        nums.push_back(stod(line));
     }
     int N = nums.size();
     cout << N << endl;
