@@ -11,6 +11,7 @@ int main () {
     ifstream inFS;
     inFS.open("input.csv");
     system("head input.csv");
+    vector<double> nums;
     string line;
     while(getline(inFS, line))
     {
@@ -19,7 +20,7 @@ int main () {
         {
             if(c == '\n')
             {
-                cout << num << endl;
+                nums.push_back(stod(num));
             }  
             else
             {
