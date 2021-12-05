@@ -10,12 +10,12 @@ using namespace std;
 int main () {
     ifstream inFS;
     inFS.open("input.csv");
-    vector<float> nums;
+    vector<double> nums;
     string num;
     while(!inFS.eof())
     {
         getline(inFS, num);
-        nums.push_back(stof(num));
+        nums.push_back(std::stod(num));
     }
     cout << nums.size() << endl;
 }
