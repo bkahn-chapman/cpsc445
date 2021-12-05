@@ -29,11 +29,11 @@ int main () {
         {
             if(isdigit(c) || c == '.')
             {
-                nums.push_back(atof(num.c_str()));
+                num.push_back(c);
             }  
             else
             {
-                num.push_back(c);
+                nums.push_back(atof(num.c_str()));
             }
         }
     }
