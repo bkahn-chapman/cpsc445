@@ -27,7 +27,6 @@ int main () {
         nums.push_back(stod(line));
     }
     int N = nums.size();
-    cout << N << endl;
     double ha[N], hb[N];
     double *da, *db;
     cudaMalloc((void **)&da, N*sizeof(double));
@@ -42,7 +41,6 @@ int main () {
     outFS.open("output.csv");
     for(int i = 0; i<N; ++i)
     {
-      cout << hb[i] << endl;
       outFS << hb[i] << endl;
     }
     outFS.close();
