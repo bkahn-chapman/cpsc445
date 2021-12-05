@@ -35,7 +35,7 @@ int main () {
                 num.push_back(c);
             }
         }
-        cout << num << endl;
+        cout << stod(num) << endl;
     }
     int N = nums.size();
     cout << N << endl;
