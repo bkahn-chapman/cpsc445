@@ -8,8 +8,9 @@
 #include <string>
 using namespace std;
 
-__shared__
+__global__
 void squareroot(double *a, double *b, int N) {
+    __shared__ vector<double> c = a;
     int i = blockIdx.x;
     if (i<N) {
         b[i] = sqrt(a[i]);
