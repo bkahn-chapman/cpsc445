@@ -27,6 +27,7 @@ int main () {
         string num = "";
         for(char &c : line)
         {
+            cout << c;
             if(isdigit(c) || c == '.')
             {
                 num.push_back(c);
