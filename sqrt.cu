@@ -12,7 +12,6 @@ void squareroot(double *a, double *b, int N) {
     int i = blockIdx.x;
     if (i<N) {
         b[i] = sqrt(a[i]);
-        cout << b[i] << endl;
     }
 }
 
@@ -52,7 +51,8 @@ int main () {
     outFS.open("output.csv");
     for(int i = 0; i<N; ++i)
     {
-      outFS << hb[i];
+      cout << hb[i] << endl;
+      outFS << hb[i] << endl;
     }
     outFS.close();
     cudaFree(da);
