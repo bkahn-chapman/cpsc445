@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <cmath>
 #include <array>
+#include <stream>
 using namespace std;
 
 int main () {
