@@ -15,7 +15,11 @@ int main () {
     while(!inFS.eof())
     {
         getline(inFS, num);
-        if(num != '\n')
+        if(num == "\n")
+        {
+            
+        }
+        else
         {
             float test = stof(num);
             cout << test << endl;
