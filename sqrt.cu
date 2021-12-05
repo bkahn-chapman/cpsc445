@@ -27,9 +27,8 @@ int main () {
         string num = "";
         for(char &c : line)
         {
-            if(c == '\n')
+            if(isdigit(c) || c == '.')
             {
-                cout << "test" << endl;
                 nums.push_back(atof(num.c_str()));
             }  
             else
