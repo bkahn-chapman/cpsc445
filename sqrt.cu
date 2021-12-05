@@ -15,8 +15,11 @@ int main () {
     while(!inFS.eof())
     {
         getline(inFS, num);
-        float test = stof(num);
-        cout << test << endl;
+        if(num != '\n')
+        {
+            float test = stof(num);
+            cout << test << endl;
+        }
     }
     cout << nums.size() << endl;
 }
