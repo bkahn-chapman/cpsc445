@@ -24,20 +24,7 @@ int main () {
     string line;
     while(getline(inFS, line))
     {
-        string num = "";
-        for(char &c : line)
-        {
-            cout << c;
-            if(isdigit(c) || c == '.')
-            {
-                num.push_back(c);
-            }  
-            else
-            {
-                nums.push_back(atof(num.c_str()));
-                cout << "test" << endl;
-            }
-        }
+        nums.push_back(line);
     }
     int N = nums.size();
     cout << N << endl;
