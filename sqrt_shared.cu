@@ -10,10 +10,10 @@ using namespace std;
 
 __global__
 void squareroot(double *a, double *b, int N) {
-    __shared__ vector<double> c = a;
+    __shared__ vector<double> *c = a;
     int i = blockIdx.x;
     if (i<N) {
-        b[i] = sqrt(a[i]);
+        b[i] = sqrt(c[i]);
     }
 }
 
