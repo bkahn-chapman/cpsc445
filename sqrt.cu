@@ -26,7 +26,6 @@ int main () {
         string num = "";
         for(char &c : line)
         {
-            cout << c << endl;
             if(c == '\n')
             {
                 nums.push_back(stod(num));
@@ -36,6 +35,7 @@ int main () {
                 num.push_back(c);
             }
         }
+        cout << num << endl;
     }
     int N = nums.size();
     cout << N << endl;
