@@ -12,7 +12,7 @@ int main () {
     inFS.open("input.csv");
     system("head input.csv");
     string line;
-    while(getline(inFS, line)
+    while(getline(inFS, line))
     {
         string num = "";
         for(char &c : line)
