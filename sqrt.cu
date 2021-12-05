@@ -10,20 +10,6 @@ using namespace std;
 int main () {
     ifstream inFS;
     inFS.open("input.csv");
-    vector<float> nums;
-    string num;
-    while(!inFS.eof())
-    {
-        getline(inFS, num);
-        if(num == "\n")
-        {
-            
-        }
-        else
-        {
-            float test = stof(num);
-            cout << test << endl;
-        }
-    }
-    cout << nums.size() << endl;
+    system("head input.csv");
+    
 }
