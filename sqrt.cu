@@ -29,7 +29,8 @@ int main () {
         {
             if(c == '\n')
             {
-                cout << atof(num.c_str()) << endl;
+                double test = atof(num.c_str());
+                cout << test << endl;
                 nums.push_back(atof(num.c_str()));
             }  
             else
