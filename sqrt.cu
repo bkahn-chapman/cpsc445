@@ -18,7 +18,7 @@ void squareroot(double *a, double *b, int N) {
 int main () {
     ifstream inFS;
     inFS.open("input.csv");
-    system("head input.csv");
+    //system("head input.csv");
     vector<double> nums;
     string line;
     while(getline(inFS, line))
@@ -37,6 +37,7 @@ int main () {
         }
     }
     int N = nums.size();
+    cout << N << endl;
     double ha[N], hb[N];
     double *da, *db;
     cudaMalloc((void **)&da, N*sizeof(double));
