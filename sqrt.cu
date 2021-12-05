@@ -26,9 +26,9 @@ int main () {
         string num = "";
         for(char &c : line)
         {
+            cout << c << endl;
             if(c == '\n')
             {
-                cout << num << endl;
                 nums.push_back(stod(num));
             }  
             else
