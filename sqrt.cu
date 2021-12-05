@@ -28,6 +28,7 @@ int main () {
         {
             if(c == '\n')
             {
+                cout << num << endl;
                 nums.push_back(stod(num));
             }  
             else
