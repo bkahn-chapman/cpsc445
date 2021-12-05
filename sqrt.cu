@@ -16,5 +16,5 @@ int main () {
         getline(inFS, num);
         nums.push_back(stof(num));
     }
-    cout << nums.length() << endl;
+    cout << nums.size() << endl;
 }
