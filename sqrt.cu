@@ -2,6 +2,7 @@
 #include <vector>
 #include <fstream>
 #include <stdio.h>
+#include <stdlib.h>
 #include <cmath>
 #include <array>
 #include <string>
@@ -35,7 +36,7 @@ int main () {
                 num.push_back(c);
             }
         }
-        cout << stod(num) << endl;
+        cout << atof(num) << endl;
     }
     int N = nums.size();
     cout << N << endl;
