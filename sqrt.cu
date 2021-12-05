@@ -48,7 +48,7 @@ int main () {
     squareroot<<<N, 1>>>(da, db, N);
     cudaMemcpy(hb, db, N*sizeof(char), cudaMemcpyDeviceToHost);
     ofstream outFS;
-    outFS.open("output.txt");
+    outFS.open("output.csv");
     for(int i = 0; i<N; ++i)
     {
       outFS << hb[i];
