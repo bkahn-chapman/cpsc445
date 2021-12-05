@@ -18,7 +18,7 @@ void squareroot(double *a, double *b, int N) {
 int main () {
     ifstream inFS;
     inFS.open("input.csv");
-    // system("head input.csv");
+    system("head input.csv");
     vector<double> nums;
     string line;
     while(getline(inFS, line))
