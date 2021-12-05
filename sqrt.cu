@@ -8,7 +8,7 @@
 using namespace std;
 
 __global__
-void sqrt(double *a, double *b, int N) {
+void squareroot(double *a, double *b, int N) {
     int i = blockIdx.x;
     if (i<N) {
         b[i] = sqrt(a[i]);
@@ -45,7 +45,7 @@ int main () {
         ha[i] = nums[i];
     }
     cudaMemcpy(da, ha, N*sizeof(char), cudaMemcpyHostToDevice);
-    invert<<<N, 1>>>(da, db, N);
+    squareroot<<<N, 1>>>(da, db, N);
     cudaMemcpy(hb, db, N*sizeof(char), cudaMemcpyDeviceToHost);
     ofstream outFS;
     outFS.open("output.txt");
