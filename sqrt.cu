@@ -44,9 +44,9 @@ int main () {
     for (int i = 0; i<N; ++i) {
         ha[i] = nums[i];
     }
-    cudaMemcpy(da, ha, N*sizeof(char), cudaMemcpyHostToDevice);
+    cudaMemcpy(da, ha, N*sizeof(double), cudaMemcpyHostToDevice);
     squareroot<<<N, 1>>>(da, db, N);
-    cudaMemcpy(hb, db, N*sizeof(char), cudaMemcpyDeviceToHost);
+    cudaMemcpy(hb, db, N*sizeof(double), cudaMemcpyDeviceToHost);
     ofstream outFS;
     outFS.open("output.csv");
     for(int i = 0; i<N; ++i)
