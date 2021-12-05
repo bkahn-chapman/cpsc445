@@ -34,6 +34,7 @@ int main () {
             else
             {
                 nums.push_back(atof(num.c_str()));
+                cout << "test" << endl;
             }
         }
     }
