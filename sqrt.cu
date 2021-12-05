@@ -10,7 +10,7 @@ int main () {
     ifstream inFS;
     inFS.open("input.csv");
     string test;
-    while(!inFS.eof)
+    while(!inFS.eof())
     {
         getline(inFS, test);
         cout << test << endl;
