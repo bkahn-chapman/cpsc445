@@ -26,6 +26,7 @@ int main () {
     {
         nums.push_back(stod(line));
     }
+    inFS.close();
     int N = nums.size();
     double ha[N], hb[N];
     double *da, *db;
