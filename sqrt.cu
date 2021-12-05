@@ -29,7 +29,7 @@ int main () {
         {
             if(c == '\n')
             {
-                cout << num << endl;
+                cout << "test" << endl;
                 nums.push_back(atof(num.c_str()));
             }  
             else
