@@ -12,6 +12,7 @@ void squareroot(double *a, double *b, int N) {
     int i = blockIdx.x;
     if (i<N) {
         b[i] = sqrt(a[i]);
+        cout << b[i] << endl;
     }
 }
 
