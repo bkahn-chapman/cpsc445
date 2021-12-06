@@ -32,6 +32,7 @@ int main () {
     double *da;
     __shared__ double hb[N];
     cudaMalloc((void **)&da, N*sizeof(double));
+    cudaMalloc((void **)&db, N*sizeof(double));
     for (int i = 0; i<N; ++i) {
         ha[i] = nums[i];
     }
