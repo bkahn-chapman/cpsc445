@@ -11,6 +11,7 @@ using namespace std;
 __global__
 void squareroot(double *a, int N) {
     __shared__ double *db;
+    cudaMalloc((void **)&db, N*sizeof(double));
     int i = blockIdx.x;
     if (i<N) {
         db[i] = sqrt(a[i]);
@@ -41,7 +42,7 @@ int main () {
     outFS.open("output.csv");
     for(int i = 0; i<N; ++i)
     {
-      outFS << hb[i] << endl;
+      outFS << db[i] << endl;
     }
     outFS.close();
     cudaFree(da);
