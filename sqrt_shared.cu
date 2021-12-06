@@ -45,6 +45,5 @@ int main () {
     }
     outFS.close();
     cudaFree(da);
-    cudaFree(db);
     return 0;
 }
