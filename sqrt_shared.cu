@@ -10,7 +10,8 @@ using namespace std;
 
 __global__
 void squareroot(double *a, int N) {
-    __shared__ double hb[N];
+    int t = N;
+    __shared__ double hb[t];
     int i = blockIdx.x;
     if (i<N) {
         hb[i] = sqrt(a[i]);
