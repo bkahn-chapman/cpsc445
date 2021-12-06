@@ -10,8 +10,6 @@ using namespace std;
 
 __global__
 void squareroot(double *a, int N) {
-    int t = N;
-    __shared__ double hb[t];
     int i = blockIdx.x;
     if (i<N) {
         hb[i] = sqrt(a[i]);
@@ -32,6 +30,7 @@ int main () {
     int N = nums.size();
     double ha[N];
     double *da;
+    __shared__ double hb[N];
     cudaMalloc((void **)&da, N*sizeof(double));
     for (int i = 0; i<N; ++i) {
         ha[i] = nums[i];
