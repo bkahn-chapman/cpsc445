@@ -9,12 +9,12 @@
 using namespace std;
 
 __global__
-void squareroot(double *a, int N) {
-    __shared__ double *db;
-    cudaMalloc((void **)&db, N*sizeof(double));
+void squareroot(double *a, double *b, int N) {
+    __shared__ int temp;
     int i = blockIdx.x;
     if (i<N) {
-        db[i] = sqrt(a[i]);
+        b[i] = sqrt(a[i]);
+        temp++;
     }
 }
 
@@ -30,21 +30,25 @@ int main () {
     }
     inFS.close();
     int N = nums.size();
-    double ha[N];
-    double *da;
+    double ha[N], hb[N];
+    double *da, *db;
     cudaMalloc((void **)&da, N*sizeof(double));
+    cudaMalloc((void **)&db, N*sizeof(double));
     for (int i = 0; i<N; ++i) {
         ha[i] = nums[i];
     }
     cudaMemcpy(da, ha, N*sizeof(double), cudaMemcpyHostToDevice);
-    squareroot<<<N, 1>>>(da, N);
+    squareroot<<<N, 1>>>(da, db, N);
+    cudaMemcpy(hb, db, N*sizeof(double), cudaMemcpyDeviceToHost);
     ofstream outFS;
     outFS.open("output.csv");
     for(int i = 0; i<N; ++i)
     {
-      outFS << db[i] << endl;
+      outFS << hb[i] << endl;
     }
+    cout << temp << endl;
     outFS.close();
     cudaFree(da);
+    cudaFree(db);
     return 0;
 }
