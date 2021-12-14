@@ -17,6 +17,9 @@ int main () {
     char c;
     while(inFS >> noskipws >> c)
     {
-        cout << c << endl;
+        if(c != ',')
+        {
+            cout << c;
+        }
     }
 }
