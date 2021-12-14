@@ -16,6 +16,7 @@ void squareroot(double *a, double *b, int N) {
         b[i] = sqrt(a[i]);
         temp++;
     }
+    __syncthreads();
 }
 
 int main () {
