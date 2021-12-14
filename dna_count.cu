@@ -9,29 +9,23 @@ using namespace std;
 __global__
 void count(char *a, int *b, int N) {
     int i = blockIdx.x;
-    __shared__ int share[4];
     if (i<N) {
         if(a[i] == 'A')
         {
-            share[0]++;
+            b[i] = 0;
         }
         if(a[i] == 'C')
         {
-            share[1]++;
+            b[i] = 1;
         }
         if(a[i] == 'G')
         {
-            share[2]++;
+            b[i] = 2;
         }
         if(a[i] == 'T')
         {
-            share[3]++;
+            b[i] = 3;
         }
-    }
-    __syncthreads();
-    for(int t = 0; t < 4; ++t)
-    {
-        b[t] = share[t];
     }
 }
 
@@ -51,16 +45,13 @@ int main () {
     for (int i = 0; i<N; ++i) {
         ha[i] = dna[i];
     }
-    for (int i = 0; i<N; ++i) {
-        cout << ha[i];
-    }
     cout << endl;
     cudaMemcpy(da, ha, N*sizeof(char), cudaMemcpyHostToDevice);
     count<<<N, 1>>>(da, db, N);
     cudaMemcpy(hb, db, N*sizeof(int), cudaMemcpyDeviceToHost);
     ofstream outFS;
     outFS.open("output.txt");
-    for(int i = 0; i<4; ++i)
+    for(int i = 0; i<hb.size(); ++i)
     {
       outFS << hb[i];
     }
