@@ -12,33 +12,32 @@ __global__
 void count(char *a, int *b, int N) {
     int i = blockIdx.x;
     __shared__ int share[4];
-    int test[4];
     for(int c = 0; c < 4; ++c)
     {
-        test[c] = 0;
+        share[c] = 0;
     }
     if (i<N) {
         if(a[i] == 'A')
         {
-            test[0]++;
+            share[0]++;
         }
         if(a[i] == 'C')
         {
-            test[1]++;
+            share[1]++;
         }
         if(a[i] == 'G')
         {
-            test[2]++;
+            share[2]++;
         }
         if(a[i] == 'T')
         {
-            test[3]++;
+            share[3]++;
         }
     }
     __syncthreads();
     for(int t = 0; t < 4; ++t)
     {
-        share[t] = test[t] + share[t];
+        b[t] = share[t];
     }
 }
 
