@@ -36,10 +36,9 @@ void count(char *a, int *b, int N) {
         }
     }
     __syncthreads();
-    cout << test[0] << " " << test[1] << " " << test[2] << " " << test[3] << endl;
     for(int t = 0; t < 4; ++t)
     {
-        b[t] = share[t];
+        share[t] = test[t] + share[t];
     }
 }
 
