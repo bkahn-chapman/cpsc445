@@ -19,7 +19,12 @@ int main () {
     {
         if(c != ',' && c != '\n')
         {
-            cout << c;
+            num.push_back(c);
+        }
+        else
+        {
+            nums.push_back(stoi(num));
+            num = "";
         }
     }
 }
