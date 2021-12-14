@@ -13,6 +13,10 @@ void count(char *a, int *b, int N) {
     int i = blockIdx.x;
     __shared__ int share[4];
     int test[4];
+    for(int c = 0; c < 4; ++c)
+    {
+        test[c] = 0;
+    }
     if (i<N) {
         if(a[i] == 'A')
         {
