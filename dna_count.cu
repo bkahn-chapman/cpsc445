@@ -37,13 +37,17 @@ int main () {
     inFS.close();
     int N = dna.length();
     char ha[N];
-    int hb[4];
+    int hb[N];
     char *da;
     int *db;
     cudaMalloc((void **)&da, N*sizeof(char));
     cudaMalloc((void **)&db, N*sizeof(int));
-    for (int i = 0; i<N; ++i) {
+    for(int i = 0; i<N; ++i) {
         ha[i] = dna[i];
+    }
+    for(int i = 0; i<N; ++i)
+    {
+        db[i] = 0;
     }
     cout << endl;
     cudaMemcpy(da, ha, N*sizeof(char), cudaMemcpyHostToDevice);
