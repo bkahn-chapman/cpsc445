@@ -15,7 +15,7 @@ int main () {
     vector<int> nums;
     string num;
     char c;
-    while(infs >> noskpws >> c)
+    while(inFS >> noskpws >> c)
     {
         cout << c << endl;
     }
