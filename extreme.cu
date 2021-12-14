@@ -29,6 +29,6 @@ int main () {
     }
     for(int i = 0; i < nums.size(); ++i)
     {
-        cout << nums[i] << endl;
+        cout << i/10 << ", " << i%10 << endl;
     }
 }
