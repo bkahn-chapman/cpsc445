@@ -33,7 +33,7 @@ void count(char *a, int *b, int N) {
     __syncthreads();
     for(int t = 0; t < 4; ++t)
     {
-        b[t] = shared[t];
+        b[t] = share[t];
     }
 }
 
@@ -60,7 +60,7 @@ int main () {
     outFS.open("output.txt");
     for(int i = 0; i<4; ++i)
     {
-      outFS << share[i];
+      outFS << hb[i];
     }
     outFS.close();
     cudaFree(da);
