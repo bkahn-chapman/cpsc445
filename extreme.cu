@@ -27,8 +27,11 @@ int main () {
             num = "";
         }
     }
+    /*
     for(int i = 0; i < nums.size(); ++i)
     {
         cout << i/10 << ", " << i%10 << ": " << nums[i] << endl;
     }
+    */
+   int N = nums.size();
 }
