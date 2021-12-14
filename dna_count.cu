@@ -45,11 +45,6 @@ int main () {
     for(int i = 0; i<N; ++i) {
         ha[i] = dna[i];
     }
-    for(int i = 0; i<N; ++i)
-    {
-        hb[i] = 0;
-    }
-    cout << endl;
     cudaMemcpy(da, ha, N*sizeof(char), cudaMemcpyHostToDevice);
     count<<<N, 1>>>(da, db, N);
     cudaMemcpy(hb, db, N*sizeof(int), cudaMemcpyDeviceToHost);
