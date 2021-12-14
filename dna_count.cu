@@ -6,16 +6,10 @@
 #include <array>
 using namespace std;
 
-//test
-
 __global__
 void count(char *a, int *b, int N) {
     int i = blockIdx.x;
     __shared__ int share[4];
-    for(int c = 0; c < 4; ++c)
-    {
-        share[c] = 0;
-    }
     if (i<N) {
         if(a[i] == 'A')
         {
