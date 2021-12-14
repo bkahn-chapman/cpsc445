@@ -17,5 +17,8 @@ int main () {
     getline(inFS, dna);
     int N = dna.length() / 3;
     string ha[N];
-    
+    for(int i = 0; i < ha.size(); ++i)
+    {
+        cout << ha[i] << endl;
+    }
 }
