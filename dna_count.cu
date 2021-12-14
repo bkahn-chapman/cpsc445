@@ -6,6 +6,8 @@
 #include <array>
 using namespace std;
 
+//test
+
 __global__
 void count(char *a, int *b, int N) {
     int i = blockIdx.x;
