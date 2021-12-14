@@ -44,13 +44,14 @@ int main () {
     cudaMalloc((void **)&db, N*sizeof(int));
     for(int i = 0; i<N; ++i) {
         ha[i] = dna[i];
+        hb[i] = 0;
     }
     cudaMemcpy(da, ha, N*sizeof(char), cudaMemcpyHostToDevice);
     count<<<N, 1>>>(da, db, N);
     cudaMemcpy(hb, db, N*sizeof(int), cudaMemcpyDeviceToHost);
     ofstream outFS;
     outFS.open("output.txt");
-    for(int i = 0; i<4; ++i)
+    for(int i = 0; i<N; ++i)
     {
       outFS << db[i];
     }
