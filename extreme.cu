@@ -12,4 +12,11 @@ int main () {
     ifstream inFS;
     inFS.open("input.csv");
     system("head input.csv");
+    vector<int> nums;
+    string num;
+    char c;
+    while(infs >> noskpws >> c)
+    {
+        cout << c << endl;
+    }
 }
