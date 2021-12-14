@@ -55,7 +55,7 @@ int main () {
     cudaMemcpy(hb, db, N*sizeof(int), cudaMemcpyDeviceToHost);
     ofstream outFS;
     outFS.open("output.txt");
-    for(int i = 0; i<db.size(); ++i)
+    for(int i = 0; i<4; ++i)
     {
       outFS << db[i];
     }
