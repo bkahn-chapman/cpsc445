@@ -30,6 +30,11 @@ void count(char *a, int *b, int N) {
             share[3]++;
         }
     }
+    __syncthreads();
+    for(int t = 0; t < 4; ++t)
+    {
+        b[t] = shared[t];
+    }
 }
 
 int main () {
