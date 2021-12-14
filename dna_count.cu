@@ -12,25 +12,27 @@ __global__
 void count(char *a, int *b, int N) {
     int i = blockIdx.x;
     __shared__ int share[4];
+    int test[4];
     if (i<N) {
         if(a[i] == 'A')
         {
-            share[0]++;
+            test[0]++;
         }
         if(a[i] == 'C')
         {
-            share[1]++;
+            test[1]++;
         }
         if(a[i] == 'G')
         {
-            share[2]++;
+            test[2]++;
         }
         if(a[i] == 'T')
         {
-            share[3]++;
+            test[3]++;
         }
     }
     __syncthreads();
+    cout << test[0] << " " << test[1] << " " << test[2] << " " << test[3] << endl;
     for(int t = 0; t < 4; ++t)
     {
         b[t] = share[t];
