@@ -47,7 +47,6 @@ int main () {
     {
       outFS << hb[i] << endl;
     }
-    cout << temp << endl;
     outFS.close();
     cudaFree(da);
     cudaFree(db);
