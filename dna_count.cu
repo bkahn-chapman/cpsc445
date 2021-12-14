@@ -47,7 +47,7 @@ int main () {
     }
     for(int i = 0; i<N; ++i)
     {
-        db[i] = 0;
+        hb[i] = 0;
     }
     cout << endl;
     cudaMemcpy(da, ha, N*sizeof(char), cudaMemcpyHostToDevice);
@@ -55,9 +55,9 @@ int main () {
     cudaMemcpy(hb, db, N*sizeof(int), cudaMemcpyDeviceToHost);
     ofstream outFS;
     outFS.open("output.txt");
-    for(int i = 0; i<hb.size(); ++i)
+    for(int i = 0; i<db.size(); ++i)
     {
-      outFS << hb[i];
+      outFS << db[i];
     }
     outFS.close();
     cudaFree(da);
