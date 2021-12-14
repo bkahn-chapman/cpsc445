@@ -1,0 +1,3 @@
+ATG 2
+TGA 1
+TAC 1
