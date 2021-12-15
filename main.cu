@@ -4,10 +4,8 @@
 #include <vector>
 using namespace std;
 
-extern __shared__ vector<int> overlaps;
-
 __global__
-void getOverlaps(double *m, double *s, double *n, int S)
+void getOverlaps(double *m, double *s, double *n, double *o, int S)
 {
     int i = blockIdx.x;
     if(i < S) {
@@ -21,7 +19,7 @@ int main () {
     vector<double> max_min;
     vector<double> sizes;
     vector<double> nums;
-    // vector<int> overlaps;
+    vector<double> overlaps;
     string line;
     while(getline(inFS, line))
     {
@@ -117,13 +115,19 @@ int main () {
     int M = max_min.size();
     int N = nums.size();
     int S = sizes.size();
-    // int O = overlaps.size();
-    double hm[M], hn[N], hs[S];
-    double *dm, *dn, *ds;
+    int p = 0;
+    for(int i = 1; i < S; ++i)
+    {
+        p = p + i;
+    }
+    cout << p << endl;
+    int O = overlaps.size();
+    double hm[M], hn[N], hs[S], hO[O];
+    double *dm, *dn, *ds, *hO;
     cudaMalloc((void **)&dm, N*sizeof(double));
     cudaMalloc((void **)&dn, N*sizeof(double));
     cudaMalloc((void **)&ds, N*sizeof(double));
-    // cudaMalloc((void **)&dO, N*sizeof(int));
+    cudaMalloc((void **)&dO, N*sizeof(double));
     for (int i = 0; i<N; ++i) {
         hn[i] = nums[i];
     }
@@ -133,11 +137,9 @@ int main () {
     for (int i = 0; i<S; ++i) {
         hs[i] = sizes[i];
     }
-    /*
     for (int i = 0; i<O; ++i) {
         hO[i] = overlaps[i];
     }
-    */
     cudaMemcpy(dm, hm, M*sizeof(double), cudaMemcpyHostToDevice);
     cudaMemcpy(dn, hn, N*sizeof(double), cudaMemcpyHostToDevice);
     cudaMemcpy(ds, hs, S*sizeof(double), cudaMemcpyHostToDevice);
