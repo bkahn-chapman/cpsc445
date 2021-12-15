@@ -42,7 +42,6 @@ int main () {
                         }
                         else
                         {
-                            cout << numX << endl;
                             double testX = atof(numX.c_str());
                             if(testX > max_x)
                             {
@@ -84,6 +83,7 @@ int main () {
                         if(XorY == 0)
                         {
                             numX.push_back(line[t]);
+                            cout << numX << endl;
                         }
                         else
                         {
