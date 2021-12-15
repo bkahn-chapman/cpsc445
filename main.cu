@@ -30,8 +30,6 @@ int main () {
         {
             if(line[i] == '(')
             {
-                string numX = "";
-                string numY = "";
                 for(int t = i+1; t < line.length()-1; ++t)
                 {
                     if(line[t] == ',')
@@ -101,7 +99,7 @@ int main () {
     }
     for(int i = 0; i < max_min.size(); ++i)
     {
-        if(i/0 == 0)
+        if(i%4 == 0)
         {
             cout << endl;
         }
