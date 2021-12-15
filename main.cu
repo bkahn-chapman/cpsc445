@@ -66,6 +66,7 @@ int main () {
                         else
                         {
                             double testY = atof(numY.c_str());;
+                            cout << testY << endl;
                             if(testY > max_y)
                             {
                                 max_y = testY;
