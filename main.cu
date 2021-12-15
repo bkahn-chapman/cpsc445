@@ -22,7 +22,14 @@ int main () {
         polygons.push_back(line);
     }
     int N = polygons.size();
-    cudaMemcpy(N, cudaMemcpyHostToDevice);
+    vector<string> ha;
+    vecor<string> *da;
+    cudaMalloc((void **)&da, N*sizeof(string));
+    for(int i = 0; i<N; ++i)
+    {
+        ha[i] = polygons[i];
+    }
+    cudaMemcpy(ha, N*sizeof(string), cudaMemcpyHostToDevice);
     find_corners<<<N, 1>>>(N);
-    cudaMemcpy(N, cudaMemcpyDeviceToHost);
+    cudaMemcpy(hb, N, cudaMemcpyDeviceToHost);
 }
