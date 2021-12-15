@@ -7,9 +7,12 @@ using namespace std;
 extern __shared__ vector<int> overlaps;
 
 __global__
-void getOverlaps(double *m, double *s, double *n, int N)
+void getOverlaps(double *m, double *s, double *n, int S)
 {
     int i = blockIdx.x;
+    if(i < S) {
+        overlaps.push_back(s[i]);
+    }
 }
 
 int main () {
