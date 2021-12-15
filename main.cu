@@ -97,4 +97,5 @@ int main () {
         max_min.push_back(max_y);
         max_min.push_back(min_y);
     }
+    cout << max_min.size() << endl;
 }
