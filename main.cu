@@ -13,25 +13,19 @@ void find_corners(string *a, int *b, int N)
 int main () {
     ifstream inFS;
     inFS.open("input.txt");
-    vector<string> polygons;
+    vector<double> max_min;
     string line;
     while(getline(inFS, line))
     {
-        polygons.push_back(line);
+        int max_x = 0;
+        int min_x = 0;
+        int max_y = 0;
+        int min_y = 0;
+        int checkFirst = 0;
+        for(char& c : line)
+        {
+            cout << c;
+        }
     }
-    int N = polygons.size();
-    vector<string> ha;
-    double hb[N*4];
-    vector<string> *da;
-    double *db;
-    cudaMalloc((void **)&da, N*sizeof(string));
-    cudaMalloc((void **)&db, N*sizeof(int));
-    for(int i = 0; i<N; ++i)
-    {
-        ha[i] = polygons[i];
-        cout << ha[i] << endl;
-    }
-    cudaMemcpy(da, ha, N*sizeof(string), cudaMemcpyHostToDevice);
-    find_corners<<<N, 1>>>(da, db, N);
-    cudaMemcpy(hb, db, N*sizeof(double), cudaMemcpyDeviceToHost);
+   
 }
