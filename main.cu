@@ -6,7 +6,7 @@ using namespace std;
 
 int main () {
     ifstream inFS;
-    inFS.open("input.csv");
+    inFS.open("input.txt");
     vector<string> polygons;
     string line;
     while(getline(inFS, line))
