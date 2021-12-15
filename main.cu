@@ -16,6 +16,7 @@ int main () {
     vector<double> max_min;
     vector<int> sizes;
     vector<double> nums;
+    vector<int> overlaps;
     string line;
     while(getline(inFS, line))
     {
@@ -107,8 +108,33 @@ int main () {
         max_min.push_back(max_y);
         max_min.push_back(min_y);
     }
-    for(int i = 0; i < nums.size(); ++i)
-    {
-        cout << nums[i] << " ";
+    vector<double> max_min;
+    vector<int> sizes;
+    vector<double> nums;
+    vector<int> overlaps;
+    inFS.close();
+    int M = max_min.size();
+    int N = nums.size();
+    int S = sizes.size();
+    int O = overlaps.size();
+    vector<double> hm[M], hn[N];
+    vector<int> hs[S], hO[O];
+    double *dm, *dn;
+    int *ds, *dO;
+    cudaMalloc((void **)&dm, N*sizeof(double));
+    cudaMalloc((void **)&dn, N*sizeof(double));
+    cudaMalloc((void **)&ds, N*sizeof(int));
+    cudaMalloc((void **)&dO, N*sizeof(int));
+    for (int i = 0; i<N; ++i) {
+        hn[i] = nums[i];
+    }
+    for (int i = 0; i<M; ++i) {
+        hm[i] = max_min[i];
+    }
+    for (int i = 0; i<S; ++i) {
+        hs[i] = sizes[i];
+    }
+    for (int i = 0; i<O; ++i) {
+        hO[i] = overlaps[i];
     }
 }
