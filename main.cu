@@ -30,7 +30,7 @@ int main () {
             {
                 num.push_back(line[i+1]);
             }
-            else if(line[i+1] == ',')
+            else if(line[i+1] == ',' && line[i+2] != '(')
             {
                 double xCheck = stod(num);
                 cout << xCheck << endl;
