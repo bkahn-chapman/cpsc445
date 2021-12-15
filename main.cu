@@ -32,7 +32,7 @@ int main () {
             {
                 for(int t = i; t < line.length()-1; ++t)
                 {
-                    if(t[i] == ',')
+                    if(line[t] == ',')
                     {
                         if(checkFirstX == 0)
                         {
@@ -54,7 +54,7 @@ int main () {
                         numX = "";
                         XorY = 1;
                     }
-                    else if(t[i] == ')')
+                    else if(line[t] == ')')
                     {
                         if(checkFirstY == 0)
                         {
@@ -80,11 +80,11 @@ int main () {
                     {
                         if(XorY == 0)
                         {
-                            numX.append(t[i]);
+                            numX.append(line[t]);
                         }
                         else
                         {
-                            numY.append(t[i]);
+                            numY.append(line[t]);
                         }
                     }
                 }
