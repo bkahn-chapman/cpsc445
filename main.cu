@@ -36,8 +36,8 @@ int main () {
                     {
                         if(checkFirstX == 0)
                         {
+                            cout << numX << endl;
                             max_x = atof(numX.c_str());
-                            cout << max_x << endl;
                             min_x = atof(numX.c_str());
                             checkFirstX = 1;
                         }
