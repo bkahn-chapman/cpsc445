@@ -28,7 +28,7 @@ int main () {
         int XorY = 0;
         for(int i = 0; i < line.length()-1; ++i)
         {
-            if(line[i] = '(')
+            if(line[i] == '(')
             {
                 for(int t = i; t < line.length()-1; ++t)
                 {
@@ -44,11 +44,11 @@ int main () {
                         {
                             if(stod(numX) > max_x)
                             {
-                                max_x = numX;
+                                max_x = stod(numX);
                             }
-                            else if(stod(numX < min_x))
+                            else if(stod(numX) < min_x))
                             {
-                                min_x = numX;
+                                min_x = stod(numX);
                             }
                         }
                         numX = "";
@@ -66,11 +66,11 @@ int main () {
                         {
                             if(stod(numY) > max_y)
                             {
-                                max_y = numY;
+                                max_y = stod(numY);
                             }
-                            else if(stod(numY < min_y))
+                            else if(stod(numY) < min_y))
                             {
-                                min_y = numY;
+                                min_y = stod(numY);
                             }
                         }
                         numY = "";
