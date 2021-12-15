@@ -42,13 +42,14 @@ int main () {
                         }
                         else
                         {
-                            if(stod(numX) > max_x)
+                            test = stod(numX);
+                            if(test > max_x)
                             {
-                                max_x = stod(numX);
+                                max_x = test;
                             }
-                            else if(stod(numX) < min_x)
+                            else if(test < min_x)
                             {
-                                min_x = stod(numX);
+                                min_x = test;
                             }
                         }
                         numX = "";
@@ -64,13 +65,14 @@ int main () {
                         }
                         else
                         {
-                            if(stod(numY) > max_y)
+                            testY = stod(numY);
+                            if(testY > max_y)
                             {
-                                max_y = stod(numY);
+                                max_y = testY;
                             }
-                            else if(stod(numY) < min_y)
+                            else if(testY < min_y)
                             {
-                                min_y = stod(numY);
+                                min_y = testY;
                             }
                         }
                         numY = "";
