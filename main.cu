@@ -92,5 +92,9 @@ int main () {
                 }
             }
         }
+        max_min.push_back(max_x);
+        max_min.push_back(min_x);
+        max_min.push_back(max_y);
+        max_min.push_back(min_y);
     }
 }
