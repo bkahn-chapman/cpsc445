@@ -14,6 +14,7 @@ int main () {
     ifstream inFS;
     inFS.open("input.txt");
     vector<double> max_min;
+    vector<double> sizes;
     string line;
     while(getline(inFS, line))
     {
@@ -30,6 +31,7 @@ int main () {
         {
             if(line[i] == '(')
             {
+                cout << "test" << endl;
                 for(int t = i+1; t < line.length(); ++t)
                 {
                     if(line[t] == ',')
@@ -98,12 +100,5 @@ int main () {
         max_min.push_back(max_y);
         max_min.push_back(min_y);
     }
-    for(int i = 0; i < max_min.size(); ++i)
-    {
-        if(i%4 == 0)
-        {
-            cout << endl;
-        }
-        cout << max_min[i] << " ";
-    }
+    
 }
