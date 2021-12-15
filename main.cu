@@ -4,10 +4,8 @@
 #include <vector>
 using namespace std;
 
-extern vector<int> corners;
-
 __global__
-void find_corners(int N)
+void find_corners(string *a, int N)
 {
     corners.push_back(N);
 }
@@ -30,6 +28,6 @@ int main () {
         ha[i] = polygons[i];
     }
     cudaMemcpy(ha, N*sizeof(string), cudaMemcpyHostToDevice);
-    find_corners<<<N, 1>>>(N);
+    find_corners<<<N, 1>>>(ha, N);
     cudaMemcpy(hb, N, cudaMemcpyDeviceToHost);
 }
