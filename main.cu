@@ -24,7 +24,10 @@ int main () {
         int checkFirst = 0;
         for(char& c : line)
         {
-            cout << c;
+            if(c != '(' && c != ',' && c != ')')
+            {
+                cout << c;
+            }
         }
     }
    
