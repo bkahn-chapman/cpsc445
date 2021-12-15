@@ -30,7 +30,7 @@ int main () {
         {
             if(line[i] == '(')
             {
-                for(int t = i; t < line.length()-1; ++t)
+                for(int t = i+1; t < line.length()-1; ++t)
                 {
                     if(line[t] == ',')
                     {
