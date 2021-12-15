@@ -22,12 +22,18 @@ int main () {
         double min_x = 0;
         double max_y = 0;
         double min_y = 0;
-        int checkFirst = 0;
+        int checkFirstX = 0;
+        int checkFirstY = 0;
         for(int i = 0; i < line.length()-1; ++i)
         {
             if(line[i+1] != '(' && line[i+1] != ',' && line[i+1] != ')')
             {
                 num.push_back(line[i+1]);
+            }
+            else if(line[i+1] == ',')
+            {
+                double xCheck = stod(num);
+                cout << xCheck << endl;
             }
         }
     }
