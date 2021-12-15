@@ -80,11 +80,11 @@ int main () {
                     {
                         if(XorY == 0)
                         {
-                            numX.append(line[t]);
+                            numX.push_back(line[t]);
                         }
                         else
                         {
-                            numY.append(line[t]);
+                            numY.push_back(line[t]);
                         }
                     }
                 }
