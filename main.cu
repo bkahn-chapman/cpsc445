@@ -7,7 +7,7 @@ using namespace std;
 extern __shared__ vector<int> overlaps;
 
 __global__
-void find_corners(double *m, int *s, double *n, int N)
+void getOverlaps(double *m, int *s, double *n, int N)
 {
     
 }
@@ -140,4 +140,5 @@ int main () {
     cudaMemcpy(dm, hm, M*sizeof(double), cudaMemcpyHostToDevice);
     cudaMemcpy(dn, hn, N*sizeof(double), cudaMemcpyHostToDevice);
     cudaMemcpy(ds, hs, S*sizeof(int), cudaMemcpyHostToDevice);
+    getOverlaps<<<S, 1>>>(dm, ds, dn, S);
 }
