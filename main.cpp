@@ -1,3 +1,4 @@
+#include <mpi.h>
 #include <string>
 #include <fstream>
 #include <iostream>
