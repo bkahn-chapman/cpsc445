@@ -27,7 +27,7 @@ int main () {
         {
             if(line[i+1] != '(' && line[i+1] != ',' && line[i+1] != ')')
             {
-                cout << line[i];
+                cout << line[i+1];
             }
         }
     }
