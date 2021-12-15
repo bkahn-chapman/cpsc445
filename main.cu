@@ -46,7 +46,7 @@ int main () {
                             {
                                 max_x = stod(numX);
                             }
-                            else if(stod(numX) < min_x))
+                            else if(stod(numX) < min_x)
                             {
                                 min_x = stod(numX);
                             }
@@ -68,7 +68,7 @@ int main () {
                             {
                                 max_y = stod(numY);
                             }
-                            else if(stod(numY) < min_y))
+                            else if(stod(numY) < min_y)
                             {
                                 min_y = stod(numY);
                             }
