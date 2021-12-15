@@ -7,7 +7,11 @@ using namespace std;
 __global__
 void getOverlaps(double *m, double *s, double *n, double *o, int M, int N, int S, int O)
 {
-
+    int i = blockIdx.x;
+    if(i < S)
+    {
+        o[i] = S;
+    }
 }
 
 int main () {
@@ -141,4 +145,5 @@ int main () {
     cudaMemcpy(ds, hs, S*sizeof(double), cudaMemcpyHostToDevice);
     cudaMemcpy(dO, hO, O*sizeof(double), cudaMemcpyHostToDevice);
     getOverlaps<<<S, 1>>>(dm, ds, dn, dO, M, S, N, O);
+    cudaMemcpy(hO, dO, O*sizeof(double), cudaMemcpyDeviceToHost);
 }
