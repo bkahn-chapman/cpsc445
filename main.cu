@@ -4,7 +4,7 @@
 #include <vector>
 using namespace std;
 
-extern __shared__ vector<int> corners;
+extern vector<int> corners;
 
 __global__
 void find_corners(int N)
@@ -22,5 +22,7 @@ int main () {
         polygons.push_back(line);
     }
     int N = polygons.size();
+    cudaMemcpy(N, cudaMemcpyHostToDevice);
     find_corners<<<N, 1>>>(N);
+    cudaMemcpy(N, cudaMemcpyDeviceToHost);
 }
