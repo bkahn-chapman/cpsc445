@@ -23,12 +23,9 @@ int main () {
         double max_y = 0;
         double min_y = 0;
         int checkFirst = 0;
-        for(char& c : line)
+        for(int i = 0; i < line.length(); ++i)
         {
-            if(c != '(' && c != ',' && c != ')')
-            {
-                cout << c;
-            }
+            cout << line[i];
         }
     }
    
