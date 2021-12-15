@@ -36,6 +36,6 @@ int main () {
                 cout << xCheck << endl;
             }
         }
+        num = "";
     }
-   
 }
