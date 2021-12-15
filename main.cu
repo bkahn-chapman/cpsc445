@@ -4,6 +4,14 @@
 #include <vector>
 using namespace std;
 
+extern __shared__ vector<int> corners;
+
+__global__
+void find_corners(int N)
+{
+    corners.push_back(N);
+}
+
 int main () {
     ifstream inFS;
     inFS.open("input.txt");
@@ -13,8 +21,6 @@ int main () {
     {
         polygons.push_back(line);
     }
-    for(int i = 0; i < polygons.size(); ++i)
-    {
-        cout << polygons[i] << endl;
-    }
+    int N = polygons.size();
+    find_corners<<<N, 1>>>(N);
 }
