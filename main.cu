@@ -140,5 +140,6 @@ int main () {
     cudaMemcpy(dm, hm, M*sizeof(double), cudaMemcpyHostToDevice);
     cudaMemcpy(dn, hn, N*sizeof(double), cudaMemcpyHostToDevice);
     cudaMemcpy(ds, hs, S*sizeof(double), cudaMemcpyHostToDevice);
-    getOverlaps<<<S, 1>>>(dm, ds, dn, S);
+    cudaMemcpy(dO, hO, O*sizeof(double), cudaMemcpyHostToDevice);
+    getOverlaps<<<S, 1>>>(dm, ds, dn, dO, S);
 }
