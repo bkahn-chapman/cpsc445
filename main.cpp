@@ -6,12 +6,20 @@ using namespace std;
 
 class Overlap {
     public:
+        void check_error(int status, const string message);
         void makeVectors(int rank);
         vector<double> max_min;
         vector<double> sizes;
         vector<double> nums;
         vector<double> overlaps;
 };
+
+void Overlap::check_error(int status, const string message="MPI error") {
+  if ( status != 0 ) {    
+    cerr << "Error: " << message << endl;
+    exit(1);
+  }
+}
 
 void Overlap::makeVectors(int rank) {
     if(rank == 0)
@@ -112,6 +120,8 @@ void Overlap::makeVectors(int rank) {
         inFS.close();
     }
 }
+
+
 
 int main (int argc, char *argv[]) {
     int rank;
