@@ -119,10 +119,9 @@ int main () {
     }
     for(int i = 0; i < p*2; ++i)
     {
-        overlaps[i] = 0;
+        cout << i << endl;
     }
     int O = overlaps.size();
-    cout << O << endl;
     double hm[M], hn[N], hs[S], hO[O];
     double *dm, *dn, *ds, *dO;
     cudaMalloc((void **)&dm, N*sizeof(double));
