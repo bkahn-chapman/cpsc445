@@ -7,10 +7,10 @@ using namespace std;
 __global__
 void getOverlaps(double *m, double *s, double *n, double *o, int M, int N, int S, int O)
 {
-    o[0] = m.size();
-    o[1] = s.size();
-    o[2] = n.size();
-    o[3] = o.size();
+    o[0] = m;
+    o[1] = s;
+    o[2] = n;
+    o[3] = o;
 }
 
 int main () {
