@@ -32,7 +32,6 @@ int main () {
             {
                 for(int t = i+1; t < line.length()-1; ++t)
                 {
-                    cout << line[t] << endl;
                     if(line[t] == ',')
                     {
                         if(checkFirstX == 0)
@@ -78,6 +77,7 @@ int main () {
                         }
                         numY = "";
                         XorY = 0;
+                        break;
                     }
                     else
                     {
