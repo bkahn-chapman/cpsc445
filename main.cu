@@ -5,9 +5,9 @@
 using namespace std;
 
 __global__
-void find_corners(string *a, int N)
+void find_corners(string *a, int *b, int N)
 {
-    corners.push_back(N);
+    
 }
 
 int main () {
@@ -21,13 +21,17 @@ int main () {
     }
     int N = polygons.size();
     vector<string> ha;
-    vecor<string> *da;
+    double hb[N*4];
+    vector<string> *da;
+    double *db;
     cudaMalloc((void **)&da, N*sizeof(string));
+    cudaMalloc((void **)&db, N*sizeof(int));
     for(int i = 0; i<N; ++i)
     {
         ha[i] = polygons[i];
     }
-    cudaMemcpy(ha, N*sizeof(string), cudaMemcpyHostToDevice);
-    find_corners<<<N, 1>>>(ha, N);
-    cudaMemcpy(hb, N, cudaMemcpyDeviceToHost);
+    cout << ha[i] << endl;
+    cudaMemcpy(da, ha, N*sizeof(string), cudaMemcpyHostToDevice);
+    find_corners<<<N, 1>>>(da, db, N);
+    cudaMemcpy(hb, db, N*sizeof(int), cudaMemcpyDeviceToHost);
 }
