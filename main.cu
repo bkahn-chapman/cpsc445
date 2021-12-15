@@ -98,8 +98,4 @@ int main () {
         max_min.push_back(max_y);
         max_min.push_back(min_y);
     }
-    for(int i = 0; i < max_min.size(); ++i)
-    {
-        cout << max_min[i] << endl;
-    }
 }
