@@ -37,7 +37,6 @@ int main () {
                         if(checkFirstX == 0)
                         {
                             max_x = atof(numX.c_str());
-                            cout << max_x << endl;
                             min_x = atof(numX.c_str());
                             checkFirstX = 1;
                         }
@@ -97,5 +96,9 @@ int main () {
         max_min.push_back(min_x);
         max_min.push_back(max_y);
         max_min.push_back(min_y);
+    }
+    for(int i = 0; i < max_min.size(); ++i)
+    {
+        cout << max_min[i] << endl;
     }
 }
