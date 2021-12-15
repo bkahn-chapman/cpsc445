@@ -27,7 +27,7 @@ int main () {
         {
             if(line[i+1] != '(' && line[i+1] != ',' && line[i+1] != ')')
             {
-                cout << line[i+1];
+                num.push_back(line[i+1]);
             }
         }
     }
