@@ -146,7 +146,7 @@ int main () {
     cudaMemcpy(dO, hO, O*sizeof(double), cudaMemcpyHostToDevice);
     getOverlaps<<<S, 1>>>(dm, ds, dn, dO, M, S, N, O);
     cudaMemcpy(hO, dO, O*sizeof(double), cudaMemcpyDeviceToHost);
-    for(int i = 0; i < hO.size(); ++i)
+    for(int i = 0; i < O; ++i)
     {
         cout << hO[i] << endl;
     }
