@@ -17,7 +17,6 @@ int main () {
     string line;
     while(getline(inFS, line))
     {
-        line.push_back(" ");
         string num;
         double max_x = 0;
         double min_x = 0;
