@@ -113,8 +113,8 @@ int main () {
     int N = nums.size();
     int S = sizes.size();
     int O = overlaps.size();
-    vector<double> hm[M], hn[N];
-    vector<int> hs[S], hO[O];
+    double hm[M], hn[N];
+    int hs[S], hO[O];
     double *dm, *dn;
     int *ds, *dO;
     cudaMalloc((void **)&dm, N*sizeof(double));
