@@ -27,11 +27,11 @@ int main () {
         int checkFirstX = 0;
         int checkFirstY = 0;
         int XorY = 0;
+        int pairs = 0;
         for(int i = 0; i < line.length()-1; ++i)
         {
             if(line[i] == '(')
             {
-                cout << "test" << endl;
                 for(int t = i+1; t < line.length(); ++t)
                 {
                     if(line[t] == ',')
@@ -79,6 +79,7 @@ int main () {
                         }
                         numY = "";
                         XorY = 0;
+                        pairs++;
                         break;
                     }
                     else
@@ -95,10 +96,14 @@ int main () {
                 }
             }
         }
+        sizes.push_back(pairs);
         max_min.push_back(max_x);
         max_min.push_back(min_x);
         max_min.push_back(max_y);
         max_min.push_back(min_y);
     }
-    
+    for(int i = 0; i < sizes.size(); ++i)
+    {
+        cout << sizes[i] << endl;
+    }
 }
