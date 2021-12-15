@@ -23,7 +23,7 @@ int main () {
         double max_y = 0;
         double min_y = 0;
         int checkFirst = 0;
-        for(int i = 1; i < line.length()-1; ++i)
+        for(int i = 0; i < line.length()-1; ++i)
         {
             if(line[i+1] != '(' && line[i+1] != ',' && line[i+1] != ')')
             {
