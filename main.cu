@@ -14,7 +14,8 @@ int main () {
     ifstream inFS;
     inFS.open("input.txt");
     vector<double> max_min;
-    vector<double> sizes;
+    vector<int> sizes;
+    vector<double> nums;
     string line;
     while(getline(inFS, line))
     {
@@ -40,6 +41,7 @@ int main () {
                         {
                             max_x = atof(numX.c_str());
                             min_x = atof(numX.c_str());
+                            nums.push_back(max_x);
                             checkFirstX = 1;
                         }
                         else
@@ -53,6 +55,7 @@ int main () {
                             {
                                 min_x = testX;
                             }
+                            nums.push_back(testX);
                         }
                         numX = "";
                         XorY = 1;
@@ -61,8 +64,9 @@ int main () {
                     {
                         if(checkFirstY == 0)
                         {
-                            max_y = atof(numY.c_str());;
-                            min_y = atof(numY.c_str());;
+                            max_y = atof(numY.c_str());
+                            min_y = atof(numY.c_str());
+                            nums.push_back(max_y);
                             checkFirstY = 1;
                         }
                         else
@@ -76,6 +80,7 @@ int main () {
                             {
                                 min_y = testY;
                             }
+                            nums.push_back(testY);
                         }
                         numY = "";
                         XorY = 0;
@@ -102,8 +107,8 @@ int main () {
         max_min.push_back(max_y);
         max_min.push_back(min_y);
     }
-    for(int i = 0; i < sizes.size(); ++i)
+    for(int i = 0; i < nums.size(); ++i)
     {
-        cout << sizes[i] << endl;
+        cout << nums[i] << " ";
     }
 }
