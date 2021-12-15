@@ -30,6 +30,8 @@ int main () {
         {
             if(line[i] == '(')
             {
+                string numX = "";
+                string numY = "";
                 for(int t = i+1; t < line.length()-1; ++t)
                 {
                     if(line[t] == ',')
@@ -83,7 +85,6 @@ int main () {
                         if(XorY == 0)
                         {
                             numX.push_back(line[t]);
-                            cout << numX << endl;
                         }
                         else
                         {
