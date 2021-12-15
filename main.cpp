@@ -120,11 +120,15 @@ void Overlap::makeVectors(int rank) {
             max_min.push_back(min_y);
         }
         inFS.close();
+        for(int i = 0; i < sizes.size(); ++i)
+        {
+            cout << sizes[i] << endl;
+        }
     }
 }
 
 void Overlap::spreadValues(int rank, int p) {
-    cout << sizes.size() << endl;
+    
 }
 
 int main (int argc, char *argv[]) {
