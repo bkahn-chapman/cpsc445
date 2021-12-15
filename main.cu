@@ -29,9 +29,9 @@ int main () {
     for(int i = 0; i<N; ++i)
     {
         ha[i] = polygons[i];
+        cout << ha[i] << endl;
     }
-    cout << ha[i] << endl;
     cudaMemcpy(da, ha, N*sizeof(string), cudaMemcpyHostToDevice);
     find_corners<<<N, 1>>>(da, db, N);
-    cudaMemcpy(hb, db, N*sizeof(int), cudaMemcpyDeviceToHost);
+    cudaMemcpy(hb, db, N*sizeof(double), cudaMemcpyDeviceToHost);
 }
