@@ -4,8 +4,10 @@
 #include <vector>
 using namespace std;
 
+extern __shared__ vector<int> overlaps;
+
 __global__
-void find_corners(string *a, int *b, int N)
+void find_corners(double *m, int *s, double *n, int N)
 {
     
 }
@@ -16,7 +18,7 @@ int main () {
     vector<double> max_min;
     vector<int> sizes;
     vector<double> nums;
-    vector<int> overlaps;
+    // vector<int> overlaps;
     string line;
     while(getline(inFS, line))
     {
@@ -112,15 +114,15 @@ int main () {
     int M = max_min.size();
     int N = nums.size();
     int S = sizes.size();
-    int O = overlaps.size();
+    // int O = overlaps.size();
     double hm[M], hn[N];
-    int hs[S], hO[O];
+    int hs[S]; //, hO[O];
     double *dm, *dn;
-    int *ds, *dO;
+    int *ds; //, *dO;
     cudaMalloc((void **)&dm, N*sizeof(double));
     cudaMalloc((void **)&dn, N*sizeof(double));
     cudaMalloc((void **)&ds, N*sizeof(int));
-    cudaMalloc((void **)&dO, N*sizeof(int));
+    // cudaMalloc((void **)&dO, N*sizeof(int));
     for (int i = 0; i<N; ++i) {
         hn[i] = nums[i];
     }
@@ -130,7 +132,12 @@ int main () {
     for (int i = 0; i<S; ++i) {
         hs[i] = sizes[i];
     }
+    /*
     for (int i = 0; i<O; ++i) {
         hO[i] = overlaps[i];
     }
+    */
+    cudaMemcpy(dm, hm, M*sizeof(double), cudaMemcpyHostToDevice);
+    cudaMemcpy(dn, hn, N*sizeof(double), cudaMemcpyHostToDevice);
+    cudaMemcpy(ds, hs, S*sizeof(int), cudaMemcpyHostToDevice);
 }
