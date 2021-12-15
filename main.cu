@@ -7,10 +7,7 @@ using namespace std;
 __global__
 void getOverlaps(double *m, double *s, double *n, double *o, int S)
 {
-    int i = blockIdx.x;
-    if(i < S) {
-        overlaps.push_back(s[i]);
-    }
+
 }
 
 int main () {
@@ -123,7 +120,7 @@ int main () {
     cout << p << endl;
     int O = overlaps.size();
     double hm[M], hn[N], hs[S], hO[O];
-    double *dm, *dn, *ds, *hO;
+    double *dm, *dn, *ds, *dO;
     cudaMalloc((void **)&dm, N*sizeof(double));
     cudaMalloc((void **)&dn, N*sizeof(double));
     cudaMalloc((void **)&ds, N*sizeof(double));
