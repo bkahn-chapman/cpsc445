@@ -17,6 +17,7 @@ int main () {
     string line;
     while(getline(inFS, line))
     {
+        line.push_back(" ");
         string num;
         double max_x = 0;
         double min_x = 0;
@@ -25,7 +26,7 @@ int main () {
         int checkFirst = 0;
         for(int i = 0; i < line.length(); ++i)
         {
-            cout << line[i];
+            
         }
     }
    
