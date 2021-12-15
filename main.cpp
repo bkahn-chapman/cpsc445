@@ -4,7 +4,9 @@
 #include <vector>
 using namespace std;
 
-int main () {
+int main (int argc, char *argv[]) {
+    int rank;
+    int p;
     ifstream inFS;
     inFS.open("input.txt");
     vector<double> max_min;
