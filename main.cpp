@@ -134,9 +134,6 @@ void Overlap::spreadValues(int rank, int p) {
 int main (int argc, char *argv[]) {
     int rank;
     int p;
-    
-    cout << rank << endl;
-    cout << p << endl;
 
     Overlap over;
     // Initialized MPI
