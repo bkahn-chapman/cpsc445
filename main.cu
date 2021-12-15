@@ -91,7 +91,6 @@ int main () {
                         }
                     }
                 }
-                cout << max_x << " " << min_x << " " << max_y << " " << min_y << endl;
             }
         }
         max_min.push_back(max_x);
@@ -99,7 +98,6 @@ int main () {
         max_min.push_back(max_y);
         max_min.push_back(min_y);
     }
-    /*
     for(int i = 0; i < max_min.size(); ++i)
     {
         if(i%4 == 0)
@@ -108,5 +106,4 @@ int main () {
         }
         cout << max_min[i] << " ";
     }
-    */
 }
