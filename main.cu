@@ -10,7 +10,10 @@ void getOverlaps(double *m, double *s, double *n, double *o, int M, int N, int S
     int i = blockIdx.x;
     if(i < S)
     {
-        o[i] = S;
+        for(int t = 0; t < S; ++t)
+        {
+            cout << t << endl;
+        }
     }
 }
 
