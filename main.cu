@@ -17,10 +17,11 @@ int main () {
     string line;
     while(getline(inFS, line))
     {
-        int max_x = 0;
-        int min_x = 0;
-        int max_y = 0;
-        int min_y = 0;
+        string num;
+        double max_x = 0;
+        double min_x = 0;
+        double max_y = 0;
+        double min_y = 0;
         int checkFirst = 0;
         for(char& c : line)
         {
