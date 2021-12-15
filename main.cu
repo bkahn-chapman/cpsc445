@@ -117,11 +117,7 @@ int main () {
     {
         p = p + i;
     }
-    for(int i = 0; i < p*2; ++i)
-    {
-        cout << i << endl;
-    }
-    int O = overlaps.size();
+    int O = p*2;
     double hm[M], hn[N], hs[S], hO[O];
     double *dm, *dn, *ds, *dO;
     cudaMalloc((void **)&dm, N*sizeof(double));
@@ -138,7 +134,7 @@ int main () {
         hs[i] = sizes[i];
     }
     for (int i = 0; i<O; ++i) {
-        hO[i] = overlaps[i];
+        hO[i] = 0;
     }
     cudaMemcpy(dm, hm, M*sizeof(double), cudaMemcpyHostToDevice);
     cudaMemcpy(dn, hn, N*sizeof(double), cudaMemcpyHostToDevice);
