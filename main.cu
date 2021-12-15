@@ -36,13 +36,13 @@ int main () {
                     {
                         if(checkFirstX == 0)
                         {
-                            max_x = stod(numX);
-                            min_x = stod(numX);
+                            max_x = atof(numX.c_str());
+                            min_x = atof(numX.c_str());
                             checkFirstX = 1;
                         }
                         else
                         {
-                            double testX = stod(numX);
+                            double testX = atof(numX.c_str());
                             if(testX > max_x)
                             {
                                 max_x = testX;
@@ -59,13 +59,13 @@ int main () {
                     {
                         if(checkFirstY == 0)
                         {
-                            max_y = stod(numY);
-                            min_y = stod(numY);
+                            max_y = atof(numY.c_str());;
+                            min_y = atof(numY.c_str());;
                             checkFirstY = 1;
                         }
                         else
                         {
-                            double testY = stod(numY);
+                            double testY = atof(numY.c_str());;
                             if(testY > max_y)
                             {
                                 max_y = testY;
