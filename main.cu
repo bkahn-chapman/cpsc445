@@ -117,7 +117,10 @@ int main () {
     {
         p = p + i;
     }
-    cout << p << endl;
+    for(int i = 0; i < p*2; ++i)
+    {
+        overlaps[i] = 0;
+    }
     int O = overlaps.size();
     double hm[M], hn[N], hs[S], hO[O];
     double *dm, *dn, *ds, *dO;
