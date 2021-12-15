@@ -120,9 +120,9 @@ void Overlap::makeVectors(int rank) {
             max_min.push_back(min_y);
         }
         inFS.close();
-        for(int i = 0; i < max_min.size(); ++i)
+        for(int i = 0; i < nums.size(); ++i)
         {
-            cout << max_min[i] << endl;
+            cout << nums[i] << endl;
         }
     }
 }
