@@ -17,25 +17,78 @@ int main () {
     string line;
     while(getline(inFS, line))
     {
-        string num;
+        string numX;
+        string numY;
         double max_x = 0;
         double min_x = 0;
         double max_y = 0;
         double min_y = 0;
         int checkFirstX = 0;
         int checkFirstY = 0;
+        int XorY = 0;
         for(int i = 0; i < line.length()-1; ++i)
         {
-            if(line[i+1] != '(' && line[i+1] != ',' && line[i+1] != ')')
+            if(line[i] = '(')
             {
-                num.push_back(line[i+1]);
-            }
-            else if(line[i+1] == ',' && line[i+2] != '(')
-            {
-                double xCheck = stod(num);
-                cout << xCheck << endl;
+                for(int t = i; t < line.length()-1; ++t)
+                {
+                    if(t[i] == ',')
+                    {
+                        if(checkFirstX == 0)
+                        {
+                            max_x = stod(numX);
+                            min_x = stod(numX);
+                            checkFirstX = 1;
+                        }
+                        else
+                        {
+                            if(stod(numX) > max_x)
+                            {
+                                max_x = numX;
+                            }
+                            else if(stod(numX < min_x))
+                            {
+                                min_x = numX;
+                            }
+                        }
+                        numX = "";
+                        XorY = 1;
+                    }
+                    else if(t[i] == ')')
+                    {
+                        if(checkFirstY == 0)
+                        {
+                            max_y = stod(numY);
+                            min_y = stod(numY);
+                            checkFirstY = 1;
+                        }
+                        else
+                        {
+                            if(stod(numY) > max_y)
+                            {
+                                max_y = numY;
+                            }
+                            else if(stod(numY < min_y))
+                            {
+                                min_y = numY;
+                            }
+                        }
+                        numY = "";
+                        XorY = 0;
+                    }
+                    else
+                    {
+                        if(XorY == 0)
+                        {
+                            numX.append(t[i]);
+                        }
+                        else
+                        {
+                            numY.append(t[i]);
+                        }
+                    }
+                }
             }
         }
-        num = "";
     }
 }
