@@ -9,6 +9,7 @@ class Overlap {
     public:
         void check_error(int status, const string message);
         void makeVectors(int rank);
+        void spreadValues(int rank, int p);
         vector<double> max_min;
         vector<double> sizes;
         vector<double> nums;
@@ -130,6 +131,9 @@ int main (int argc, char *argv[]) {
     int rank;
     int p;
     
+    cout << rank << endl;
+    cout << p << endl;
+
     Overlap over;
     // Initialized MPI
     over.check_error(MPI_Init(&argc, &argv), "unable to initialize MPI");
