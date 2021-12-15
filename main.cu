@@ -108,10 +108,6 @@ int main () {
         max_min.push_back(max_y);
         max_min.push_back(min_y);
     }
-    vector<double> max_min;
-    vector<int> sizes;
-    vector<double> nums;
-    vector<int> overlaps;
     inFS.close();
     int M = max_min.size();
     int N = nums.size();
