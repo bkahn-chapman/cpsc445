@@ -91,7 +91,7 @@ int main () {
                         }
                     }
                 }
-                cout << max_x << " " << min_x << " " << max_y << " " << min_y << endl;
+                //cout << max_x << " " << min_x << " " << max_y << " " << min_y << endl;
             }
         }
         max_min.push_back(max_x);
