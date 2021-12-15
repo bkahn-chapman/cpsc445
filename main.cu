@@ -32,6 +32,7 @@ int main () {
             {
                 for(int t = i+1; t < line.length()-1; ++t)
                 {
+                    cout << line[t] << endl;
                     if(line[t] == ',')
                     {
                         if(checkFirstX == 0)
@@ -98,6 +99,7 @@ int main () {
         max_min.push_back(max_y);
         max_min.push_back(min_y);
     }
+    /*
     for(int i = 0; i < max_min.size(); ++i)
     {
         if(i%4 == 0)
@@ -106,4 +108,5 @@ int main () {
         }
         cout << max_min[i] << " ";
     }
+    */
 }
