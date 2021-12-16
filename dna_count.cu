@@ -6,7 +6,7 @@
 #include <array>
 using namespace std;
 
-extern __shared__ int results[4];
+//extern __shared__ int results[4];
 
 __global__
 void count(char *a, int *b, int N) {
@@ -30,7 +30,7 @@ void count(char *a, int *b, int N) {
         }
     }
 
-    __syncthreads();
+    //__syncthreads();
 
 
 }
