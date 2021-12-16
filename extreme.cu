@@ -39,8 +39,8 @@ int main () {
     char c;
     ifstream if2;
     inFS.close();
-    in2.open("input.csv");
-    while(in2 >> noskipws >> c)
+    if2.open("input.csv");
+    while(if2 >> noskipws >> c)
     {
         if(c == ',' || c == '\n')
         {
