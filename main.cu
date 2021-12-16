@@ -116,6 +116,9 @@ int main () {
     int M = max_min.size();
     int N = nums.size();
     int S = sizes.size();
+    cout << M << endl;
+    cout << N << endl;
+    cout << S << endl;
     int p = 0;
     for(int i = 1; i < S; ++i)
     {
@@ -148,6 +151,6 @@ int main () {
     cudaMemcpy(hO, dO, O*sizeof(double), cudaMemcpyDeviceToHost);
     for(int i = 0; i < O; ++i)
     {
-        cout << hO[i] << endl;
+        //cout << hO[i] << endl;
     }
 }
