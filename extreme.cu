@@ -19,7 +19,6 @@ int main () {
     string line;
     while(getline(inFS, line))
     {
-        //cout << line << endl;
         if(rowcount == 0)
         {
             for(char& d : line)
@@ -32,8 +31,6 @@ int main () {
         }
         rowcount++;
     }
-    cout << colcount << endl;
-    cout << rowcount << endl;
     int charcount = 0;
     char c;
     ifstream if2;
@@ -51,14 +48,8 @@ int main () {
             num.push_back(c);
         }
     }
-    /*
-    for(int i = 0; i < colcount; ++i)
+    for(int i = 0; i < nums.size(); ++i)
     {
-        for(int j = 0; j < rowcount; ++j)
-        {
-            cout << nums[i][j] << ",";
-        }
-        cout << endl;
+        cout << nums[i] << endl;
     }
-    */
 }
