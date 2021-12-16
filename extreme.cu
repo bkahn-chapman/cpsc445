@@ -11,27 +11,28 @@ using namespace std;
 int main () {
     ifstream inFS;
     inFS.open("input.csv");
-    system("head input.csv");
+    //system("head input.csv");
     string num;
     int rowcount = 0;
     int colcount = 0;
     string line;
     while(getline(inFS, line))
     {
+        cout << line << endl;
         if(rowcount == 0)
         {
             for(char& c : line)
             {
                 if(c != ',' && c != '\n')
                 {
-                    cout << c << endl;
+                    //cout << c << endl;
                     colcount++;
                 }
             }
         }
         rowcount++;
     }
-    cout << colcount << endl;
+    //cout << colcount << endl;
     /*
     while(inFS >> noskipws >> c)
     {
