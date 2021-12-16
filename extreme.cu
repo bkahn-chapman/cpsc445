@@ -52,7 +52,7 @@ int main () {
     {
         if(c == ',' || c == '\n')
         {
-            nums.push_back(stoi(num));
+            nums.push_back(stod(num));
             num = "";
         }
         else
@@ -62,10 +62,10 @@ int main () {
     }
     int N = nums.size();
     cout << N << endl;
-    int ha[N], hb[N];
-    int *da, *db;
-    cudaMalloc((void **)&da, N*sizeof(int));
-    cudaMalloc((void **)&db, N*sizeof(int));
+    double ha[N], hb[N];
+    double *da, *db;
+    cudaMalloc((void **)&da, N*sizeof(double));
+    cudaMalloc((void **)&db, N*sizeof(double));
     for(int i = 0; i < N; ++i)
     {
         ha[i] = nums[i];
@@ -76,9 +76,9 @@ int main () {
         cout << ha[i] << endl;
     }
     */
-    cudaMemcpy(da, ha, N*sizeof(int), cudaMemcpyHostToDevice);
+    cudaMemcpy(da, ha, N*sizeof(double), cudaMemcpyHostToDevice);
     extreme<<<N, 1>>>(da, db, N);
-    cudaMemcpy(hb, db, N*sizeof(int), cudaMemcpyHostToDevice);
+    cudaMemcpy(hb, db, N*sizeof(double), cudaMemcpyHostToDevice);
     for(int i = 0; i < N; ++i)
     {
         cout << hb[i] << endl;
