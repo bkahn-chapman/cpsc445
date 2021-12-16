@@ -19,7 +19,7 @@ int main () {
     string line;
     while(getline(inFS, line))
     {
-        cout << line << endl;
+        //cout << line << endl;
         if(rowcount == 0)
         {
             for(char& d : line)
@@ -35,6 +35,13 @@ int main () {
     cout << colcount << endl;
     cout << rowcount << endl;
     int nums[colcount][rowcount];
+    for(int i = 0; i < colcount; ++i)
+    {
+        for(int j = 0; j < rowcount; ++j)
+        {
+            cout << (i+1)*(j+1) << endl;
+        }
+    }
     int charcount = 0;
     char c;
     inFS.clear();
