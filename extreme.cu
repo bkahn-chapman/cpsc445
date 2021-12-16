@@ -13,6 +13,7 @@ int main () {
     inFS.open("input.csv");
     //system("head input.csv");
     string num;
+    vector<int> nums;
     int rowcount = 0;
     int colcount = 1;
     string line;
@@ -31,13 +32,13 @@ int main () {
         }
         rowcount++;
     }
+    cout << charcount << endl;
+    cout << rowcount << endl;
     int nums[colcount][rowcount];
     int charcount = 0;
     char c;
     inFS.clear();
     inFS.seekg(0, std::ios::beg);
-    cout << charcount << endl;
-    cout << rowcount << endl;
     while(inFS >> noskipws >> c)
     {
         if(c != ',' && c != '\n')
