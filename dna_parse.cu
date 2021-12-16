@@ -67,6 +67,7 @@ int main () {
     {
         hc[i] = 0;
     }
+    cout << N << endl;
     cudaMemcpy(db, hb, N*sizeof(int), cudaMemcpyHostToDevice);
     parse<<<N, 1>>>(db, dc, N);
     cudaMemcpy(hc, dc, 64*sizeof(int), cudaMemcpyDeviceToHost);
