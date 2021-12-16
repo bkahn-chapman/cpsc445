@@ -13,7 +13,7 @@ void parse(int *b, int *c, int N) {
     int i = blockIdx.x;
     if (i<N) {
         int t = b[i];
-        c[t]++;
+        c[t] = c[t]+1;
     }
 }
 
