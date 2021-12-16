@@ -13,7 +13,6 @@ int main () {
     inFS.open("input.csv");
     //system("head input.csv");
     string num;
-    char c;
     int rowcount;
     int colcount;
     string line;
@@ -25,6 +24,7 @@ int main () {
             {
                 if(c != ',' && c != '\n')
                 {
+                    cout << c << endl;
                     colcount++;
                 }
             }
