@@ -43,16 +43,14 @@ int main () {
     {
         if(c == ',' || c == '\n')
         {
-            nums.push_back(stoi(c));
+            nums.push_back(stoi(num));
             num = "";
         }
         else
         {
             num.push_back(c);
         }
-        charcount++;
     }
-    cout << endl;
     /*
     for(int i = 0; i < colcount; ++i)
     {
