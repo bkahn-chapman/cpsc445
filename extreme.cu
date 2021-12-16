@@ -42,12 +42,14 @@ int main () {
         }
         else
         {
+            cout << num << endl;
             nums[charcount/colcount][charcount%colcount] = atof(num.c_str());
             num = "";
         }
         charcount++;
     }
     cout << endl;
+    /*
     for(int i = 0; i < colcount; ++i)
     {
         for(int j = 0; j < rowcount; ++j)
@@ -56,4 +58,5 @@ int main () {
         }
         cout << endl;
     }
+    */
 }
