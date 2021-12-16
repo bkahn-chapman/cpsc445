@@ -9,7 +9,7 @@
 using namespace std;
 
 __global__
-void extreme(int *a, int *b, int c, int r, int N)
+void extreme(int *a, int *b, int N)
 {
     int i = blockIdx.x;
     if (i<N) {
@@ -77,7 +77,7 @@ int main () {
     }
     */
     cudaMemcpy(da, ha, N*sizeof(int), cudaMemcpyHostToDevice);
-    extreme<<<N, 1>>>(da, db, colcount, rowcount, N);
+    extreme<<<N, 1>>>(da, db, N);
     cudaMemcpy(hb, db, N*sizeof(int), cudaMemcpyHostToDevice);
     for(int i = 0; i < N; ++i)
     {
