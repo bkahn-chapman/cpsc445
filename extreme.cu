@@ -18,6 +18,7 @@ int main () {
     string line;
     while(getline(inFS, line))
     {
+        cout << line << endl;
         if(rowcount == 0)
         {
             for(char& d : line)
@@ -45,5 +46,14 @@ int main () {
             num = "";
         }
         charcount++;
+    }
+    cout << endl;
+    for(int i = 0; i < colcount; ++i)
+    {
+        for(int j = 0; j < rowcount; ++j)
+        {
+            cout << nums[i][j] << ",";
+        }
+        cout << endl;
     }
 }
