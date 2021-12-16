@@ -13,6 +13,7 @@ void parse(int *b, int *c, int N) {
     int i = blockIdx.x;
     if (i<N) {
         int t = b[i];
+        __syncthreads();
         c[t] = c[t]+1;
     }
 }
@@ -67,7 +68,6 @@ int main () {
     {
         hc[i] = 0;
     }
-    cout << N << endl;
     cudaMemcpy(db, hb, N*sizeof(int), cudaMemcpyHostToDevice);
     parse<<<N, 1>>>(db, dc, N);
     cudaMemcpy(hc, dc, 64*sizeof(int), cudaMemcpyDeviceToHost);
