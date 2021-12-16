@@ -31,7 +31,7 @@ int main () {
         }
         rowcount++;
     }
-    int nums[colcount][rowcount];
+    double nums[colcount][rowcount];
     int charcount = 0;
     char c;
     while(inFS >> noskipws >> c)
@@ -42,7 +42,7 @@ int main () {
         }
         else
         {
-            nums[charcount/colcount][charcount%colcount] = stoi(num);
+            nums[charcount/colcount][charcount%colcount] = atof(num.c_str());
             num = "";
         }
         charcount++;
