@@ -13,7 +13,7 @@ int main () {
     inFS.open("input.csv");
     //system("head input.csv");
     string num;
-    vector<int> nums;
+    //vector<int> nums;
     int rowcount = 0;
     int colcount = 1;
     string line;
@@ -32,7 +32,7 @@ int main () {
         }
         rowcount++;
     }
-    cout << charcount << endl;
+    cout << colcount << endl;
     cout << rowcount << endl;
     int nums[colcount][rowcount];
     int charcount = 0;
