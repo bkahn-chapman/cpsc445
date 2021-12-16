@@ -11,7 +11,10 @@ using namespace std;
 __global__
 void extreme(int *a, int *b, int c, int r, int N)
 {
-
+    int i = blockIdx.x;
+    if (i<N) {
+        b[i] = a[i];
+    }
 }
 
 int main () {
