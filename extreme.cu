@@ -12,16 +12,26 @@ int main () {
     ifstream inFS;
     inFS.open("input.csv");
     //system("head input.csv");
-    vector<int> nums;
     string num;
     char c;
-    int linecount;
+    int rowcount;
+    int colcount;
     string line;
     while(getline(inFS, line))
     {
-        linecount++;
+        if(rowcount == 0)
+        {
+            for(char& c : line)
+            {
+                if(c != ',' && c != '\n')
+                {
+                    colcount++;
+                }
+            }
+        }
+        rowcount++;
     }
-    cout << linecount << endl;
+    cout << colcount << endl;
     while(inFS >> noskipws >> c)
     {
         if(c != ',' && c != '\n')

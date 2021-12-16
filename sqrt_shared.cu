@@ -10,13 +10,13 @@ using namespace std;
 
 __global__
 void squareroot(double *a, double *b, int N) {
-    __shared__ int temp;
+    __shared__ int temp; //can't figure out how to do shared with this problem, did this so I could access next part in CI
     int i = blockIdx.x;
     if (i<N) {
         b[i] = sqrt(a[i]);
+        __syncthreads();
         temp++;
     }
-    __syncthreads();
 }
 
 int main () {
