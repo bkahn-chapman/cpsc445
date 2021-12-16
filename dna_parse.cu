@@ -37,9 +37,10 @@ int main () {
         triplet.push_back(dna[i+1]);
         triplet.push_back(dna[i+2]);
         ha[i] = triplet;
+        cout << triplet << endl;
         triplet = "";
     }
-    char letts[] = {'A', 'T', 'G', 'C'};
+    char letts[] = {'A', 'C', 'G', 'T'};
     string trips = "";
     for(int t = 0; t < N; ++t)
     {
