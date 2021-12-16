@@ -12,19 +12,19 @@ void invert(char *a, char *b, int N) {
     if (i<N) {
         if(a[i] == 'A')
         {
-            b[i] = '0';
+            b[i] = 'A';
         }
         if(a[i] == 'C')
         {
-            b[i] = '1';
+            b[i] = 'C';
         }
         if(a[i] == 'G')
         {
-            b[i] = '2';
+            b[i] = 'G';
         }
         if(a[i] == 'T')
         {
-            b[i] = '3';
+            b[i] = 'T';
         }
     }
 }
@@ -48,25 +48,25 @@ int main () {
     cudaMemcpy(hb, db, N*sizeof(char), cudaMemcpyDeviceToHost);
     ofstream outFS;
     outFS.open("output.txt");
-    int aCnt;
-    int cCnt;
-    int gCnt;
-    int tCnt;
+    int aCnt = 0;
+    int cCnt = 0;
+    int gCnt = 0;
+    int tCnt = 0;
     for(int i = 0; i<N; ++i)
     {
-        if(hb[i] == '0')
+        if(hb[i] == 'A')
         {
             aCnt++;
         }
-        if(hb[i] == '1')
+        if(hb[i] == 'C')
         {
             cCnt++;
         }
-        if(hb[i] == '2')
+        if(hb[i] == 'G')
         {
             gCnt++;
         }
-        if(hb[i] == '3')
+        if(hb[i] == 'T')
         {
             tCnt++;
         }
