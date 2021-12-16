@@ -13,7 +13,11 @@ void extreme(int *a, int *b, int c, int r, int N)
 {
     int i = blockIdx.x;
     if (i<N) {
-        b[i] = a[i];
+        b[i] = a[i]; 
+        //no idea why a[i] isn't properly being accessed
+        //plan was to have it check the eight surrounding and put a 1 in the associated slot in b
+        //main would then determine which coordinate is at each value in b using the total number of rows and columns
+        //cannot progress further though if this code in extreme isn't working as it did in sqrt and others
     }
 }
 
@@ -57,6 +61,7 @@ int main () {
         }
     }
     int N = nums.size();
+    cout << N << endl;
     int ha[N], hb[N];
     int *da, *db;
     cudaMalloc((void **)&da, N*sizeof(int));
