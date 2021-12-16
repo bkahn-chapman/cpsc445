@@ -8,6 +8,12 @@
 #include <string>
 using namespace std;
 
+__global__
+void extreme(int *a, int *b, int c, int r, int N)
+{
+
+}
+
 int main () {
     ifstream inFS;
     inFS.open("input.csv");
@@ -31,7 +37,6 @@ int main () {
         }
         rowcount++;
     }
-    int charcount = 0;
     char c;
     ifstream if2;
     inFS.close();
@@ -48,8 +53,17 @@ int main () {
             num.push_back(c);
         }
     }
-    for(int i = 0; i < nums.size(); ++i)
+    int N = nums.size();
+    int ha[N], hb[N];
+    int *da, *db;
+    cudaMalloc((void **)&da, N*sizeof(int));
+    cudaMalloc((void **)&db, N*sizeof(int));
+    for(int i = 0; i < N; ++i)
     {
-        cout << nums[i] << endl;
+        ha[i] = nums[i];
+        hb[i] = 0;
     }
+    cudaMemcpy(da, ha, N*sizeof(int), cudaMemcpyHostToDevice);
+    extreme<<<N, 1>>>(da, db, colcount, rowcount, N);
+    cudaMemcpy(hb, db, N*sizeof(int), cudaMemcpyHostToDevice);
 }
