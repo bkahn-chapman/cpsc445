@@ -10,10 +10,10 @@ using namespace std;
 
 __global__
 void parse(int *b, int *c, int N) {
-    string test;
-    for(int i = 0; i < N; ++i)
-    {
-
+    int i = blockIdx.x;
+    if (i<N) {
+        int t = b[i];
+        c[t]++;
     }
 }
 
