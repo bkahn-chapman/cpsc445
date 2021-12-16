@@ -9,7 +9,7 @@ using namespace std;
 __global__
 void count(int *b, int *c, int N) {
     __syncthreads();
-    int i = blockIdx.x * BLOCKSIZE + threadIdx.x;
+    int i = blockIdx.x * sizeof(int) + threadIdx.x;
     __syncthreads();
     if (i<N) {
         int t = b[i];
@@ -59,7 +59,7 @@ int main () {
         hc[i] = 0;
     }
     cudaMemcpy(db, hb, N*sizeof(int), cudaMemcpyHostToDevice);
-    count<<<N/5, 5>>>(db, dc, N);
+    count<<<1, N>>>(db, dc, N);
     cudaMemcpy(hc, dc, 4*sizeof(int), cudaMemcpyDeviceToHost);
     ofstream outFS;
     outFS.open("output.txt");
