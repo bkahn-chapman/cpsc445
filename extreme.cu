@@ -42,17 +42,10 @@ int main () {
             nums[i][j] = 0;
         }
     }
-    for(int i = 0; i < colcount; ++i)
-    {
-        for(int j = 0; j < rowcount; ++j)
-        {
-            cout << nums[i][j] << ',';
-        }
-        cout << endl;
-    }
+    int charcount = 0;
     char c;
-    inFS.clear();
-    inFS.seekg(0, std::ios::beg);
+    inFS.close();
+    inFS.open("input.csv");
     while(inFS >> noskipws >> c)
     {
         if(c != ',' && c != '\n')
