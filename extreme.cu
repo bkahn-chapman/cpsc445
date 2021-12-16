@@ -31,7 +31,7 @@ int main () {
         }
         rowcount++;
     }
-    double nums[colcount][rowcount];
+    int nums[colcount][rowcount];
     int charcount = 0;
     char c;
     inFS.clear();
@@ -45,7 +45,7 @@ int main () {
         else
         {
             cout << num << endl;
-            nums[charcount/colcount][charcount%colcount] = atof(num.c_str());
+            nums[charcount/colcount][charcount%colcount] = stoi(num);
             num = "";
         }
         charcount++;
