@@ -7,25 +7,11 @@
 using namespace std;
 
 __global__
-void count(char *a, char *b, int N) {
+void count(int *b, int *c, int N) {
     int i = blockIdx.x;
     if (i<N) {
-        if(a[i] == 'A')
-        {
-            b[i] = 'A';
-        }
-        if(a[i] == 'C')
-        {
-            b[i] = 'C';
-        }
-        if(a[i] == 'G')
-        {
-            b[i] = 'G';
-        }
-        if(a[i] == 'T')
-        {
-            b[i] = 'T';
-        }
+        int = b[i];
+        c[t]++;
     }
 }
 
@@ -36,45 +22,47 @@ int main () {
     getline(inFS, dna);
     inFS.close();
     int N = dna.length();
-    char ha[N], hb[N];
-    char *da, *db;
-    cudaMalloc((void **)&da, N*sizeof(char));
-    cudaMalloc((void **)&db, N*sizeof(char));
+    char ha[N];
+    int hb[N];
+    int hc[4];
+    int *db;
+    int *dc;
+    cudaMalloc((void **)&db, N*sizeof(int));
+    cudaMalloc((void **)&dc, 4*sizeof(int));
     for (int i = 0; i<N; ++i) {
         ha[i] = dna[i];
     }
-    cudaMemcpy(da, ha, N*sizeof(char), cudaMemcpyHostToDevice);
-    count<<<N, 1>>>(da, db, N);
-    cudaMemcpy(hb, db, N*sizeof(char), cudaMemcpyDeviceToHost);
-    ofstream outFS;
-    outFS.open("output.txt");
-    int aCnt = 0;
-    int cCnt = 0;
-    int gCnt = 0;
-    int tCnt = 0;
-    for(int i = 0; i<N; ++i)
-    {
-        if(hb[i] == 'A')
+    for(int i = 0; i<n; ++i) {
+        if(ha[i] == 'A')
         {
-            aCnt++;
+            hb[i] = 0;
         }
-        if(hb[i] == 'C')
+        if(ha[i] == 'T')
         {
-            cCnt++;
+            hb[i] = 1;
         }
-        if(hb[i] == 'G')
+        if(ha[i] == 'G')
         {
-            gCnt++;
+            hb[i] = 2;
         }
-        if(hb[i] == 'T')
+        if(ha[i] == 'C')
         {
-            tCnt++;
+            hb[i] = 3;
         }
     }
-    outFS << "A " << aCnt << endl;
-    outFS << "T " << tCnt << endl;
-    outFS << "G " << gCnt << endl;
-    outFS << "C " << cCnt << endl;
+    for(int i = 0; i < 4; ++i)
+    {
+        hc[i] = 0;
+    }
+    cudaMemcpy(db, hb, N*sizeof(int), cudaMemcpyHostToDevice);
+    count<<<N, 1>>>(db, dc, N);
+    cudaMemcpy(hc, dc, 4*sizeof(int), cudaMemcpyDeviceToHost);
+    ofstream outFS;
+    outFS.open("output.txt");
+    outFS << "A " << hc[0] << endl;
+    outFS << "T " << hc[1] << endl;
+    outFS << "G " << hc[2] << endl;
+    outFS << "C " << hc[3] << endl;
     outFS.close();
     cudaFree(da);
     cudaFree(db);
