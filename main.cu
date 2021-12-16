@@ -151,6 +151,6 @@ int main () {
     cudaMemcpy(hO, dO, O*sizeof(double), cudaMemcpyDeviceToHost);
     for(int i = 0; i < O; ++i)
     {
-        //cout << hO[i] << endl;
+        cout << hO[i] << endl;
     }
 }
