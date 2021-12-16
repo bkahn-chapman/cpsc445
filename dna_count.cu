@@ -7,24 +7,24 @@
 using namespace std;
 
 __global__
-void count(char *a, char *b, int N) {
+void invert(char *a, char *b, int N) {
     int i = blockIdx.x;
     if (i<N) {
         if(a[i] == 'A')
         {
-            b[i] = '1';
+            b[i] = '0';
         }
         if(a[i] == 'C')
         {
-            b[i] = '2';
+            b[i] = '1';
         }
         if(a[i] == 'G')
         {
-            b[i] = '3';
+            b[i] = '2';
         }
         if(a[i] == 'T')
         {
-            b[i] = '4';
+            b[i] = '3';
         }
     }
 }
@@ -39,17 +39,18 @@ int main () {
     char ha[N], hb[N];
     char *da, *db;
     cudaMalloc((void **)&da, N*sizeof(char));
-    for(int i = 0; i<N; ++i) {
+    cudaMalloc((void **)&db, N*sizeof(char));
+    for (int i = 0; i<N; ++i) {
         ha[i] = dna[i];
     }
     cudaMemcpy(da, ha, N*sizeof(char), cudaMemcpyHostToDevice);
-    count<<<N, 1>>>(da, db, N);
+    invert<<<N, 1>>>(da, db, N);
     cudaMemcpy(hb, db, N*sizeof(char), cudaMemcpyDeviceToHost);
     ofstream outFS;
     outFS.open("output.txt");
     for(int i = 0; i<N; ++i)
     {
-      outFS << db[i];
+      outFS << hb[i];
     }
     outFS.close();
     cudaFree(da);
