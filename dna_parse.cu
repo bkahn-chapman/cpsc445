@@ -14,12 +14,15 @@ int main () {
     string dna;
     getline(inFS, dna);
     cout << dna.length() << endl;
-    /*
     int N = dna.length() / 3;
     string ha[N];
-    for(int i = 0; i < ha.size(); ++i)
+    string triplet;
+    for(int i = 0; i < N; ++i)
     {
-        cout <<  << endl;
+        triplet.push_back(dna[i]);
+        triplet.push_back(dna[i+1]);
+        triplet.push_back(dna[i+2]);
+        ha[i] = triplet;
+        triplet = "";
     }
-    */
 }
