@@ -32,7 +32,7 @@ int main () {
     for (int i = 0; i<N; ++i) {
         ha[i] = dna[i];
     }
-    for(int i = 0; i<n; ++i) {
+    for(int i = 0; i<N; ++i) {
         if(ha[i] == 'A')
         {
             hb[i] = 0;
@@ -64,7 +64,7 @@ int main () {
     outFS << "G " << hc[2] << endl;
     outFS << "C " << hc[3] << endl;
     outFS.close();
-    cudaFree(da);
     cudaFree(db);
+    cudaFree(dc);
     return 0;
 }

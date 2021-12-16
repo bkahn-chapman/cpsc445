@@ -91,4 +91,8 @@ int main () {
             }
         }
     }
+    outFS.close();
+    cudaFree(db);
+    cudaFree(dc);
+    return 0;
 }
