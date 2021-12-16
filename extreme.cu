@@ -11,7 +11,7 @@ using namespace std;
 int main () {
     ifstream inFS;
     inFS.open("input.csv");
-    //system("head input.csv");
+    system("head input.csv");
     string num;
     int rowcount = 0;
     int colcount = 0;
