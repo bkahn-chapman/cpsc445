@@ -41,7 +41,6 @@ int main () {
     cudaMalloc((void **)&da, N*sizeof(char));
     for(int i = 0; i<N; ++i) {
         ha[i] = dna[i];
-        hb[i] = '0';
     }
     cudaMemcpy(da, ha, N*sizeof(char), cudaMemcpyHostToDevice);
     cudaMemcpy(db, hb, N*sizeof(char), cudaMemcpyHostToDevice);
