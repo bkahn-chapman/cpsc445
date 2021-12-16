@@ -13,7 +13,7 @@ int main () {
     inFS.open("dna.txt");
     string dna;
     getline(inFS, dna);
-    cout << dna.length << endl;
+    cout << dna.length() << endl;
     /*
     int N = dna.length() / 3;
     string ha[N];
