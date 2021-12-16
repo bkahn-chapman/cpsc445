@@ -16,6 +16,7 @@ int main () {
     string num;
     char c;
     int linecount;
+    string line;
     while(getline(inFS, line))
     {
         linecount++;
