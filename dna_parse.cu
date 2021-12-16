@@ -27,6 +27,6 @@ int main () {
     }
     for(int i = 0; i < N; ++i)
     {
-        cout << triplet[i] << endl;
+        cout << ha[i] << endl;
     }
 }
