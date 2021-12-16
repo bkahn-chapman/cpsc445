@@ -37,9 +37,10 @@ int main () {
     int nums[colcount][rowcount];
     int charcount = 0;
     char c;
+    ifstream if2;
     inFS.close();
-    inFS.open("input.csv");
-    while(inFS >> noskipws >> c)
+    in2.open("input.csv");
+    while(in2 >> noskipws >> c)
     {
         if(c != ',' && c != '\n')
         {
