@@ -28,6 +28,7 @@ int main () {
     int hc[64];
     string *da;
     int *db;
+    int *dc;
     cudaMalloc((void **)&db, N*sizeof(int));
     string triplet;
     for(int i = 0; i < N; ++i)
@@ -63,6 +64,6 @@ int main () {
         }
     }
     cudaMemcpy(db, hb, N*sizeof(int), cudaMemcpyHostToDevice);
-    invert<<<N, 1>>>(db, dc, N);
+    parse<<<N, 1>>>(db, dc, N);
     cudaMemcpy(hc, dc, 64*sizeof(int), cudaMemcpyDeviceToHost);
 }
