@@ -19,7 +19,7 @@ void squareroot(double *a, double *b, int N) {
 int main () {
     ifstream inFS;
     inFS.open("input.csv");
-    //system("head input.csv");
+    system("head input.csv");
     vector<double> nums;
     string line;
     while(getline(inFS, line))
@@ -42,6 +42,7 @@ int main () {
     outFS.open("output.csv");
     for(int i = 0; i<N; ++i)
     {
+      cout << hb[i] << endl;
       outFS << hb[i] << endl;
     }
     outFS.close();
