@@ -13,7 +13,7 @@ void extreme(int *a, int *b, int c, int r, int N)
 {
     int i = blockIdx.x;
     if (i<N) {
-        b[i] = i;
+        b[i] = a[i];
     }
 }
 
