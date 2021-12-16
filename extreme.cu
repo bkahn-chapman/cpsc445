@@ -34,6 +34,8 @@ int main () {
     double nums[colcount][rowcount];
     int charcount = 0;
     char c;
+    inFS.clear();
+    inFS.seekg(0, std::ios::beg);
     while(inFS >> noskipws >> c)
     {
         if(c != ',' && c != '\n')
