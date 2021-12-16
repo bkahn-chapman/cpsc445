@@ -32,7 +32,7 @@ int main () {
     }
     cout << colcount << endl;
     int nums[colcount][rowcount];
-    /*
+    int charcount = 0;
     while(inFS >> noskipws >> c)
     {
         if(c != ',' && c != '\n')
@@ -41,9 +41,9 @@ int main () {
         }
         else
         {
-            nums.push_back(stoi(num));
+            nums[charcount/colcount][charcount%colcount] = num;
             num = "";
         }
+        charcount++;
     }
-    */
 }
