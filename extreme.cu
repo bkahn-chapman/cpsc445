@@ -42,15 +42,14 @@ int main () {
     in2.open("input.csv");
     while(in2 >> noskipws >> c)
     {
-        if(c != ',' && c != '\n')
+        if(c == ',' || c == '\n')
         {
-            num.push_back(c);
+            nums[charcount/colcount][charcount%colcount] = stoi(num);
+            num = "";
         }
         else
         {
-            cout << "test" << endl;
-            nums[charcount/colcount][charcount%colcount] = stoi(num);
-            num = "";
+            num.push_back(c);
         }
         charcount++;
     }
