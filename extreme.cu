@@ -64,7 +64,6 @@ int main () {
     for(int i = 0; i < N; ++i)
     {
         ha[i] = nums[i];
-        hb[i] = 0;
     }
     cudaMemcpy(da, ha, N*sizeof(int), cudaMemcpyHostToDevice);
     extreme<<<N, 1>>>(da, db, colcount, rowcount, N);
