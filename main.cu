@@ -10,7 +10,7 @@ void getOverlaps(double *m, double *s, double *n, double *o, int M, int N, int S
     int i = blockIdx.x;
     if(i < N)
     {
-        hO[i] = 1;
+        o[i] = 1;
     }
 }
 
