@@ -7,10 +7,12 @@
 using namespace std;
 
 __global__
-void count(int *b, int *c, int N) {
-    int i = threadIdx.x;
-    int t = b[i];
-    c[t]++; 
+void parse(int *b, int *c, int N) {
+    int i = blockIdx.x;
+    if (i<N) {
+        int t = b[i];
+        c[t]++; //race condition sometimes?
+    }
 }
 
 int main () {
@@ -53,7 +55,7 @@ int main () {
         hc[i] = 0;
     }
     cudaMemcpy(db, hb, N*sizeof(int), cudaMemcpyHostToDevice);
-    count<<<1, N>>>(db, dc, N);
+    count<<<N, 1>>>(db, dc, N);
     cudaMemcpy(hc, dc, 4*sizeof(int), cudaMemcpyDeviceToHost);
     ofstream outFS;
     outFS.open("output.txt");
