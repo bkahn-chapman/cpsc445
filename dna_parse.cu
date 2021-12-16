@@ -25,4 +25,8 @@ int main () {
         ha[i] = triplet;
         triplet = "";
     }
+    for(int i = 0; i < N; ++i)
+    {
+        cout << triplet[i] << endl;
+    }
 }
