@@ -6,27 +6,38 @@
 #include <array>
 using namespace std;
 
+extern __shared__ int results[4];
+
 __global__
 void count(char *a, int *b, int N) {
     int i = blockIdx.x;
+    int test[4];
+    for(int i = 0; i < 4; ++i)
+    {
+        test[i] = 0;
+    }
     if (i<N) {
         if(a[i] == 'A')
         {
-            b[i] = 0;
+            test[0]++;
         }
         if(a[i] == 'C')
         {
-            b[i] = 1;
+            test[1]++;
         }
         if(a[i] == 'G')
         {
-            b[i] = 2;
+            test[2]++;
         }
         if(a[i] == 'T')
         {
-            b[i] = 3;
+            test[3]++;
         }
     }
+
+    __syncthreads();
+
+
 }
 
 int main () {
