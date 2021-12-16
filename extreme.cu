@@ -18,6 +18,9 @@ void extreme(double *a, double *b, int N)
         //plan was to have it check the eight surrounding and put a 1 in the associated slot in b
         //main would then determine which coordinate is at each value in b using the total number of rows and columns
         //cannot progress further though if this code in extreme isn't working as it did in sqrt and others
+        //this solution would've been sorted
+        //the only other option I could think of was to make a really long array of nums where each number is followed by its eight neighbors
+        //it would check if the number was bigger than the next eight and then add the 1 like in this solution
     }
 }
 
@@ -72,13 +75,13 @@ int main () {
     }
     for(int i = 0; i < N; ++i)
     {
-        cout << ha[i] << endl;
+        //cout << ha[i] << endl;
     }
     cudaMemcpy(da, ha, N*sizeof(double), cudaMemcpyHostToDevice);
     extreme<<<N, 1>>>(da, db, N);
     cudaMemcpy(hb, db, N*sizeof(double), cudaMemcpyHostToDevice);
     for(int i = 0; i < N; ++i)
     {
-        //cout << hb[i] << endl;
+        cout << hb[i] << endl;
     }
 }
