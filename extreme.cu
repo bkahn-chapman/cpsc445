@@ -50,7 +50,6 @@ int main () {
         }
         cout << endl;
     }
-    int charcount = 0;
     char c;
     inFS.clear();
     inFS.seekg(0, std::ios::beg);
