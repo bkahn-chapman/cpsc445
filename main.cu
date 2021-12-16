@@ -160,7 +160,7 @@ int main () {
     getOverlaps<<<N, 1>>>(dm, ds, dn, dO, M, S, N, O); //the global function to find the overlaps
     cudaMemcpy(hO, dO, O*sizeof(double), cudaMemcpyDeviceToHost); //receives the overlaps array back to the host
     ofstream outFS;
-    outFS.open("output.txt")
+    outFS.open("output.txt");
     for(int i = 0; i < O; ++i) //iterates through the entire received overlaps array
     {
         if(hO[i] != 0) //if the overlap checker isn't empty
