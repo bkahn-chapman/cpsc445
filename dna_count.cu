@@ -8,7 +8,7 @@ using namespace std;
 
 __global__
 void count(int *b, int *c, int N) {
-    int i = blockIdx.x * sizeof(int) + threadIdx.x;
+    int i = threadIdx.x;
     if (i<N) {
         int t = b[i];
         c[t]++; 
