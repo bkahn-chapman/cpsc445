@@ -30,7 +30,7 @@ int main () {
         }
         rowcount++;
     }
-    int nums[colcount][rowcount];
+    double nums[colcount][rowcount];
     int charcount = 0;
     char c;
     while(inFS >> noskipws >> c)
@@ -41,7 +41,7 @@ int main () {
         }
         else
         {
-            nums[charcount/colcount][charcount%colcount] = num;
+            nums[charcount/colcount][charcount%colcount] = stod(num);
             num = "";
         }
         charcount++;
