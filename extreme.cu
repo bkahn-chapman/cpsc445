@@ -30,7 +30,6 @@ int main () {
         }
         rowcount++;
     }
-    cout << colcount << endl;
     int nums[colcount][rowcount];
     int charcount = 0;
     while(inFS >> noskipws >> c)
