@@ -8,6 +8,7 @@ using namespace std;
 
 __global__
 void count(int *b, int *c, int N) {
+    __syncthreads();
     int i = blockIdx.x;
     __syncthreads();
     if (i<N) {
