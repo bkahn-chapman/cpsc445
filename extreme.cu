@@ -35,13 +35,6 @@ int main () {
     cout << colcount << endl;
     cout << rowcount << endl;
     int nums[colcount][rowcount];
-    for(int i = 0; i < colcount; ++i)
-    {
-        for(int j = 0; j < rowcount; ++j)
-        {
-            nums[i][j] = 0;
-        }
-    }
     int charcount = 0;
     char c;
     inFS.close();
