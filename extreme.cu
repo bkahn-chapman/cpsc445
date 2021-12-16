@@ -20,9 +20,9 @@ int main () {
     {
         if(rowcount == 0)
         {
-            for(char& c : line)
+            for(char& d : line)
             {
-                if(c == ',')
+                if(d == ',')
                 {
                     colcount++;
                 }
@@ -32,6 +32,7 @@ int main () {
     }
     int nums[colcount][rowcount];
     int charcount = 0;
+    char c;
     while(inFS >> noskipws >> c)
     {
         if(c != ',' && c != '\n')
