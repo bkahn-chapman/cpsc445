@@ -48,10 +48,33 @@ int main () {
     cudaMemcpy(hb, db, N*sizeof(char), cudaMemcpyDeviceToHost);
     ofstream outFS;
     outFS.open("output.txt");
+    int aCnt;
+    int cCnt;
+    int gCnt;
+    int tCnt;
     for(int i = 0; i<N; ++i)
     {
-      outFS << hb[i];
+        if(b[i] == '0')
+        {
+            aCnt++;
+        }
+        if(b[i] == '1')
+        {
+            cCnt++;
+        }
+        if(b[i] == '2')
+        {
+            gCnt++;
+        }
+        if(b[i] == '3')
+        {
+            tCnt++;
+        }
     }
+    outFS << "A " << aCnt << endl;
+    outFS << "T " << tCnt << endl;
+    outFS << "G " << gCnt << endl;
+    outFS << "C " << cCnt << endl;
     outFS.close();
     cudaFree(da);
     cudaFree(db);
