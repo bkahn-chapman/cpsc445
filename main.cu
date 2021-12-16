@@ -146,4 +146,5 @@ int main () {
     {
         cout << hO[i] << endl;
     }
+    cout << endl;
 }
