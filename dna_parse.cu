@@ -39,7 +39,7 @@ int main () {
         ha[i] = triplet;
         triplet = "";
     }
-    char letts[] = {'A', 'C', 'G', 'T'};
+    char letts[] = {'A', 'T', 'G', 'C'};
     string trips = "";
     for(int t = 0; t < N; ++t)
     {
