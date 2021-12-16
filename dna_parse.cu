@@ -33,9 +33,9 @@ int main () {
     string triplet;
     for(int i = 0; i < N; ++i)
     {
-        triplet.push_back(dna[i]);
-        triplet.push_back(dna[i+1]);
-        triplet.push_back(dna[i+2]);
+        triplet.push_back(dna[3*i]);
+        triplet.push_back(dna[3*i+1]);
+        triplet.push_back(dna[3*i+2]);
         ha[i] = triplet;
         cout << triplet << endl;
         triplet = "";
