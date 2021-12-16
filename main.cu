@@ -7,7 +7,11 @@ using namespace std;
 __global__
 void getOverlaps(double *m, double *s, double *n, double *o, int M, int N, int S, int O)
 {
-    
+    int i = blockIdx.x;
+    if(i < N)
+    {
+        hO[i] = 1;
+    }
 }
 
 int main () {
@@ -146,5 +150,4 @@ int main () {
     {
         cout << hO[i] << endl;
     }
-    cout << endl;
 }
