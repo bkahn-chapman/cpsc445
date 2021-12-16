@@ -13,8 +13,8 @@ int main () {
     inFS.open("input.csv");
     //system("head input.csv");
     string num;
-    int rowcount;
-    int colcount;
+    int rowcount = 0;
+    int colcount = 0;
     string line;
     while(getline(inFS, line))
     {
