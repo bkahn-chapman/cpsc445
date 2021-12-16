@@ -6,6 +6,10 @@ using namespace std;
 
 //the function to find the overlaps
 //COULD NOT GET THIS TO WORK WITH THE SETUP I CREATED
+//plan was to have one shape at a time check for overlaps
+//it would check if any point in the shape is contained in the min/max square of the other shapes
+//if there was an overlap, add the shapes to the overlap array (ex. 1 2 0 0 1 4 0 0 2 3 0 0 0 0 0 0 3 5 4 5)
+//then return that array for main to handle the logic of the array and output results
 __global__
 void getOverlaps(double *m, double *s, double *n, double *o, int M, int N, int S, int O)
 {
@@ -155,8 +159,21 @@ int main () {
     cudaMemcpy(dO, hO, O*sizeof(double), cudaMemcpyHostToDevice); //sends overlaps array to device
     getOverlaps<<<N, 1>>>(dm, ds, dn, dO, M, S, N, O); //the global function to find the overlaps
     cudaMemcpy(hO, dO, O*sizeof(double), cudaMemcpyDeviceToHost); //receives the overlaps array back to the host
-    for(int i = 0; i < O; ++i)
+    ofstream outFS;
+    outFS.open("output.txt")
+    for(int i = 0; i < O; ++i) //iterates through the entire received overlaps array
     {
-        cout << hO[i] << endl;
+        if(hO[i] != 0) //if the overlap checker isn't empty
+        {
+            if(i % 2 == 0) //if the first of a pair of shapes (0 to 1, 4 to 5, etc.)
+            {
+                outFS << "Shape: " << ho[i] << " overlaps with ";
+            }
+            else //if the second of a pair of shapes (1 with 0, 5 with 4, etc.)
+            {
+                outFS << "shape: " << ho[i] << "." << endl;
+            }
+        }
+
     }
 }
