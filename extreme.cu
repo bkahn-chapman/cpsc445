@@ -47,6 +47,7 @@ int main () {
         }
         else
         {
+            cout << "test" << endl;
             nums[charcount/colcount][charcount%colcount] = stoi(num);
             num = "";
         }
