@@ -55,6 +55,7 @@ int main () {
         hb[i] = 0;
     }
     cudaMemcpy(da, ha, N*sizeof(char), cudaMemcpyHostToDevice);
+    cudaMemcpy(db, hb, 4*sizeof(int), cudaMemcpyHostToDevice);
     count<<<N, 1>>>(da, db, N);
     cudaMemcpy(hb, db, 4*sizeof(int), cudaMemcpyDeviceToHost);
     ofstream outFS;
