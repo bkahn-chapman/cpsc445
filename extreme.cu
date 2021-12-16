@@ -11,10 +11,16 @@ using namespace std;
 int main () {
     ifstream inFS;
     inFS.open("input.csv");
-    system("head input.csv");
+    //system("head input.csv");
     vector<int> nums;
     string num;
     char c;
+    int linecount;
+    while(getline(inFS, line))
+    {
+        linecount++;
+    }
+    cout << linecount << endl;
     while(inFS >> noskipws >> c)
     {
         if(c != ',' && c != '\n')
@@ -27,11 +33,5 @@ int main () {
             num = "";
         }
     }
-    /*
-    for(int i = 0; i < nums.size(); ++i)
-    {
-        cout << i/10 << ", " << i%10 << ": " << nums[i] << endls;
-    }
-    */
-   int N = nums.size();
+
 }
