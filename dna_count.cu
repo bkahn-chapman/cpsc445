@@ -9,9 +9,12 @@ using namespace std;
 __global__
 void count(int *b, int *c, int N) {
     int i = blockIdx.x;
+    __syncthreads();
     if (i<N) {
         int t = b[i];
+        __syncthreads();
         c[t]++; 
+        __syncthreads();
     }
 }
 
