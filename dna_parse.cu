@@ -9,7 +9,7 @@
 using namespace std;
 
 __global__
-void parse(string *a, int *b, int N) {
+void parse(int *b, int *c, int N) {
     string test;
     for(int i = 0; i < N; ++i)
     {
