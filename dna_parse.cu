@@ -8,8 +8,6 @@
 #include <algorithm>
 using namespace std;
 
-__global__
-
 int main () {
     ifstream inFS;
     inFS.open("dna.txt");
