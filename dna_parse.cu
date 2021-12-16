@@ -70,4 +70,28 @@ int main () {
     cudaMemcpy(db, hb, N*sizeof(int), cudaMemcpyHostToDevice);
     parse<<<N, 1>>>(db, dc, N);
     cudaMemcpy(hc, dc, 64*sizeof(int), cudaMemcpyDeviceToHost);
+    ofstream outFS;
+    outFS.open("output.txt");
+    for(int t = 0; t < N; ++t)
+    {
+        int count = 0;
+        for(int i = 0; i < 4; ++i)
+        {
+            for(int j = 0; j < 4; ++j)
+            {
+                for(int k = 0; k < 4; ++k)
+                {
+                    trips = "";
+                    trips.push_back(letts[i]);
+                    trips.push_back(letts[j]);
+                    trips.push_back(letts[k]);
+                    if(hc[count] > 0)
+                    {
+                        outFS << trips << " " << hc[count] << endl;
+                    }
+                    count++;
+                }
+            }
+        }
+    }
 }
