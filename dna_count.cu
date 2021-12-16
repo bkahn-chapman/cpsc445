@@ -43,7 +43,6 @@ int main () {
         ha[i] = dna[i];
     }
     cudaMemcpy(da, ha, N*sizeof(char), cudaMemcpyHostToDevice);
-    cudaMemcpy(db, hb, N*sizeof(char), cudaMemcpyHostToDevice);
     count<<<N, 1>>>(da, db, N);
     cudaMemcpy(hb, db, N*sizeof(char), cudaMemcpyDeviceToHost);
     ofstream outFS;
