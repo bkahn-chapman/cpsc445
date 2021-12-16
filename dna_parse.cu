@@ -37,7 +37,6 @@ int main () {
         triplet.push_back(dna[3*i+1]);
         triplet.push_back(dna[3*i+2]);
         ha[i] = triplet;
-        cout << triplet << endl;
         triplet = "";
     }
     char letts[] = {'A', 'C', 'G', 'T'};
