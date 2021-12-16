@@ -29,6 +29,7 @@ int main () {
     int *db;
     int *dc;
     cudaMalloc((void **)&db, N*sizeof(int));
+    cudaMalloc((void **)&dc, 64*sizeof(int));
     string triplet;
     for(int i = 0; i < N; ++i)
     {
