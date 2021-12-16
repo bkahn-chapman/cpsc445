@@ -6,33 +6,27 @@
 #include <array>
 using namespace std;
 
-//extern __shared__ int results[4];
-
 __global__
-void count(char *a, int *b, int N) {
+void count(char *a, char *b, int N) {
     int i = blockIdx.x;
     if (i<N) {
         if(a[i] == 'A')
         {
-            b[0]++;
+            b[i] = '1';
         }
         if(a[i] == 'C')
         {
-            b[1]++;
+            b[i] = '2';
         }
         if(a[i] == 'G')
         {
-            b[2]++;
+            b[i] = '3';
         }
         if(a[i] == 'T')
         {
-            b[3]++;
+            b[i] = '4';
         }
     }
-
-    //__syncthreads();
-
-
 }
 
 int main () {
@@ -42,22 +36,18 @@ int main () {
     getline(inFS, dna);
     inFS.close();
     int N = dna.length();
-    char ha[N];
-    int hb[4];
-    char *da;
-    int *db;
+    char ha[N], hb[N];
+    char *da, *db;
     cudaMalloc((void **)&da, N*sizeof(char));
-    cudaMalloc((void **)&db, 4*sizeof(int));
+    cudaMalloc((void **)&db, N*sizeof(char));
     for(int i = 0; i<N; ++i) {
         ha[i] = dna[i];
-    }
-    for(int i = 0; i<4; ++i) {
-        hb[i] = 0;
+        hb[i] = '0';
     }
     cudaMemcpy(da, ha, N*sizeof(char), cudaMemcpyHostToDevice);
-    cudaMemcpy(db, hb, 4*sizeof(int), cudaMemcpyHostToDevice);
+    cudaMemcpy(db, hb, N*sizeof(char), cudaMemcpyHostToDevice);
     count<<<N, 1>>>(da, db, N);
-    cudaMemcpy(hb, db, 4*sizeof(int), cudaMemcpyDeviceToHost);
+    cudaMemcpy(hb, db, N*sizeof(char), cudaMemcpyDeviceToHost);
     ofstream outFS;
     outFS.open("output.txt");
     for(int i = 0; i<N; ++i)
