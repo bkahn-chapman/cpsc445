@@ -54,19 +54,19 @@ int main () {
     int tCnt;
     for(int i = 0; i<N; ++i)
     {
-        if(b[i] == '0')
+        if(hb[i] == '0')
         {
             aCnt++;
         }
-        if(b[i] == '1')
+        if(hb[i] == '1')
         {
             cCnt++;
         }
-        if(b[i] == '2')
+        if(hb[i] == '2')
         {
             gCnt++;
         }
-        if(b[i] == '3')
+        if(hb[i] == '3')
         {
             tCnt++;
         }
