@@ -14,7 +14,7 @@ int main () {
     //system("head input.csv");
     string num;
     int rowcount = 0;
-    int colcount = 0;
+    int colcount = 1;
     string line;
     while(getline(inFS, line))
     {
@@ -23,16 +23,15 @@ int main () {
         {
             for(char& c : line)
             {
-                if(c != ',' && c != '\n')
+                if(c == ',')
                 {
-                    //cout << c << endl;
                     colcount++;
                 }
             }
         }
         rowcount++;
     }
-    //cout << colcount << endl;
+    cout << colcount << endl;
     /*
     while(inFS >> noskipws >> c)
     {
