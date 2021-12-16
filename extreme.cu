@@ -13,7 +13,7 @@ void extreme(int *a, int *b, int c, int r, int N)
 {
     int i = blockIdx.x;
     if (i<N) {
-        b[i] = a[i];
+        b[i] = i;
     }
 }
 
@@ -65,10 +65,12 @@ int main () {
     {
         ha[i] = nums[i];
     }
+    /*
     for(int i = 0; i < N; ++i)
     {
         cout << ha[i] << endl;
     }
+    */
     cudaMemcpy(da, ha, N*sizeof(int), cudaMemcpyHostToDevice);
     extreme<<<N, 1>>>(da, db, colcount, rowcount, N);
     cudaMemcpy(hb, db, N*sizeof(int), cudaMemcpyHostToDevice);
