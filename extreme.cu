@@ -9,7 +9,7 @@
 using namespace std;
 
 __global__
-void extreme(int *a, int *b, int N)
+void extreme(double *a, double *b, int N)
 {
     int i = blockIdx.x;
     if (i<N) {
@@ -61,7 +61,7 @@ int main () {
         }
     }
     int N = nums.size();
-    cout << N << endl;
+    //cout << N << endl;
     double ha[N], hb[N];
     double *da, *db;
     cudaMalloc((void **)&da, N*sizeof(double));
@@ -70,17 +70,15 @@ int main () {
     {
         ha[i] = nums[i];
     }
-    /*
     for(int i = 0; i < N; ++i)
     {
         cout << ha[i] << endl;
     }
-    */
     cudaMemcpy(da, ha, N*sizeof(double), cudaMemcpyHostToDevice);
     extreme<<<N, 1>>>(da, db, N);
     cudaMemcpy(hb, db, N*sizeof(double), cudaMemcpyHostToDevice);
     for(int i = 0; i < N; ++i)
     {
-        cout << hb[i] << endl;
+        //cout << hb[i] << endl;
     }
 }
