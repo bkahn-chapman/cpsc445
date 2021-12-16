@@ -32,6 +32,7 @@ int main () {
         rowcount++;
     }
     cout << colcount << endl;
+    /*
     while(inFS >> noskipws >> c)
     {
         if(c != ',' && c != '\n')
@@ -44,5 +45,5 @@ int main () {
             num = "";
         }
     }
-
+    */
 }
