@@ -8,14 +8,27 @@
 #include <algorithm>
 using namespace std;
 
+__global__
+void parse(string *a, int *b, int N) {
+    string test;
+    for(int i = 0; i < N; ++i)
+    {
+
+    }
+}
+
 int main () {
     ifstream inFS;
     inFS.open("dna.txt");
     string dna;
     getline(inFS, dna);
-    cout << dna.length() << endl;
     int N = dna.length() / 3;
     string ha[N];
+    int hb[N];
+    int hc[64];
+    string *da;
+    int *db;
+    cudaMalloc((void **)&db, N*sizeof(int));
     string triplet;
     for(int i = 0; i < N; ++i)
     {
@@ -25,8 +38,31 @@ int main () {
         ha[i] = triplet;
         triplet = "";
     }
-    for(int i = 0; i < N; ++i)
+    char letts[] = {'A', 'C', 'G', 'T'};
+    string trips = "";
+    for(int t = 0; t < N; ++t)
     {
-        cout << ha[i] << endl;
+        int count = 0;
+        for(int i = 0; i < 4; ++i)
+        {
+            for(int j = 0; j < 4; ++j)
+            {
+                for(int k = 0; k < 4; ++k)
+                {
+                    trips = "";
+                    trips.push_back(letts[i]);
+                    trips.push_back(letts[j]);
+                    trips.push_back(letts[k]);
+                    if(trips == ha[t])
+                    {
+                        hb[t] = count;
+                    }
+                    count++;
+                }
+            }
+        }
     }
+    cudaMemcpy(db, hb, N*sizeof(int), cudaMemcpyHostToDevice);
+    invert<<<N, 1>>>(db, dc, N);
+    cudaMemcpy(hc, dc, 64*sizeof(int), cudaMemcpyDeviceToHost);
 }
