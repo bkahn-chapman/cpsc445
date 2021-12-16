@@ -76,6 +76,6 @@ int main () {
     cudaMemcpy(hb, db, N*sizeof(int), cudaMemcpyHostToDevice);
     for(int i = 0; i < N; ++i)
     {
-        //cout << hb[i] << endl;
+        cout << hb[i] << endl;
     }
 }
