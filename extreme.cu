@@ -36,6 +36,8 @@ int main () {
     char c;
     inFS.clear();
     inFS.seekg(0, std::ios::beg);
+    cout << charcount << endl;
+    cout << rowcount << endl;
     while(inFS >> noskipws >> c)
     {
         if(c != ',' && c != '\n')
@@ -44,7 +46,6 @@ int main () {
         }
         else
         {
-            cout << num << endl;
             nums[charcount/colcount][charcount%colcount] = stoi(num);
             num = "";
         }
