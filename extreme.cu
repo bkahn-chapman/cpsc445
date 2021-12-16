@@ -39,8 +39,16 @@ int main () {
     {
         for(int j = 0; j < rowcount; ++j)
         {
-            cout << (i+1)*(j+1) << endl;
+            nums[i][j] = 0;
         }
+    }
+    for(int i = 0; i < colcount; ++i)
+    {
+        for(int j = 0; j < rowcount; ++j)
+        {
+            cout << nums[i][j] << ',';
+        }
+        cout << endl;
     }
     int charcount = 0;
     char c;
