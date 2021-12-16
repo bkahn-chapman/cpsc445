@@ -18,7 +18,6 @@ int main () {
     string line;
     while(getline(inFS, line))
     {
-        cout << line << endl;
         if(rowcount == 0)
         {
             for(char& c : line)
@@ -32,6 +31,7 @@ int main () {
         rowcount++;
     }
     cout << colcount << endl;
+    int nums[colcount][rowcount];
     /*
     while(inFS >> noskipws >> c)
     {
