@@ -10,8 +10,8 @@ __global__
 void count(int *b, int *c, int N) {
     int i = blockIdx.x;
     if (i<N) {
-        int = b[i];
-        c[t]++;
+        int t = b[i];
+        c[t]++; 
     }
 }
 
