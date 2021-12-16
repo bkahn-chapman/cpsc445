@@ -13,7 +13,7 @@ int main () {
     inFS.open("input.csv");
     //system("head input.csv");
     string num;
-    //vector<int> nums;
+    vector<int> nums;
     int rowcount = 0;
     int colcount = 1;
     string line;
@@ -34,7 +34,6 @@ int main () {
     }
     cout << colcount << endl;
     cout << rowcount << endl;
-    int nums[colcount][rowcount];
     int charcount = 0;
     char c;
     ifstream if2;
@@ -44,7 +43,7 @@ int main () {
     {
         if(c == ',' || c == '\n')
         {
-            nums[charcount/colcount][charcount%colcount] = stoi(num);
+            nums.push_back(stoi(c));
             num = "";
         }
         else
