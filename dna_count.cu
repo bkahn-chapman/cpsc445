@@ -8,14 +8,10 @@ using namespace std;
 
 __global__
 void count(int *b, int *c, int N) {
-    __syncthreads();
     int i = blockIdx.x * sizeof(int) + threadIdx.x;
-    __syncthreads();
     if (i<N) {
         int t = b[i];
-        __syncthreads();
         c[t]++; 
-        __syncthreads();
     }
 }
 
